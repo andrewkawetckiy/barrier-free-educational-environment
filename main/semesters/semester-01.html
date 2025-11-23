@@ -64,23 +64,31 @@
             padding: 10px;
             border-radius: 4px;
         }
-        .material-list {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 10px;
-        }
-        .material-list li {
-            margin-bottom: 10px;
-            padding: 5px 0;
-            border-bottom: 1px dashed #ccc;
-        }
         .material-list a {
-            color: #007bff;
+            display: block; /* Робимо всю площу li клікабельною */
+            padding: 15px;
             text-decoration: none;
-            font-weight: 500;
+            color: #333; /* Базовий колір тексту */
+            font-weight: bold;
+            font-size: 1.1em;
+            border-radius: 6px;
+
+            /* Градієнт: від базового синього (легкий натяк на інформатику) до прозорого */
+            background: linear-gradient(to right, #e3f2fd, rgba(227, 242, 253, 0.1));
+            border-left: 5px solid #007bff; /* Акцентна лінія зліва */
+            
+            transition: all 0.3s ease;
         }
+        
+        .material-list li:hover {
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2); /* Тінь при наведенні */
+        }
+        
         .material-list a:hover {
-            text-decoration: underline;
+            color: #0056b3;
+            /* Посилюємо градієнт та ефект зміщення */
+            background: linear-gradient(to right, #c3e0fc, rgba(195, 224, 252, 0.3)); 
+            padding-left: 20px;
         }
         .back-link {
             display: block;
@@ -108,13 +116,13 @@
         
         <ul class="material-list">
             <li>
-                <a href="theory/1-1.html" target="_blank"><strong>Теорія -> </strong></a>
+                <a href="theory/1-1.html" target="_blank"><strong>Теорія</strong></a>
             </li>
             <li>
-                <a href="presentation/1-1.pptx" target="_blank"><strong>Презентація -> </strong></a>
+                <a href="presentation/1-1.pptx" target="_blank"><strong>Презентація</strong></a>
             </li>
             <li>
-                <a href="practice/1-1.html"><strong>Практична частина -> </strong> </a>
+                <a href="practice/1-1.html"><strong>Практична частина</strong> </a>
             </li>
         </ul>
 
@@ -125,13 +133,13 @@
         
         <ul class="material-list">
             <li>
-                <a href="theory/1-2.html" target="_blank"><strong>Теорія -> </strong></a>
+                <a href="theory/1-2.html" target="_blank"><strong>Теорія</strong></a>
             </li>
             <li>
-                <a href="presentation/1-2.pptx" target="_blank"><strong>Презентація -> </strong></a>
+                <a href="presentation/1-2.pptx" target="_blank"><strong>Презентація</strong></a>
             </li>
             <li>
-                <a href="practice/1-2.html" target="_blank"><strong>Практична частина -> </strong></a>
+                <a href="practice/1-2.html" target="_blank"><strong>Практична частина</strong></a>
             </li>
         </ul>
 
