@@ -13,10 +13,10 @@
             --accent-color: #e7f1ff;
             --code-bg: #2d2d2d;
             --code-text: #f8f8f2;
-            --diagram-bg: #fcfbe7; /* Блідо-жовтий фон діаграми */
-            --diagram-title-bg: #b3e5fc; /* Блакитний фон заголовка */
-            --diagram-category-bg: #e0e0e0; /* Сірий фон категорії */
-            --diagram-link-color: #03a9f4; /* Блакитний колір для точок */
+            --diagram-bg: #fcfbe7; 
+            --diagram-title-bg: #b3e5fc; 
+            --diagram-category-bg: #e0e0e0; 
+            --diagram-link-color: #03a9f4; 
         }
 
         body {
@@ -93,7 +93,7 @@
             border-radius: 4px;
         }
 
-        ul {
+        ul, ol {
             margin-bottom: 20px;
         }
 
@@ -101,14 +101,14 @@
             margin-bottom: 10px;
         }
         
-        /* === СТИЛІ ДЛЯ ДІАГРАМИ КЛАСИФІКАЦІЇ === */
+        /* === ВИПРАВЛЕНІ СТИЛІ ДЛЯ ДІАГРАМИ КЛАСИФІКАЦІЇ === */
         .programming-languages-classification {
             padding: 30px 20px 15px;
-            background-color: var(--diagram-bg); /* Блідо-жовтий фон */
+            background-color: var(--diagram-bg);
             border-radius: 8px;
             margin: 30px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-size: 0.9em; /* Трохи менший шрифт для компактності діаграми */
+            font-size: 0.9em;
         }
 
         /* 1. Основний Заголовок Схеми */
@@ -119,18 +119,61 @@
             font-weight: bold;
             text-align: center;
             padding: 12px 0;
-            margin-bottom: 40px;
+            margin-bottom: 40px; /* Місце для ліній */
             border-radius: 5px;
             position: relative;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            /* Щоб заголовок не був занадто широким відносно колонок */
+            max-width: 80%; 
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* 2. Контейнер для 3-х колонок (Flexbox) */
+        /* Вертикальна лінія ВНИЗ від головного заголовка */
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; /* Довжина лінії вниз */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: var(--diagram-link-color);
+            z-index: 1;
+        }
+
+        /* 2. Контейнер для 3-х колонок */
         .categories-container {
             display: flex;
             justify-content: space-between;
             gap: 15px; 
             margin-bottom: 20px;
+            position: relative; /* Батьківський елемент для горизонтальної лінії */
+            padding-top: 20px; /* Відступ зверху для ліній */
+        }
+
+        /* ГОРИЗОНТАЛЬНА ЛІНІЯ, що з'єднує всі колонки */
+        /* Математика: 3 колонки. Центр першої ~16.66%, центр останньої ~16.66% від краю */
+        .categories-container::before {
+            content: '';
+            position: absolute;
+            top: 0; /* Лінія малюється на верхній межі контейнера */
+            left: 16.66%; /* Початок лінії (центр лівої колонки) */
+            right: 16.66%; /* Кінець лінії (центр правої колонки) */
+            height: 2px;
+            background-color: var(--diagram-link-color);
+        }
+
+        /* Вертикальна лінія від горизонтальної вгору до заголовка */
+        .categories-container::after {
+            content: '';
+            position: absolute;
+            top: -20px; /* З'єднуємося з лінією від заголовка */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 22px; /* Трохи перекриваємо для надійності */
+            background-color: var(--diagram-link-color);
         }
 
         /* 3. Стилізація кожної колонки */
@@ -138,10 +181,39 @@
             flex: 1;
             text-align: center;
             position: relative;
-            min-width: 150px; /* Забезпечення мінімальної ширини */
+            min-width: 150px;
         }
 
-        /* 4. Стилізація Заголовка Категорії (сірий блок) */
+        /* Лінія ВГОРУ від кожної категорії до горизонтальної лінії */
+        .category::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: -20px; /* Тягнемо лінію вгору до загальної горизонтальної */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: var(--diagram-link-color);
+        }
+
+        /* Кружечок (точка) на стику */
+        .category::after {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 2px solid var(--diagram-link-color);
+            border-radius: 50%;
+            position: absolute;
+            top: -6px; /* Позиціонуємо кружечок на початку блоку */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        /* 4. Стилізація Заголовка Категорії */
         .category-header {
             background-color: var(--diagram-category-bg);
             color: var(--text-color);
@@ -154,7 +226,7 @@
             border-radius: 3px 3px 0 0;
         }
 
-        /* 5. Стилізація Списку Підкатегорій (білий блок) */
+        /* 5. Стилізація Списку Підкатегорій */
         .subcategories {
             list-style: none;
             padding: 0;
@@ -167,60 +239,16 @@
         .subcategories li {
             padding: 8px 5px;
             font-size: 0.95em;
-            border-bottom: 1px dotted #ccc; /* Пунктир між елементами */
+            border-bottom: 1px dotted #ccc;
             background-color: #ffffff;
-            /* Імітація пунктирної рамки навколо тексту */
             box-shadow: inset 0 0 0 1px #f4f4f4; 
         }
 
         .subcategories li:last-child {
             border-bottom: none;
         }
-
-        /* 6. Стилізація Точок і Ліній Зв'язку */
-
-        /* Точка (синій кружечок) над категорією */
-        .category::before {
-            content: '';
-            display: block;
-            width: 12px;
-            height: 12px;
-            background-color: white;
-            border: 2px solid var(--diagram-link-color);
-            border-radius: 50%;
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-        }
-
-        /* Лінія, що з'єднує головний блок з точками */
-        .main-title::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            width: 80%; /* Довжина лінії */
-            height: 1px;
-            background-color: var(--diagram-link-color);
-            z-index: 1;
-        }
-
-        /* Вертикальна лінія від загальної лінії до точки */
-        .category-header::before {
-            content: '';
-            position: absolute;
-            top: -15px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 15px; 
-            background-color: var(--diagram-link-color);
-            z-index: 5;
-        }
         
-        /* 7. Стилізація Підпису до Малюнка */
+        /* 6. Підпис до Малюнка */
         .figure-caption {
             text-align: center;
             font-style: italic;
@@ -239,26 +267,28 @@
             .container {
                 padding: 20px;
             }
-            /* На мобільних пристроях, розміщуємо категорії одна під одною */
+            /* На мобільних пристроях приховуємо лінії */
             .categories-container {
                 flex-direction: column;
                 gap: 30px; 
+                padding-top: 0;
             }
-            .category-header::before, .category::before {
-                /* Приховуємо лінії та точки, щоб не захаращувати мобільний вид */
+            
+            /* Ховаємо всі декоративні лінії */
+            .main-title::after,
+            .categories-container::before,
+            .categories-container::after,
+            .category::before,
+            .category::after {
                 display: none; 
             }
-            .main-title::after {
-                content: none;
-            }
+            
             .category {
-                margin-top: 10px; /* Додатковий відступ між блоками */
+                margin-top: 10px;
             }
-            .category-header {
-                border-radius: 3px 3px 0 0;
-            }
-            .subcategories {
-                border-radius: 0 0 3px 3px;
+            .main-title {
+                max-width: 100%;
+                margin-bottom: 20px;
             }
         }
     </style>
@@ -289,15 +319,11 @@
                 <h3>Класифікація мов</h3>
                 <p>Сьогодні існує понад 2000 мов програмування. Їх можна поділити за різними ознаками:</p>
 
-                <!-- === ПОЧАТОК ДІАГРАМИ КЛАСИФІКАЦІЇ === -->
                 <div class="programming-languages-classification">
-                    <!-- Основний заголовок -->
                     <header class="main-title">Мови програмування</header>
 
-                    <!-- Основний контейнер для 3-х колонок -->
                     <div class="categories-container">
                         
-                        <!-- Колонка 1: Залежність від апаратних засобів -->
                         <section class="category">
                             <h3 class="category-header">За ступенем залежності від апаратних засобів</h3>
                             <ul class="subcategories">
@@ -306,7 +332,6 @@
                             </ul>
                         </section>
 
-                        <!-- Колонка 2: Принципи програмування -->
                         <section class="category">
                             <h3 class="category-header">За принципами програмування</h3>
                             <ul class="subcategories">
@@ -316,7 +341,6 @@
                             </ul>
                         </section>
 
-                        <!-- Колонка 3: Орієнтація на клас задач -->
                         <section class="category">
                             <h3 class="category-header">За орієнтацією на клас задач</h3>
                             <ul class="subcategories">
@@ -327,11 +351,8 @@
 
                     </div>
 
-                    <!-- Підпис до малюнка -->
                     <p class="figure-caption">Рис. 1. Класифікація мов програмування</p>
                 </div>
-                <!-- === КІНЕЦЬ ДІАГРАМИ КЛАСИФІКАЦІЇ === -->
-
                 <p>Як видно з діаграми, класифікація є багатогранною. Зокрема, мова C++, яку ми вивчаємо, належить до мов <strong>високого рівня</strong> та підтримує як <strong>процедурний</strong>, так і <strong>об'єктно-орієнтований</strong> принципи програмування.</p>
 
                 <div class="highlight-box">
@@ -391,9 +412,9 @@
 
 using namespace std; // 2. Простір імен
 
-int main() {        // 3. Головна функція
-    cout &lt;&lt; "Hello, world!" &lt;&lt; endl; // 4. Виведення тексту
-    return 0;       // 5. Завершення роботи
+int main() {        // 3. Головна функція
+    cout &lt;&lt; "Hello, world!" &lt;&lt; endl; // 4. Виведення тексту
+    return 0;       // 5. Завершення роботи
 }</code></pre>
 
                 <h3>Розбір коду:</h3>
@@ -421,7 +442,7 @@ print(sum)</code></pre>
                     </div>
                     <div style="flex: 1; min-width: 300px;">
                         <strong>C++ (статична типізація):</strong>
-                        <pre><code>int a = 5;      // int = integer (ціле)
+                        <pre><code>int a = 5;      // int = integer (ціле)
 int b = 10;
 int sum = a + b;
 cout &lt;&lt; sum &lt;&lt; endl;</code></pre>
