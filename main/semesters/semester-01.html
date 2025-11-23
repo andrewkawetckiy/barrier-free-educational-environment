@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I Семестр (10 клас) - Інформатика</title>
     <style>
-        /* Додано визначення змінної --primary-color, яка використовується для кнопки */
+        /* Глобальні змінні */
         :root {
-            --primary-color: #0056b3; /* Типовий синій колір для кнопок/заголовків */
-            --button-bg: #e3f2fd;     /* Світло-блакитний фон для кнопок матеріалів */
-            --button-border: #90caf9; /* Колір рамки */
-            --button-hover: #1976d2;  /* Колір при наведенні */
+            --primary-color: #0056b3; 
+            --button-bg: #e3f2fd;     
+            --button-border: #90caf9; 
+            --button-hover: #1976d2;  
         }
         
         body {
@@ -18,10 +18,10 @@
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            /* Ніжно-помаранчевий / Light Peach */
             background-color: #fff3e0; 
             color: #333;
         }
+
         .container {
             max-width: 1000px;
             margin: auto;
@@ -30,7 +30,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        /* Кнопка навігації (Назад) */
+
+        /* Кнопка навігації */
         .nav-btn {
             display: inline-block;
             text-decoration: none;
@@ -47,52 +48,114 @@
             background-color: #003d82;
             text-decoration: underline;
         }
+
         h1 {
             color: #0056b3;
             text-align: center;
             margin-bottom: 20px;
         }
+
         h2 {
             color: #0056b3;
             border-bottom: 2px solid #0056b3;
             padding-bottom: 10px;
             margin-top: 30px;
         }
+
+        /* === ІНТЕРАКТИВНІ ЗАГОЛОВКИ (АКОРДЕОН) === */
         h3 {
             color: #333;
             margin-top: 25px;
             font-size: 1.3em;
             background-color: #e9f5ff;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 15px; /* Трохи більше простору */
+            border-radius: 6px;
+            
+            /* Інтерактивність */
+            cursor: pointer;
+            position: relative;
+            padding-right: 40px; /* Місце для стрілки */
+            user-select: none;   /* Щоб текст не виділявся при швидкому кліку */
+            transition: all 0.2s ease;
+            border-left: 5px solid transparent; /* Резервуємо місце під лінію активності */
+        }
+
+        h3:hover {
+            background-color: #d0e7ff; /* Темніший фон при наведенні */
+            color: #003d82;
+        }
+
+        /* Стан "Активний" (відкритий) */
+        h3.active {
+            background-color: #cce4ff;
+            border-left: 5px solid var(--primary-color); /* Синя лінія зліва */
+            color: #002a5c;
+        }
+
+        /* Стрілочка справа */
+        h3::after {
+            content: '▼';
+            font-size: 0.7em;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+
+        /* Поворот стрілочки при відкритті */
+        h3.active::after {
+            transform: translateY(-50%) rotate(180deg);
+            opacity: 1;
         }
         
-        /* === ОНОВЛЕНИЙ СПИСОК МАТЕРІАЛІВ (КНОПКИ В РЯДОК) === */
+        /* === СПИСОК МАТЕРІАЛІВ (ПРИХОВАНИЙ ЗА ЗАМОВЧУВАННЯМ) === */
         .material-list {
             list-style: none; 
             padding: 0;       
             margin-top: 15px;
-            display: flex;        /* Робимо елементи в рядок */
-            gap: 15px;            /* Відстань між кнопками */
-            flex-wrap: wrap;      /* Переносити на новий рядок, якщо не влазить (для мобільних) */
+            gap: 15px;            
+            flex-wrap: wrap; 
+            
+            /* Приховано за замовчуванням */
+            display: none; 
+        }
+
+        /* Клас, який додає JS для показу */
+        .material-list.show {
+            display: flex; /* Повертаємо flex, коли клас show активний */
+            animation: slideDown 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        /* Анімація появи */
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .material-list li {
-            flex: 1;              /* Кожна кнопка займає рівну ширину */
-            min-width: 140px;     /* Мінімальна ширина кнопки, щоб текст не сплющувався */
-            margin-bottom: 0;     /* Прибираємо нижній відступ, бо тепер це рядок */
+            flex: 1;              
+            min-width: 140px;     
+            margin-bottom: 0;     
         }
 
         .material-list a {
             display: block; 
             padding: 12px 10px;
-            text-align: center;   /* Центруємо текст всередині кнопки */
+            text-align: center;   
             text-decoration: none;
             color: var(--primary-color); 
             font-weight: bold;
             font-size: 1em;
             
-            /* Стиль кнопки */
             background-color: var(--button-bg);
             border: 1px solid var(--button-border);
             border-radius: 8px;
@@ -103,10 +166,10 @@
         
         .material-list a:hover {
             background-color: var(--button-hover);
-            color: white;           /* Білий текст при наведенні */
+            color: white;           
             border-color: var(--button-hover);
-            transform: translateY(-3px); /* Легкий підйом кнопки вгору */
-            box-shadow: 0 5px 12px rgba(0, 86, 179, 0.3); /* Більша тінь */
+            transform: translateY(-3px); 
+            box-shadow: 0 5px 12px rgba(0, 86, 179, 0.3); 
         }
 
         .back-link {
@@ -116,14 +179,10 @@
             text-decoration: none;
             font-weight: bold;
         }
-        .back-link:hover {
-            color: #000;
-        }
-        
-        /* Адаптивність для дуже малих екранів */
+
         @media (max-width: 500px) {
-            .material-list {
-                flex-direction: column; /* На телефонах кнопки стають одна під одною */
+            .material-list.show {
+                flex-direction: column; 
             }
         }
     </style>
@@ -139,24 +198,44 @@
         <h2>Тема 1: Лінійна алгоритмічна структура</h2>
 
         <h3>1.1 Знайомство з системним середовищем та початок роботи з C++</h3>
-        
         <ul class="material-list">
             <li><a href="theory/1-1.html">Теорія</a></li>
             <li><a href="presentation/1-1.pptx">Презентація</a></li>
             <li><a href="practice/1-1.html">Практична частина</a></li>
         </ul>
 
-        
         <hr>
 
         <h3>1.2. Структура програм, змінні та цілі числа</h3>
-        
         <ul class="material-list">
             <li><a href="theory/1-2.html">Теорія</a></li>
             <li><a href="presentation/1-2.pptx">Презентація</a></li>
             <li><a href="practice/1-2.html">Практична частина</a></li>
         </ul>
 
-        </div>
+    </div>
+
+    <!-- JavaScript для керування акордеоном -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Знаходимо всі заголовки h3
+            const headers = document.querySelectorAll('h3');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    // 1. Перемикаємо клас 'active' для самого заголовка (щоб повернути стрілку)
+                    this.classList.toggle('active');
+                    
+                    // 2. Знаходимо наступний елемент після заголовка
+                    const content = this.nextElementSibling;
+                    
+                    // 3. Якщо це наш список матеріалів - показуємо/ховаємо його
+                    if (content && content.classList.contains('material-list')) {
+                        content.classList.toggle('show');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
