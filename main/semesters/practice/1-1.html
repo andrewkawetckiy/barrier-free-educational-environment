@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вступ до C++ та системного середовища</title>
+    <style>
+        /* Базові стилі для безбар'єрного середовища */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --accent-color: #e7f1ff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --diagram-bg: #fcfbe7; 
+            --diagram-title-bg: #b3e5fc; 
+            --diagram-category-bg: #e0e0e0; 
+            --diagram-link-color: #03a9f4;
+            --task-bg: #e8f5e9; /* Зеленуватий фон для практичних завдань */
+            --task-border: #4caf50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Кнопка навігації */
+        .nav-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: #003d82;
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        h1 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .highlight-box {
+            background-color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        /* Стиль для блоку практичного завдання */
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .task-box h3 {
+            color: var(--task-border);
+            margin-top: 0;
+        }
+
+        /* Стилі для коду */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .inline-code {
+            background-color: #e0e0e0;
+            color: #c7254e;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+        
+        /* === СТИЛІ ДЛЯ ДІАГРАМИ КЛАСИФІКАЦІЇ === */
+        .programming-languages-classification {
+            padding: 30px 20px 15px;
+            background-color: var(--diagram-bg);
+            border-radius: 8px;
+            margin: 30px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            background-color: var(--diagram-title-bg);
+            color: var(--text-color);
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px 0;
+            margin-bottom: 40px;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 80%; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: var(--diagram-link-color);
+            z-index: 1;
+        }
+
+        .categories-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px; 
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .categories-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 16.66%;
+            right: 16.66%;
+            height: 2px;
+            background-color: var(--diagram-link-color);
+        }
+
+        .categories-container::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 22px;
+            background-color: var(--diagram-link-color);
+        }
+
+        .category {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            min-width: 150px;
+        }
+
+        .category::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background-color: var(--diagram-link-color);
+        }
+
+        .category::after {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 2px solid var(--diagram-link-color);
+            border-radius: 50%;
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .category-header {
+            background-color: var(--diagram-category-bg);
+            color: var(--text-color);
+            font-size: 1.0em;
+            font-weight: 600;
+            padding: 10px 5px;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .subcategories {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-top: none; 
+            border-radius: 0 0 3px 3px;
+        }
+
+        .subcategories li {
+            padding: 8px 5px;
+            font-size: 0.95em;
+            border-bottom: 1px dotted #ccc;
+            background-color: #ffffff;
+            box-shadow: inset 0 0 0 1px #f4f4f4; 
+        }
+
+        .subcategories li:last-child {
+            border-bottom: none;
+        }
+        
+        .figure-caption {
+            text-align: center;
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px; }
+            .categories-container {
+                flex-direction: column;
+                gap: 30px; 
+                padding-top: 0;
+            }
+            .main-title::after,
+            .categories-container::before,
+            .categories-container::after,
+            .category::before,
+            .category::after { display: none; }
+            .category { margin-top: 10px; }
+            .main-title { max-width: 100%; margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="../semester-01.html" class="nav-btn" aria-label="Повернутися до списку тем семестру">← Назад до тем</a>
+
+        <header>
+            <h1>Тема 1. Знайомство з системним середовищем та початок роботи з C++</h1>
+        </header>
+
+        <main>
+            <section id="intro">
+                <h2>1. Мови програмування: класифікація та історія</h2>
+                <p>Історію комп’ютерних наук можна розглядати як історію розвитку інструментів, якими ми спілкуємось з машинами. Початок припадає на XIX ст., коли Чарльз Беббідж розробив механічну обчислювальну машину, а леді <strong>Ада Лавлейс</strong> написала для неї першу програму.</p>
+
+                <div class="highlight-box">
+                    <strong>Визначення:</strong>
+                    <ul>
+                        <li><strong>Мова програмування</strong> — це штучна мова, створена для розробки програм, які виконуються на комп’ютері.</li>
+                        <li><strong>Комп’ютерна програма</strong> — це послідовність команд (інструкцій), що забезпечує реалізацію конкретного алгоритму.</li>
+                        <li><strong>Команда (інструкція)</strong> — це вказівка, що визначає, яку дію (операцію) слід виконувати.</li>
+                    </ul>
+                </div>
+
+                <h3>Класифікація мов</h3>
+                <p>Сьогодні існує понад 2000 мов програмування. Їх можна поділити за різними ознаками:</p>
+
+                <div class="programming-languages-classification">
+                    <header class="main-title">Мови програмування</header>
+                    <div class="categories-container">
+                        <section class="category">
+                            <h3 class="category-header">За ступенем залежності від апаратних засобів</h3>
+                            <ul class="subcategories">
+                                <li>Мови низького рівня</li>
+                                <li>Мови високого рівня</li>
+                            </ul>
+                        </section>
+                        <section class="category">
+                            <h3 class="category-header">За принципами програмування</h3>
+                            <ul class="subcategories">
+                                <li>Процедурні</li>
+                                <li>Непроцедурні</li>
+                                <li>Об'єктно-орієнтовані</li>
+                            </ul>
+                        </section>
+                        <section class="category">
+                            <h3 class="category-header">За орієнтацією на клас задач</h3>
+                            <ul class="subcategories">
+                                <li>Універсальні</li>
+                                <li>Спеціалізовані</li>
+                            </ul>
+                        </section>
+                    </div>
+                    <p class="figure-caption">Рис. 1. Класифікація мов програмування</p>
+                </div>
+            </section>
+
+            <section id="cpp-vs-python">
+                <h2>2. Відмінність C++ від Python: Компіляція проти Інтерпретації</h2>
+                <p>Це найважливіший момент переходу. У попередніх класах ви працювали з Python — <em>інтерпретованою</em> мовою. </p>
+                
+                <h3>Як працює Інтерпретатор (Python)?</h3>
+                <p>Він читає вашу програму рядок за рядком і одразу виконує. Якщо в кінці коду є помилка, програма пропрацює до цього моменту і "впаде".</p>
+
+                <h3>Як працює Компілятор (C++)?</h3>
+                <p>C++ — це <strong>компільована</strong> мова. Процес створення програми виглядає так:</p>
+                <ol>
+                    <li><strong>Написання коду (Source Code):</strong> Ви створюєте файл з розширенням <code>.cpp</code>.</li>
+                    <li><strong>Компіляція:</strong> Спеціальна програма (компілятор) перекладає <em>весь</em> ваш текст у машинний код. Якщо є хоч одна помилка — файл не створиться.</li>
+                    <li><strong>Лінкування (Linking):</strong> До вашого коду додаються системні бібліотеки.</li>
+                    <li><strong>Виконання (Executable):</strong> Ви отримуєте окремий файл (наприклад, <code>.exe</code>), який можна запустити навіть без середовища розробки.</li>
+                </ol>
+            </section>
+
+            <section id="environment">
+                <h2>3. Середовище розробки (IDE)</h2>
+                <p>Для написання та компіляції коду нам потрібні інструменти. Ви можете обрати зручний для вас варіант:</p>
+
+                <h3>Варіант А: Онлайн-компілятори (без встановлення)</h3>
+                <p>Підходять для швидкого старту, роботи з планшета або слабкого ПК.</p>
+                <ul>
+                    <li><a href="https://www.onlinegdb.com/" target="_blank">OnlineGDB</a> (має зручний налагоджувач)</li>
+                    <li><a href="https://ideone.com/" target="_blank">Ideone</a></li>
+                    <li><a href="https://replit.com/" target="_blank">Replit</a> (дозволяє зберігати код у хмарі)</li>
+                </ul>
+
+                <h3>Варіант Б: Встановлення на комп'ютер</h3>
+                <ul>
+                    <li><strong>Visual Studio Community:</strong> Потужний професійний інструмент (тільки для Windows).</li>
+                    <li><strong>Code::Blocks:</strong> Легке середовище, працює на старих комп'ютерах.</li>
+                </ul>
+            </section>
+
+            <section id="first-program">
+                <h2>4. Перша програма на C++</h2>
+                <p>На відміну від Python, C++ потребує чіткої структури. Розглянемо класичну програму "Hello, World!".</p>
+                <pre><code>#include &lt;iostream&gt; // 1. Підключення бібліотеки
+
+using namespace std; // 2. Простір імен
+
+int main() {        // 3. Головна функція
+    cout &lt;&lt; "Hello, world!" &lt;&lt; endl; // 4. Виведення тексту
+    return 0;       // 5. Завершення роботи
+}</code></pre>
+            </section>
+
+            <section id="calculations">
+                <h2>5. Елементарні обчислення та типи даних</h2>
+                <p>C++ має <strong>статичну типізацію</strong>. Порівняйте додавання чисел:</p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <strong>Python (динамічна типізація):</strong>
+                        <pre><code>a = 5
+b = 10
+sum = a + b
+print(sum)</code></pre>
+                    </div>
+                    <div style="flex: 1; min-width: 300px;">
+                        <strong>C++ (статична типізація):</strong>
+                        <pre><code>int a = 5;      // int = integer (ціле)
+int b = 10;
+int sum = a + b;
+cout &lt;&lt; sum &lt;&lt; endl;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="practice-task" class="task-box">
+                <h3>🛠️ Практична робота: "Твій перший запуск"</h3>
+                <p>Настав час спробувати написати та виправити свій перший код. Виконайте наступні кроки:</p>
+                
+                <ol>
+                    <li>Відкрийте онлайн-компілятор <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" style="font-weight: bold;">OnlineGDB (натисніть тут)</a>.</li>
+                    <li>Видаліть весь код, який там є за замовчуванням.</li>
+                    <li>Скопіюйте код, наведений нижче, і вставте його в онлайн-компілятор.</li>
+                    <li>Уважно прочитайте коментарі (рядки, що починаються з <code>//</code>) — там описані завдання, які треба виконати.</li>
+                    <li>Натисніть зелену кнопку <strong>Run</strong> вгорі екрану.</li>
+                </ol>
+
+                <div class="highlight-box" style="background-color: #fff3cd; border-left-color: #ffc107;">
+                    <strong>Увага!</strong> Цей код містить помилку. Коли ви натиснете <strong>Run</strong> вперше, компілятор видасть червоний текст (помилку) внизу. Ваше завдання — виправити її (підказка у завданні №3 всередині коду).
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt; // Підключаємо роботу з текстом
+
+using namespace std;
+
+int main() {
+    // ЗАВДАННЯ 1: Зміни ці дані на свої (вік та ім'я)
+    int age = 16;
+    string name = "Студент";
+    
+    // ЗАВДАННЯ 2: Розкоментуй (прибери дві похилі риски //) рядок нижче, щоб він запрацював
+    // cout &lt;&lt; "--- Мій перший C++ код ---" &lt;&lt; endl;
+
+    cout &lt;&lt; "Привіт! Мене звати " &lt;&lt; name &lt;&lt; endl;
+    cout &lt;&lt; "Мені " &lt;&lt; age &lt;&lt; " років." &lt;&lt; endl;
+
+    // ЗАВДАННЯ 3: Тут спеціально зроблена помилка. 
+    // Комп'ютер скаже: "expected ';' before 'return'"
+    // Знайди, де не вистачає крапки з комою, і додай її!
+    cout &lt;&lt; "Я починаю вивчати C++" &lt;&lt; endl
+
+    return 0;
+}</code></pre>
+            </section>
+            </main>
+
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Матеріал адаптовано на основі підручника "Інформатика 10 клас" (авт. В.Д. Руденко) з урахуванням особливостей мови C++.
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
