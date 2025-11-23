@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Змінні та Математика</title>
+    <style>
+        /* Стилі ідентичні попереднім */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --task-bg: #e8f5e9; 
+            --task-border: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn.secondary { background-color: #607d8b; }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h2 { color: var(--primary-color); }
+
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .task-header {
+            background-color: var(--task-border);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px; }
+            .nav-container { flex-direction: column; }
+            .nav-btn { text-align: center; width: 100%; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/1_2.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практична робота: Змінні та Числа</h1>
+        </header>
+
+        <main>
+            <p>Відкрийте <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" style="font-weight: bold;">OnlineGDB</a> та виконайте завдання.</p>
+            
+            <section class="task-box">
+                <div>
+                    <span class="task-header">Завдання 1: Правильний розмір коробки</span>
+                    <p>Ми хочемо зберегти населення Землі (приблизно 8 мільярдів). Але програміст помилився з типом даних, і число "не влізло".</p>
+                    <p><strong>Завдання:</strong> Змініть тип <code>int</code> на <code>long long</code>, щоб побачити правильне число.</p>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // ПОМИЛКА: тип 'int' вміщує тільки до 2 мільярдів
+    // Зміни 'int' на 'long long' у рядку нижче:
+    int population = 8000000000; 
+
+    cout &lt;&lt; "Населення Землі: " &lt;&lt; population &lt;&lt; endl;
+    return 0;
+}</code></pre>
+                </div>
+
+                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
+                    <span class="task-header">Завдання 2: Піцерія (Ділення та Остача)</span>
+                    <p>У нас є 10 шматків піци і 3 друзів. Ми хочемо дізнатися, скільки шматків отримає кожен, і скільки залишиться в коробці.</p>
+                    <p><strong>Завдання:</strong> Допишіть формули, використовуючи оператори <code>/</code> та <code>%</code>.</p>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int slices = 10;
+    int friends = 3;
+
+    // Скільки кожному? (Використанй ділення / )
+    int per_person = slices / friends; 
+
+    // Скільки залишиться? (Використанй остачу % )
+    // ДОПИШИ КОД НИЖЧЕ:
+    int left_over = 
+
+    cout &lt;&lt; "Кожному по: " &lt;&lt; per_person &lt;&lt; endl;
+    cout &lt;&lt; "Залишилось: " &lt;&lt; left_over &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+                </div>
+
+                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
+                    <span class="task-header">Завдання 3: Банкомат (Цифри числа)</span>
+                    <p>Це класична задача. У змінній <code>money</code> записана сума: <strong>567</strong> гривень.</p>
+                    <p>Уявіть, що банкомат видає гроші лише купюрами: по 100, по 10 і по 1 гривні. Нам треба дізнатися, скільки яких купюр треба.</p>
+                    
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int money = 567;
+
+    // 1. Останню цифру (одиниці) ми отримуємо через остачу від ділення на 10
+    int units = money % 10; // буде 7
+
+    // 2. Тепер треба "відрізати" останню цифру.
+    // 567 / 10 = 56 (бо це ціле ділення!)
+    int temp = money / 10; 
+
+    // 3. Тепер з числа 56 беремо останню цифру (це будуть десятки)
+    // ДОПИШИ КОД:
+    int tens = temp % 10; 
+
+    // 4. І щоб отримати сотні, треба число 56 поділити на 10
+    // ДОПИШИ КОД:
+    int hundreds = 
+
+    cout &lt;&lt; "Сотні: " &lt;&lt; hundreds &lt;&lt; endl;
+    cout &lt;&lt; "Десятки: " &lt;&lt; tens &lt;&lt; endl;
+    cout &lt;&lt; "Одиниці: " &lt;&lt; units &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 1.2
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
