@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I Семестр (10 клас) - Інформатика</title>
     <style>
+        /* Додано визначення змінної --primary-color, яка використовується для кнопки */
+        :root {
+            --primary-color: #0056b3; /* Типовий синій колір для кнопок/заголовків */
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -24,9 +29,10 @@
         }
         /* Кнопка навігації */
         .nav-btn {
+            /* Тепер фон буде синім, оскільки --primary-color визначено */
             display: inline-block;
             text-decoration: none;
-            background-color: var(--primary-color);
+            background-color: var(--primary-color); 
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
