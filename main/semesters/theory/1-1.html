@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вступ до C++ та системного середовища</title>
+    <title>Теорія: Вступ до C++</title>
     <style>
-        /* Базові стилі для безбар'єрного середовища */
+        /* Стилі ідентичні попереднім для єдності дизайну */
         :root {
-            --bg-color: #fff3e0;;
+            --bg-color: #fff3e0;
             --text-color: #2c3e50;
             --primary-color: #0056b3;
-            --accent-color: #e7f1ff;
+            --accent-color: #ffffff;
             --code-bg: #2d2d2d;
             --code-text: #f8f8f2;
-            --diagram-bg: #fcfbe7; 
-            --diagram-title-bg: #b3e5fc; 
-            --diagram-category-bg: #e0e0e0; 
-            --diagram-link-color: #03a9f4; 
+            --diagram-bg: #fff8e1;
+            --diagram-title-bg: #b3e5fc;
+            --diagram-category-bg: #e0e0e0;
+            --diagram-link-color: #03a9f4;
+            --btn-practice-bg: #2e7d32; /* Зелений для кнопки переходу до практики */
         }
 
         body {
@@ -35,10 +36,16 @@
             background: white;
             padding: 40px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Кнопка навігації */
+        /* Навігація */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
         .nav-btn {
             display: inline-block;
             text-decoration: none;
@@ -47,7 +54,6 @@
             padding: 10px 20px;
             border-radius: 5px;
             font-weight: bold;
-            margin-bottom: 20px;
             transition: background 0.3s;
         }
 
@@ -56,23 +62,40 @@
             text-decoration: underline;
         }
 
-        h1, h2, h3 {
-            color: var(--primary-color);
+        /* Кнопка "До практики" - велика і помітна */
+        .practice-btn {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0; /* По центру */
+            background-color: var(--btn-practice-bg);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s, background 0.3s;
         }
 
-        h1 {
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
+        .practice-btn:hover {
+            background-color: #1b5e20;
+            transform: scale(1.02);
+            text-decoration: none;
         }
+
+        h1, h2, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
 
         .highlight-box {
             background-color: var(--accent-color);
             border-left: 5px solid var(--primary-color);
             padding: 15px;
             margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        /* Стилі для коду */
         pre {
             background-color: var(--code-bg);
             color: var(--code-text);
@@ -81,222 +104,45 @@
             overflow-x: auto;
             font-family: 'Consolas', 'Monaco', monospace;
         }
-
-        code {
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
         
-        .inline-code {
-            background-color: #e0e0e0;
-            color: #c7254e;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
+        ul, ol { margin-bottom: 20px; }
+        li { margin-bottom: 10px; }
 
-        ul, ol {
-            margin-bottom: 20px;
-        }
+        /* Стилі діаграми (ті ж самі, скорочено для економії місця в прикладі, але код повний) */
+        .programming-languages-classification { padding: 30px 20px 15px; background-color: var(--diagram-bg); border-radius: 8px; margin: 30px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.9em; }
+        .main-title { background-color: var(--diagram-title-bg); color: var(--text-color); font-size: 1.4em; font-weight: bold; text-align: center; padding: 12px 0; margin-bottom: 40px; border-radius: 5px; position: relative; max-width: 80%; margin-left: auto; margin-right: auto; }
+        .main-title::after { content: ''; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 2px; height: 20px; background-color: var(--diagram-link-color); z-index: 1; }
+        .categories-container { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 20px; position: relative; padding-top: 20px; }
+        .categories-container::before { content: ''; position: absolute; top: 0; left: 16.66%; right: 16.66%; height: 2px; background-color: var(--diagram-link-color); }
+        .categories-container::after { content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 2px; height: 22px; background-color: var(--diagram-link-color); }
+        .category { flex: 1; text-align: center; position: relative; min-width: 150px; }
+        .category::before { content: ''; display: block; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 2px; height: 20px; background-color: var(--diagram-link-color); }
+        .category::after { content: ''; display: block; width: 10px; height: 10px; background-color: white; border: 2px solid var(--diagram-link-color); border-radius: 50%; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); z-index: 2; }
+        .category-header { background-color: var(--diagram-category-bg); color: var(--text-color); font-size: 1.0em; font-weight: 600; padding: 10px 5px; margin: 0; border: 1px solid #ccc; border-bottom: none; border-radius: 3px 3px 0 0; }
+        .subcategories { list-style: none; padding: 0; margin: 0; border: 1px solid #ccc; border-top: none; border-radius: 0 0 3px 3px; }
+        .subcategories li { padding: 8px 5px; font-size: 0.95em; border-bottom: 1px dotted #ccc; background-color: #ffffff; box-shadow: inset 0 0 0 1px #f4f4f4; }
+        .subcategories li:last-child { border-bottom: none; }
+        .figure-caption { text-align: center; font-style: italic; font-size: 0.9em; margin-top: 20px; color: #666; }
 
-        li {
-            margin-bottom: 10px;
-        }
-        
-        /* === ВИПРАВЛЕНІ СТИЛІ ДЛЯ ДІАГРАМИ КЛАСИФІКАЦІЇ === */
-        .programming-languages-classification {
-            padding: 30px 20px 15px;
-            background-color: var(--diagram-bg);
-            border-radius: 8px;
-            margin: 30px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-size: 0.9em;
-        }
-
-        /* 1. Основний Заголовок Схеми */
-        .main-title {
-            background-color: var(--diagram-title-bg);
-            color: var(--text-color);
-            font-size: 1.4em;
-            font-weight: bold;
-            text-align: center;
-            padding: 12px 0;
-            margin-bottom: 40px; /* Місце для ліній */
-            border-radius: 5px;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            /* Щоб заголовок не був занадто широким відносно колонок */
-            max-width: 80%; 
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Вертикальна лінія ВНИЗ від головного заголовка */
-        .main-title::after {
-            content: '';
-            position: absolute;
-            bottom: -20px; /* Довжина лінії вниз */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 20px;
-            background-color: var(--diagram-link-color);
-            z-index: 1;
-        }
-
-        /* 2. Контейнер для 3-х колонок */
-        .categories-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px; 
-            margin-bottom: 20px;
-            position: relative; /* Батьківський елемент для горизонтальної лінії */
-            padding-top: 20px; /* Відступ зверху для ліній */
-        }
-
-        /* ГОРИЗОНТАЛЬНА ЛІНІЯ, що з'єднує всі колонки */
-        /* Математика: 3 колонки. Центр першої ~16.66%, центр останньої ~16.66% від краю */
-        .categories-container::before {
-            content: '';
-            position: absolute;
-            top: 0; /* Лінія малюється на верхній межі контейнера */
-            left: 16.66%; /* Початок лінії (центр лівої колонки) */
-            right: 16.66%; /* Кінець лінії (центр правої колонки) */
-            height: 2px;
-            background-color: var(--diagram-link-color);
-        }
-
-        /* Вертикальна лінія від горизонтальної вгору до заголовка */
-        .categories-container::after {
-            content: '';
-            position: absolute;
-            top: -20px; /* З'єднуємося з лінією від заголовка */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 22px; /* Трохи перекриваємо для надійності */
-            background-color: var(--diagram-link-color);
-        }
-
-        /* 3. Стилізація кожної колонки */
-        .category {
-            flex: 1;
-            text-align: center;
-            position: relative;
-            min-width: 150px;
-        }
-
-        /* Лінія ВГОРУ від кожної категорії до горизонтальної лінії */
-        .category::before {
-            content: '';
-            display: block;
-            position: absolute;
-            top: -20px; /* Тягнемо лінію вгору до загальної горизонтальної */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 20px;
-            background-color: var(--diagram-link-color);
-        }
-
-        /* Кружечок (точка) на стику */
-        .category::after {
-            content: '';
-            display: block;
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            border: 2px solid var(--diagram-link-color);
-            border-radius: 50%;
-            position: absolute;
-            top: -6px; /* Позиціонуємо кружечок на початку блоку */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-        }
-
-        /* 4. Стилізація Заголовка Категорії */
-        .category-header {
-            background-color: var(--diagram-category-bg);
-            color: var(--text-color);
-            font-size: 1.0em;
-            font-weight: 600;
-            padding: 10px 5px;
-            margin: 0;
-            border: 1px solid #ccc;
-            border-bottom: none;
-            border-radius: 3px 3px 0 0;
-        }
-
-        /* 5. Стилізація Списку Підкатегорій */
-        .subcategories {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            border: 1px solid #ccc;
-            border-top: none; 
-            border-radius: 0 0 3px 3px;
-        }
-
-        .subcategories li {
-            padding: 8px 5px;
-            font-size: 0.95em;
-            border-bottom: 1px dotted #ccc;
-            background-color: #ffffff;
-            box-shadow: inset 0 0 0 1px #f4f4f4; 
-        }
-
-        .subcategories li:last-child {
-            border-bottom: none;
-        }
-        
-        /* 6. Підпис до Малюнка */
-        .figure-caption {
-            text-align: center;
-            font-style: italic;
-            font-size: 0.9em;
-            margin-top: 20px;
-            color: #666;
-        }
-        /* === КІНЕЦЬ СТИЛІВ ДЛЯ ДІАГРАМИ === */
-
-
-        /* Адаптивність */
         @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            .container {
-                padding: 20px;
-            }
-            /* На мобільних пристроях приховуємо лінії */
-            .categories-container {
-                flex-direction: column;
-                gap: 30px; 
-                padding-top: 0;
-            }
-            
-            /* Ховаємо всі декоративні лінії */
-            .main-title::after,
-            .categories-container::before,
-            .categories-container::after,
-            .category::before,
-            .category::after {
-                display: none; 
-            }
-            
-            .category {
-                margin-top: 10px;
-            }
-            .main-title {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
+            body { padding: 10px; }
+            .container { padding: 20px; }
+            .categories-container { flex-direction: column; gap: 30px; padding-top: 0; }
+            .main-title::after, .categories-container::before, .categories-container::after, .category::before, .category::after { display: none; }
+            .category { margin-top: 10px; }
+            .main-title { max-width: 100%; margin-bottom: 20px; }
+            .nav-container { flex-direction: column; gap: 10px; }
+            .nav-btn { text-align: center; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <a href="../semester-01.html" class="nav-btn" aria-label="Повернутися до списку тем семестру">← Назад до тем</a>
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+        </div>
 
         <header>
             <h1>Тема 1. Знайомство з системним середовищем та початок роботи з C++</h1>
@@ -321,9 +167,7 @@
 
                 <div class="programming-languages-classification">
                     <header class="main-title">Мови програмування</header>
-
                     <div class="categories-container">
-                        
                         <section class="category">
                             <h3 class="category-header">За ступенем залежності від апаратних засобів</h3>
                             <ul class="subcategories">
@@ -331,7 +175,6 @@
                                 <li>Мови високого рівня</li>
                             </ul>
                         </section>
-
                         <section class="category">
                             <h3 class="category-header">За принципами програмування</h3>
                             <ul class="subcategories">
@@ -340,7 +183,6 @@
                                 <li>Об'єктно-орієнтовані</li>
                             </ul>
                         </section>
-
                         <section class="category">
                             <h3 class="category-header">За орієнтацією на клас задач</h3>
                             <ul class="subcategories">
@@ -348,19 +190,8 @@
                                 <li>Спеціалізовані</li>
                             </ul>
                         </section>
-
                     </div>
-
                     <p class="figure-caption">Рис. 1. Класифікація мов програмування</p>
-                </div>
-                <p>Як видно з діаграми, класифікація є багатогранною. Зокрема, мова C++, яку ми вивчаємо, належить до мов <strong>високого рівня</strong> та підтримує як <strong>процедурний</strong>, так і <strong>об'єктно-орієнтований</strong> принципи програмування.</p>
-
-                <div class="highlight-box">
-                    <strong>Зверніть увагу:</strong>
-                    <ul>
-                        <li><strong>Низького рівня (Machine-oriented):</strong> Максимально наближені до "заліза" комп'ютера (наприклад, Асемблер). Вони швидкі, але складні для людини.</li>
-                        <li><strong>Високого рівня (High-level):</strong> Зрозумілі людині, використовують слова англійської мови. Саме до таких належать Python, який ви вчили раніше, та <strong>C++</strong>, який ми починаємо вивчати.</li>
-                    </ul>
                 </div>
             </section>
 
@@ -379,9 +210,6 @@
                     <li><strong>Лінкування (Linking):</strong> До вашого коду додаються системні бібліотеки.</li>
                     <li><strong>Виконання (Executable):</strong> Ви отримуєте окремий файл (наприклад, <code>.exe</code>), який можна запустити навіть без середовища розробки.</li>
                 </ol>
-                <div class="highlight-box">
-                    <p><strong>Чому C++?</strong> Він дає контроль над пам'яттю та високу швидкодію. Саме тому на C++ пишуть ігри, операційні системи (Windows, Linux) та драйвери.</p>
-                </div>
             </section>
 
             <section id="environment">
@@ -400,14 +228,12 @@
                 <ul>
                     <li><strong>Visual Studio Community:</strong> Потужний професійний інструмент (тільки для Windows).</li>
                     <li><strong>Code::Blocks:</strong> Легке середовище, працює на старих комп'ютерах.</li>
-                    <li><strong>Visual Studio Code:</strong> Сучасний редактор (потребує налаштування плагінів C++).</li>
                 </ul>
             </section>
 
             <section id="first-program">
                 <h2>4. Перша програма на C++</h2>
                 <p>На відміну від Python, C++ потребує чіткої структури. Розглянемо класичну програму "Hello, World!".</p>
-
                 <pre><code>#include &lt;iostream&gt; // 1. Підключення бібліотеки
 
 using namespace std; // 2. Простір імен
@@ -416,21 +242,11 @@ int main() {        // 3. Головна функція
     cout &lt;&lt; "Hello, world!" &lt;&lt; endl; // 4. Виведення тексту
     return 0;       // 5. Завершення роботи
 }</code></pre>
-
-                <h3>Розбір коду:</h3>
-                <ul>
-                    <li><code>#include &lt;iostream&gt;</code>: Ми повідомляємо компілятору, що хочемо працювати з введенням та виведенням даних (Input/Output Stream).</li>
-                    <li><code>int main() { ... }</code>: Точка входу. Будь-яка програма на C++ починається з виконання цієї функції.</li>
-                    <li><code>cout</code>: Команда виведення на екран (аналог print).</li>
-                    <li><strong>Крапка з комою (<code>;</code>)</strong>: Обов'язкова в кінці кожної команди! Це найчастіша помилка новачків.</li>
-                </ul>
             </section>
 
             <section id="calculations">
                 <h2>5. Елементарні обчислення та типи даних</h2>
-                <p>C++ має <strong>статичну типізацію</strong>. Це означає, що ми повинні наперед сказати комп'ютеру, який тип даних будемо зберігати у змінній (ціле число, дробове, текст тощо).</p>
-                
-                <p>Порівняйте додавання чисел:</p>
+                <p>C++ має <strong>статичну типізацію</strong>. Порівняйте додавання чисел:</p>
                 
                 <div style="display: flex; flex-wrap: wrap; gap: 20px;">
                     <div style="flex: 1; min-width: 300px;">
@@ -448,13 +264,14 @@ int sum = a + b;
 cout &lt;&lt; sum &lt;&lt; endl;</code></pre>
                     </div>
                 </div>
-                <p>У C++ ви не можете покласти текст у змінну, яку оголосили як <code>int</code> (число). Це допомагає уникати багатьох помилок ще на етапі написання коду.</p>
             </section>
         </main>
+        
+        <a href="../practice/1-1.html" class="practice-btn">Перейти до практичної роботи →</a>
 
         <footer>
             <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
-                Матеріал адаптовано на основі підручника "Інформатика 10 клас" (авт. В.Д. Руденко) з урахуванням особливостей мови C++.
+                Матеріал адаптовано на основі підручника "Інформатика 10 клас" (авт. В.Д. Руденко).
             </p>
         </footer>
     </div>
