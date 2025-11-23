@@ -8,6 +8,9 @@
         /* Додано визначення змінної --primary-color, яка використовується для кнопки */
         :root {
             --primary-color: #0056b3; /* Типовий синій колір для кнопок/заголовків */
+            --button-bg: #e3f2fd;     /* Світло-блакитний фон для кнопок матеріалів */
+            --button-border: #90caf9; /* Колір рамки */
+            --button-hover: #1976d2;  /* Колір при наведенні */
         }
         
         body {
@@ -27,9 +30,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        /* Кнопка навігації */
+        /* Кнопка навігації (Назад) */
         .nav-btn {
-            /* Тепер фон буде синім, оскільки --primary-color визначено */
             display: inline-block;
             text-decoration: none;
             background-color: var(--primary-color); 
@@ -65,43 +67,46 @@
             border-radius: 4px;
         }
         
-        /* === ВИПРАВЛЕННЯ СПИСКУ === */
+        /* === ОНОВЛЕНИЙ СПИСОК МАТЕРІАЛІВ (КНОПКИ В РЯДОК) === */
         .material-list {
-            list-style: none; /* ПРИБИРАЄМО ТОЧКИ */
-            padding: 0;       /* Прибираємо стандартний відступ зліва */
+            list-style: none; 
+            padding: 0;       
             margin-top: 15px;
+            display: flex;        /* Робимо елементи в рядок */
+            gap: 15px;            /* Відстань між кнопками */
+            flex-wrap: wrap;      /* Переносити на новий рядок, якщо не влазить (для мобільних) */
         }
 
         .material-list li {
-            margin-bottom: 20px; /* ЗБІЛЬШУЄМО ІНТЕРВАЛ МІЖ ЕЛЕМЕНТАМИ */
+            flex: 1;              /* Кожна кнопка займає рівну ширину */
+            min-width: 140px;     /* Мінімальна ширина кнопки, щоб текст не сплющувався */
+            margin-bottom: 0;     /* Прибираємо нижній відступ, бо тепер це рядок */
         }
 
         .material-list a {
-            display: block; /* Робимо всю площу li клікабельною */
-            padding: 15px;
+            display: block; 
+            padding: 12px 10px;
+            text-align: center;   /* Центруємо текст всередині кнопки */
             text-decoration: none;
-            color: #333; /* Базовий колір тексту */
+            color: var(--primary-color); 
             font-weight: bold;
-            font-size: 1.1em;
-            border-radius: 6px;
-
-            /* Градієнт: від базового синього (легкий натяк на інформатику) до прозорого */
-            background: linear-gradient(to right, #e3f2fd, rgba(227, 242, 253, 0.1));
-            border-left: 5px solid #007bff; /* Акцентна лінія зліва */
+            font-size: 1em;
             
-            transition: all 0.3s ease;
-        }
-        
-        .material-list li:hover {
-            /* Тінь при наведенні (можна додавати до li або a, тут ок) */
+            /* Стиль кнопки */
+            background-color: var(--button-bg);
+            border: 1px solid var(--button-border);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
         .material-list a:hover {
-            color: #0056b3;
-            /* Посилюємо градієнт та ефект зміщення */
-            background: linear-gradient(to right, #c3e0fc, rgba(195, 224, 252, 0.3)); 
-            padding-left: 20px;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+            background-color: var(--button-hover);
+            color: white;           /* Білий текст при наведенні */
+            border-color: var(--button-hover);
+            transform: translateY(-3px); /* Легкий підйом кнопки вгору */
+            box-shadow: 0 5px 12px rgba(0, 86, 179, 0.3); /* Більша тінь */
         }
 
         .back-link {
@@ -113,6 +118,13 @@
         }
         .back-link:hover {
             color: #000;
+        }
+        
+        /* Адаптивність для дуже малих екранів */
+        @media (max-width: 500px) {
+            .material-list {
+                flex-direction: column; /* На телефонах кнопки стають одна під одною */
+            }
         }
     </style>
 </head>
@@ -129,9 +141,9 @@
         <h3>1.1 Знайомство з системним середовищем та початок роботи з C++</h3>
         
         <ul class="material-list">
-            <li><a href="theory/1-1.html"><strong>Теорія</strong></a></li>
-            <li><a href="presentation/1-1.pptx"><strong>Презентація</strong></a></li>
-            <li><a href="practice/1-1.html"><strong>Практична частина</strong> </a></li>
+            <li><a href="theory/1-1.html">Теорія</a></li>
+            <li><a href="presentation/1-1.pptx">Презентація</a></li>
+            <li><a href="practice/1-1.html">Практична частина</a></li>
         </ul>
 
         
@@ -140,9 +152,9 @@
         <h3>1.2. Структура програм, змінні та цілі числа</h3>
         
         <ul class="material-list">
-            <li><a href="theory/1-2.html"><strong>Теорія</strong></a></li>
-            <li><a href="presentation/1-2.pptx"><strong>Презентація</strong></a></li>
-            <li><a href="practice/1-2.html"><strong>Практична частина</strong></a></li>
+            <li><a href="theory/1-2.html">Теорія</a></li>
+            <li><a href="presentation/1-2.pptx">Презентація</a></li>
+            <li><a href="practice/1-2.html">Практична частина</a></li>
         </ul>
 
         </div>
