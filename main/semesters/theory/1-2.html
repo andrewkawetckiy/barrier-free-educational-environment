@@ -231,37 +231,96 @@ int y = 20;   // Оголошення + Ініціалізація (Найкра
                         </tr>
                     </tbody>
                 </table>
-                <p><em>Примітка: в Python всі цілі числа автоматично стають безмежно великими. В C++ треба думати, чи влазить число в "коробку".</em></p>
             </section>
 
             <section id="math">
-                <h2>4. Математика та Ділення</h2>
-                <p>Тут криється головна пастка для тих, хто переходить з Python.</p>
+                <h2>4. Математика та Оператори</h2>
+                <p>Тут криється головна пастка для тих, хто переходить з Python. Уважно розгляньте таблицю операторів.</p>
                 
                 <div class="highlight-box" style="background-color: #ffebee; border-left-color: #f44336;">
-                    <strong>Увага!</strong> В C++ ділення цілого на ціле дає ціле число.<br>
-                    <code>5 / 2</code> дорівнює <code>2</code> (а не 2.5). Дробова частина просто відкидається.
+                    <strong>Важливо!</strong> У C++ оператор <code>/</code> працює по-різному для цілих і дробових чисел. <br>
+                    <strong>5 / 2 = 2</strong> (ціле ділення, дробова частина відкидається).
                 </div>
 
-                <h3>Операції:</h3>
+                <h3>Арифметичні оператори</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%">Оператор</th>
+                            <th style="width: 25%">Назва</th>
+                            <th>Опис та приклад</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">+</td>
+                            <td>Додавання</td>
+                            <td><code>10 + 5</code> → результат <strong>15</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">-</td>
+                            <td>Віднімання</td>
+                            <td><code>10 - 5</code> → результат <strong>5</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">*</td>
+                            <td>Множення</td>
+                            <td><code>10 * 5</code> → результат <strong>50</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold; background-color: #ffebee;">/</td>
+                            <td style="background-color: #ffebee;"><strong>Цілочисельне ділення</strong></td>
+                            <td style="background-color: #ffebee;">Якщо обидва числа цілі, результат теж цілий.<br><code>10 / 3</code> → результат <strong>3</strong> (не 3.33!)</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold; background-color: #e3f2fd;">%</td>
+                            <td style="background-color: #e3f2fd;"><strong>Остача від ділення</strong></td>
+                            <td style="background-color: #e3f2fd;">Повертає те, що не поділилося.<br><code>10 % 3</code> → результат <strong>1</strong> (бо 10 = 3*3 + 1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Скорочений запис (для лінивих програмістів)</h3>
+                <p>Програмісти не люблять писати зайве. Тому існують скорочені оператори:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Скорочений запис</th>
+                            <th>Повний аналог</th>
+                            <th>Приклад (якщо x = 10)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>x += 5;</code></td>
+                            <td><code>x = x + 5;</code></td>
+                            <td>x стане <strong>15</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>x -= 3;</code></td>
+                            <td><code>x = x - 3;</code></td>
+                            <td>x стане <strong>7</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>x *= 2;</code></td>
+                            <td><code>x = x * 2;</code></td>
+                            <td>x стане <strong>20</strong></td>
+                        </tr>
+                         <tr>
+                            <td><code>x++;</code></td>
+                            <td><code>x = x + 1;</code></td>
+                            <td>Збільшити на 1 (Інкремент)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Приклад використання остачі (<code>%</code>)</h3>
+                <p>Як розбити число <strong>123</strong> на цифри? Це класична алгоритмічна задача.</p>
                 <ul>
-                    <li><code>+</code>, <code>-</code>, <code>*</code> — як звичайно.</li>
-                    <li><code>/</code> — <strong>Цілочисельне ділення</strong> (якщо обидва числа цілі).</li>
-                    <li><code>%</code> — <strong>Остача від ділення</strong> (Модуль). Дуже важлива операція!</li>
+                    <li><code>123 % 10</code> → отримаємо <strong>3</strong> (остання цифра).</li>
+                    <li><code>123 / 10</code> → отримаємо <strong>12</strong> (відрізали останню цифру).</li>
+                    <li><code>12 % 10</code> → отримаємо <strong>2</strong>.</li>
                 </ul>
-
-                <p>Приклад роботи з оператором <code>%</code> (остача):</p>
-                <pre><code>10 % 3 = 1  // (10 = 3*3 + 1)
-20 % 2 = 0  // (Число парне, ділиться без остачі)
-123 % 10 = 3 // Отримали останню цифру числа!</code></pre>
-
-                <h3>Робота з розрядами числа</h3>
-                <p>Як розбити число <strong>123</strong> на цифри?</p>
-                <ol>
-                    <li><code>123 % 10</code> -> отримаємо <strong>3</strong> (остання цифра).</li>
-                    <li><code>123 / 10</code> -> отримаємо <strong>12</strong> (відрізали останню цифру).</li>
-                    <li><code>12 % 10</code> -> отримаємо <strong>2</strong>.</li>
-                </ol>
             </section>
         </main>
         
