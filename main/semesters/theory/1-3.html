@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теорія: Введення даних та Алгоритми</title>
+    <style>
+        /* Стилі з попередніх тем */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --accent-color: #ffffff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --diagram-bg: #fff8e1;
+            --diagram-border: #ffb74d;
+            --btn-practice-bg: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Навігація */
+        .nav-container { margin-bottom: 20px; }
+        .nav-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h2, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        .highlight-box {
+            background-color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Стилі для формул та математики */
+        .math-block {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.2em;
+            margin: 15px 0;
+        }
+
+        /* Код */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+        .inline-code {
+            background-color: #eeeeee; color: #c7254e; padding: 2px 4px; border-radius: 4px; border: 1px solid #ccc;
+        }
+
+        /* Кнопка до практики */
+        .practice-btn {
+            display: block; width: fit-content; margin: 40px auto 0;
+            background-color: var(--btn-practice-bg); color: white;
+            padding: 15px 30px; border-radius: 8px; font-size: 1.1em;
+            font-weight: bold; text-decoration: none; text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.3s;
+        }
+        .practice-btn:hover { background-color: #1b5e20; transform: scale(1.02); }
+
+        /* Таблиця для IO */
+        .io-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .io-table td, .io-table th {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .io-table th { background-color: var(--primary-color); color: white; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+        </div>
+
+        <header>
+            <h1>Тема 1.3. Введення даних, простір імен та базові алгоритми</h1>
+        </header>
+
+        <main>
+            <section id="namespace">
+                <h2>1. Конфлікт імен та простір імен std</h2>
+                <p>Уявіть, що у вашому класі є два учні з ім'ям "Олександр". Якщо вчитель скаже: "Олександре, до дошки!", виникне плутанина (конфлікт імен). Щоб уточнити, вчитель додає прізвище.</p>
+                <p>У програмуванні теж бувають однакові імена команд. Щоб розрізняти їх, використовують <strong>простори імен (namespaces)</strong> — це як "прізвища" для команд.</p>
+
+                <div class="highlight-box">
+                    <p>Стандартні команди C++ (такі як <code>cout</code>, <code>cin</code>, <code>endl</code>) знаходяться у просторі імен <strong>std</strong> (скорочення від <em>standard</em>).</p>
+                </div>
+
+                <p>Ми можемо звертатися до них двома способами:</p>
+                <ul>
+                    <li><strong>Повне ім'я:</strong> <code>std::cout</code> (дослівно: "команда cout з родини std"). Це безпечно, але довго писати.</li>
+                    <li><strong>Підключення простору:</strong> <code>using namespace std;</code>. Ми кажемо комп'ютеру: "Якщо я не уточнюю, вважай, що це з std".</li>
+                </ul>
+            </section>
+
+            <section id="io-stream">
+                <h2>2. Введення даних: cin та cout</h2>
+                <p>До цього ми тільки виводили текст. Тепер навчимося "читати" те, що пише користувач.</p>
+                
+                <table class="io-table">
+                    <thead>
+                        <tr>
+                            <th>Об'єкт</th>
+                            <th>Повний запис</th>
+                            <th>Напрямок стрілок</th>
+                            <th>Пояснення</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>cout</code><br>(Console OUTput)</td>
+                            <td><code>std::cout</code></td>
+                            <td><code>&lt;&lt;</code><br>(з програми на екран)</td>
+                            <td>Виводить дані</td>
+                        </tr>
+                        <tr>
+                            <td><code>cin</code><br>(Console INput)</td>
+                            <td><code>std::cin</code></td>
+                            <td><code>&gt;&gt;</code><br>(з клавіатури в змінну)</td>
+                            <td>Зчитує дані</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Також важливим є об'єкт <code>endl</code> (End Line) — він переносить курсор на новий рядок (аналог Enter).</p>
+
+                <pre><code>int age;
+cout << "Скільки тобі років? ";
+cin >> age; // Чекає, поки користувач введе число і натисне Enter
+cout << "Тобі " << age << " років!" << endl;</code></pre>
+
+                <div class="highlight-box" style="background-color: #fff3cd; border-left-color: #ffc107;">
+                    <strong>Лайфхак:</strong> Куди дивляться стрілки, туди течуть дані.
+                    <br><code>cin >> x</code> (дані летять В змінну x).
+                    <br><code>cout << x</code> (дані летять ЗІ змінної x на екран).
+                </div>
+            </section>
+
+            <section id="units">
+                <h2>3. Обробка одиниць виміру (Час, Гроші, Маса)</h2>
+                <p>Комп'ютер зберігає лише числа, він не розуміє, що таке "2 години 5 хвилин". Тому в програмуванні використовують <strong>базові одиниці</strong>.</p>
+                <ul>
+                    <li>Для часу — секунди.</li>
+                    <li>Для грошей — копійки (центи).</li>
+                    <li>Для маси — грами.</li>
+                </ul>
+                <p>Щоб перетворити загальну кількість секунд у формат "Години : Хвилини : Секунди", ми використовуємо ділення <code>/</code> та остачу <code>%</code>.</p>
+
+                <div class="math-block">
+                    В 1 годині = 3600 секунд<br>
+                    В 1 хвилині = 60 секунд
+                </div>
+
+                <pre><code>int total_seconds = 3665; 
+
+// Скільки повних годин вміщається?
+int hours = total_seconds / 3600; // 1
+
+// Скільки секунд залишилось після того, як забрали години?
+int remainder = total_seconds % 3600; // 65
+
+// З решти витягуємо хвилини
+int minutes = remainder / 60; // 1
+
+// Те, що лишилось — це секунди
+int seconds = remainder % 60; // 5
+
+// Результат: 1 год 1 хв 5 сек</code></pre>
+            </section>
+
+            <section id="gauss">
+                <h2>4. Формула Гауса (Сума послідовності)</h2>
+                 <p>Існує легенда про малого Карла Фрідріха Гауса. У школі вчитель дав завдання додати всі числа від 1 до 100, щоб зайняти дітей на уроці. Гаус підняв руку через хвилину з правильною відповіддю: 5050.</p>
+                <p>Він помітив закономірність: пари чисел з країв дають однакову суму.</p>
+                <ul>
+                    <li>1 + 100 = 101</li>
+                    <li>2 + 99 = 101</li>
+                    <li>...</li>
+                </ul>
+
+                <div class="math-block">
+                    Формула суми чисел від 1 до N:<br>
+                    <strong>Sum = N * (N + 1) / 2</strong>
+                </div>
+
+                <p>У програмуванні це дозволяє знайти суму мільйона чисел миттєво, без додавання їх по черзі (без циклів).</p>
+                <pre><code>long long n; // Використовуємо long long, бо сума може бути великою!
+cin >> n;
+long long sum = n * (n + 1) / 2;
+cout << sum;</code></pre>
+            </section>
+
+            <section id="range-algorithms">
+                <h2>5. Кількість чисел на відрізку, кратних k</h2>
+                <p>Часта задача: скільки чисел діляться на <code>k</code> (наприклад, на 5) у діапазоні від <code>A</code> до <code>B</code>?</p>
+                <p>Для цього не треба перебирати всі числа. Математика дає просту відповідь.</p>
+
+                <div class="highlight-box">
+                    Кількість чисел, кратних <code>k</code>, від 1 до <code>N</code> дорівнює: <code>N / k</code> (цілочисельне ділення).
+                </div>
+
+                <p>Тоді для відрізка від A до B формула виглядає так:</p>
+                <div class="math-block">
+                    Count = (B / k) - ((A - 1) / k)
+                </div>
+                <p>Логіка: Ми рахуємо, скільки потрібних чисел є до <code>B</code>, і віднімаємо ті, що були до <code>A</code> (які нам не потрібні).</p>
+            </section>
+        </main>
+        
+        <a href="../practice/1-3.html" class="practice-btn">Перейти до практичної роботи →</a>
+
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Тема 1.3
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
