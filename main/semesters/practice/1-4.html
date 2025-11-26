@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Дійсні числа та Форматування</title>
+    <style>
+        /* Стилі узгоджені з попередніми темами */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --task-bg: #e8f5e9; 
+            --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn.secondary { background-color: #607d8b; }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+        h3 { border-bottom: 1px solid #ccc; margin-top: 40px; padding-bottom: 5px; }
+
+        /* Стилі завдань */
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .level-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .task-header {
+            font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px;
+        }
+
+        .console-preview {
+            background-color: var(--console-bg);
+            color: var(--console-text);
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            border-left: 5px solid #555;
+        }
+        .console-label {
+            font-size: 0.8em; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; display: block;
+        }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+            .nav-container { flex-direction: column; }
+            .nav-btn { text-align: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/1-4.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практична робота: Магія дробів</h1>
+            <p>Виконуйте завдання в <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>. Увага на крапки та коми!</p>
+        </header>
+
+        <main>
+            
+            <h3>Рівень 1: Новачок (Точність)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: Число Пі</span>
+                <p>Число $\pi$ дорівнює приблизно <code>3.1415926535</code>. Виведіть його з різною точністю: 2 знаки, 5 знаків та 10 знаків після коми.</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    3.14<br>
+                    3.14159<br>
+                    3.1415926535
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;iomanip&gt; // Не забудь підключити!
+using namespace std;
+
+int main() {
+    double pi = 3.1415926535;
+
+    // Використай fixed та setprecision(N)
+    cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; pi &lt;&lt; endl;
+    
+    // Допиши для 5 та 10 знаків...
+    
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Термометр (Адаптовано з задачника Абрамяна)</span>
+                <p>Переведіть температуру з градусів Цельсія ($T_C$) у Фаренгейти ($T_F$).</p>
+                <div style="background-color: #fff3cd; padding: 10px; border-radius: 5px;">
+                    <strong>Формула:</strong> $T_F = T_C \cdot 1.8 + 32$
+                </div>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Введіть температуру (C): <strong>25</strong><br>
+                    Температура (F): 77.00
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+int main() {
+    double c;
+    cout &lt;&lt; "Введіть температуру (C): ";
+    cin >> c;
+
+    // Зверніть увагу: ми використовуємо тип double, бо температура може бути 36.6
+    double f = c * 1.8 + 32; 
+
+    cout &lt;&lt; fixed &lt;&lt; setprecision(2);
+    cout &lt;&lt; "Температура (F): " &lt;&lt; f &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            </section>
+
+
+            <h3>Рівень 2: Впевнений (Фізика та Економіка)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Площа Круга</span>
+                <p>Користувач вводить радіус піци ($R$). Порахуйте її площу ($S$).</p>
+                <p><em>Формула:</em> $S = \pi R^2$. (Використайте <code>M_PI</code> з бібліотеки cmath або створіть змінну <code>pi = 3.14159</code>).</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Введіть радіус: <strong>10</strong><br>
+                    Площа піци: 314.16 см2
+                </div>
+                
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;cmath&gt; // Для функції pow (степінь)
+#include &lt;iomanip&gt;
+using namespace std;
+
+int main() {
+    double r;
+    double pi = 3.14159;
+    
+    // Зчитай радіус...
+    
+    // Порахуй площу. pow(r, 2) підносить r до квадрату
+    double area = pi * pow(r, 2);
+
+    cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; "Площа піци: " &lt;&lt; area &lt;&lt; " см2" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Знижка в Steam (Робота з відсотками)</span>
+                <p>Гра коштує <strong>P</strong> гривень. На неї діє знижка <strong>D</strong> відсотків. Порахуйте фінальну ціну.</p>
+                
+                <div style="background-color: #ffebee; padding: 10px; border-radius: 5px; border-left: 5px solid #f44336;">
+                    <strong>Увага!</strong> Пам'ятайте про проблему <code>int / int</code>. Діліть на <code>100.0</code>, а не на <code>100</code>.
+                </div>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Ціна гри: <strong>1500</strong><br>
+                    Знижка (%): <strong>20</strong><br>
+                    До сплати: 1200.00 грн
+                </div>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 5: Ігрові життя (Інкремент)</span>
+                <p>Створіть змінну <code>hp = 100</code>. <br>
+                1. Гравець наступив на пастку (використайте декремент <code>hp--</code>).<br>
+                2. Гравець знайшов аптечку (використайте інкремент <code>hp++</code>).<br>
+                Виведіть фінальне здоров'я.</p>
+            </section>
+
+
+            <h3>Рівень 3: Профі (Прогресії)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 6: Арифметична прогресія</span>
+                <p>Дано: перший член прогресії $a_1$, різниця $d$ та номер елемента $n$. <br>
+                Знайдіть: $n$-й член прогресії ($a_n$) та суму прогресії ($S_n$).</p>
+                
+                <div style="background-color: #e3f2fd; padding: 10px; border-radius: 5px;">
+                    <strong>Формули:</strong><br>
+                    $a_n = a_1 + d \cdot (n - 1)$<br>
+                    $S_n = \frac{a_1 + a_n}{2} \cdot n$
+                </div>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    a1: <strong>2</strong><br>
+                    d (крок): <strong>3</strong><br>
+                    n (кількість): <strong>4</strong><br>
+                    <br>
+                    Останній елемент (an): 11<br>
+                    Сума прогресії (Sn): 26
+                </div>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 7: Депозитний калькулятор</span>
+                <p>Ви кладете в банк <strong>Sum</strong> гривень під <strong>P</strong> відсотків річних.</p>
+                <p>Порахуйте, яка сума буде на рахунку через рік.</p>
+                <p><em>Формула:</em> $Total = Sum + (Sum \cdot \frac{P}{100.0})$</p>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Сума вкладу: <strong>10000</strong><br>
+                    Відсоток річних: <strong>12.5</strong><br>
+                    Через рік буде: 11250.00 грн
+                </div>
+            </section>
+
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 1.4
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
