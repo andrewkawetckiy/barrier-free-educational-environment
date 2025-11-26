@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Розгалуження</title>
+    <style>
+        /* Стилі узгоджені */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --task-bg: #e8f5e9; 
+            --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn.secondary { background-color: #607d8b; }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+        h3 { border-bottom: 1px solid #ccc; margin-top: 40px; padding-bottom: 5px; }
+
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .level-badge {
+            position: absolute; top: -15px; right: 20px;
+            background-color: var(--primary-color); color: white;
+            padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold;
+        }
+
+        .task-header { font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px; }
+
+        .console-preview {
+            background-color: var(--console-bg); color: var(--console-text);
+            padding: 15px; border-radius: 5px; font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em; margin: 15px 0; border-left: 5px solid #555;
+        }
+        .console-label { font-size: 0.8em; color: #666; text-transform: uppercase; font-weight: bold; }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+            .nav-container { flex-direction: column; } .nav-btn { text-align: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/2-1.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практична робота: Приймаємо рішення</h1>
+            <p>Завдання на логіку <code>if-else</code>. Виконуйте в <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>.</p>
+        </header>
+
+        <main>
+            
+            <h3>Рівень 1: Прості умови</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: Парне чи Непарне?</span>
+                <p>Користувач вводить число. Перевірте, чи воно ділиться на 2 без остачі.</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Введіть число: <strong>10</strong><br>
+                    Число парне.
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n;
+    cout &lt;&lt; "Введіть число: ";
+    cin >> n;
+
+    // Використай оператор остачі %
+    if (n % 2 == 0) {
+        cout &lt;&lt; "Число парне." &lt;&lt; endl;
+    } else {
+        // Допиши блок else
+    }
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Хто більше?</span>
+                <p>Дано два числа. Виведіть те, яке більше.</p>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    int a, b;
+    cin >> a >> b;
+    
+    if (a > b) {
+        cout &lt;&lt; "Більше: " &lt;&lt; a;
+    } else {
+        // Виведи b
+    }
+    return 0;
+}</code></pre>
+            </section>
+
+
+            <h3>Рівень 2: Ланцюжки умов</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Фейс-контроль</span>
+                <p>Користувач вводить свій вік. <br>
+                - Якщо менше 12: "Ви дитина".<br>
+                - Якщо від 12 до 18: "Ви підліток".<br>
+                - Якщо більше 18: "Ви дорослий".</p>
+                
+                <div style="background-color: #fff3cd; padding: 10px; border-radius: 5px;">
+                    <strong>Підказка:</strong> Використовуйте конструкцію <code>else if</code>.
+                </div>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Оцінки (A, B, C...)</span>
+                <p>Введіть бал за тест (0-100). Виведіть оцінку:<br>
+                90-100: "Відмінно"<br>
+                70-89: "Добре"<br>
+                50-69: "Задовільно"<br>
+                Менше 50: "Незадовільно"</p>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 5: Логін і Пароль</span>
+                <p>Встановіть у програмі правильний логін (наприклад, <code>admin</code>) і пароль (<code>1234</code>). <br>
+                Користувач вводить дані. Якщо ОБИДВА збігаються — "Доступ дозволено", інакше — "Помилка".</p>
+                <p><em>Для порівняння використовуйте оператор <code>&&</code> (І).</em></p>
+            </section>
+
+
+            <h3>Рівень 3: Складна логіка</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 6: Сортування трьох</span>
+                <p>Користувач вводить три числа: a, b, c. Програма має вивести їх у порядку зростання.</p>
+                <p><em>Підказка:</em> Використовуйте функцію <code>swap(a, b)</code>, яка міняє змінні місцями, та серію перевірок <code>if</code> (див. теорію).</p>
+                
+                <span class="console-label">Результат:</span>
+                <div class="console-preview">
+                    Введіть: <strong>10 5 8</strong><br>
+                    Порядок: 5 8 10
+                </div>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 7: Існування трикутника</span>
+                <p>Користувач вводить три сторони трикутника: a, b, c. <br>
+                Трикутник існує тільки тоді, коли <strong>сума будь-яких двох сторін більша за третю</strong>.</p>
+                <p>Перевірте це і виведіть "Існує" або "Не існує".</p>
+                
+                <div style="background-color: #e3f2fd; padding: 10px; border-radius: 5px;">
+                    <strong>Умова:</strong> <code>(a + b > c) && (a + c > b) && (b + c > a)</code>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 2.1
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
