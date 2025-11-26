@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Введення та Алгоритми</title>
+    <style>
+        /* Єдиний стиль дизайну */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --accent-color: #ffffff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --task-bg: #e8f5e9; 
+            --task-border: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Навігація */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .nav-btn.secondary {
+            background-color: #607d8b; /* Сіра кнопка для повернення до теорії */
+        }
+
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+        .nav-btn.secondary:hover { background-color: #455a64; }
+
+        h1, h2 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        /* Стилі завдань */
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .task-header {
+            background-color: var(--task-border);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background-color: #fff3cd; 
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin-top: 5px;
+        }
+        
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+        
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px; }
+            .nav-container { flex-direction: column; }
+            .nav-btn { text-align: center; width: 100%; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/1-3.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практична робота: Введення даних та Алгоритми</h1>
+        </header>
+
+        <main>
+            <p>Відкрийте <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" style="font-weight: bold;">OnlineGDB</a> для виконання завдань.</p>
+            
+            <section class="task-box">
+                
+                <div>
+                    <span class="task-header">Завдання 1: Інтерактивне знайомство</span>
+                    <p>До цього ваші програми говорили самі з собою. Тепер навчимо їх питати!</p>
+                    <div class="highlight-box">
+                        <strong>Мета:</strong> Спитати ім'я користувача та рік народження, а потім вивести повідомлення.
+                    </div>
+                    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string name;
+    int year;
+
+    cout &lt;&lt; "Як тебе звати? ";
+    // ДОПИШИ КОД: Використай cin, щоб зчитати ім'я у змінну name
+    // cin >> ...;
+
+    cout &lt;&lt; "Якого ти року народження? ";
+    // ДОПИШИ КОД: Використай cin, щоб зчитати рік у змінну year
+    
+
+    cout &lt;&lt; "Привіт, " &lt;&lt; name &lt;&lt; "!" &lt;&lt; endl;
+    cout &lt;&lt; "Твій рік народження: " &lt;&lt; year &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+                </div>
+
+                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
+                    <span class="task-header">Завдання 2: Конвертер Часу</span>
+                    <p>Користувач вводить кількість секунд (наприклад, <strong>3665</strong>). Програма має перетворити це у формат: <code>1 год 1 хв 5 сек</code>.</p>
+                    <p>Використовуйте оператори <code>/</code> (ціле ділення) та <code>%</code> (остача).</p>
+
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int total_seconds;
+    
+    cout &lt;&lt; "Введіть кількість секунд: ";
+    cin >> total_seconds;
+
+    // 1. Рахуємо години (скільки разів по 3600 влізає в число)
+    int hours = total_seconds / 3600;
+
+    // 2. Рахуємо решту секунд після вирахування годин
+    int remainder = total_seconds % 3600;
+
+    // 3. З цієї решти (remainder) вираховуємо хвилини (по 60 сек)
+    // ДОПИШИ КОД:
+    int minutes = remainder / 60;
+
+    // 4. Все, що залишилось від хвилин — це секунди
+    // ДОПИШИ КОД:
+    int seconds = 
+
+    cout &lt;&lt; hours &lt;&lt; " год " &lt;&lt; minutes &lt;&lt; " хв " &lt;&lt; seconds &lt;&lt; " сек" &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+                </div>
+
+                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
+                    <span class="task-header">Завдання 3: Розумний лічильник (Алгоритм)</span>
+                    <p><strong>Задача:</strong> Порахувати, скільки чисел діляться на <strong>K</strong> у діапазоні від <strong>A</strong> до <strong>B</strong>.</p>
+                    <p><em>Приклад:</em> Від 10 до 25, дільник 5. Числа: 10, 15, 20, 25. Відповідь: 4.</p>
+                    
+                    <div class="highlight-box">
+                        Формула: <code>Кількість = (B / K) - ((A - 1) / K)</code>
+                    </div>
+
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int A, B, K;
+
+    cout &lt;&lt; "Введіть початок відрізка (A): ";
+    cin >> A;
+    
+    cout &lt;&lt; "Введіть кінець відрізка (B): ";
+    cin >> B;
+    
+    cout &lt;&lt; "На яке число ділимо (K): ";
+    cin >> K;
+
+    // Реалізуйте формулу тут:
+    int count = (B / K) - ((A - 1) / K);
+
+    cout &lt;&lt; "Кількість чисел, що діляться на " &lt;&lt; K &lt;&lt; ": " &lt;&lt; count &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+                </div>
+
+            </section>
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 1.3
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
