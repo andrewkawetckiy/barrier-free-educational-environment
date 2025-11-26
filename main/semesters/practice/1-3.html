@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Практика: Введення та Алгоритми</title>
     <style>
-        /* Єдиний стиль дизайну */
+        /* Стилі узгоджені з попередніми темами */
         :root {
             --bg-color: #fff3e0;
             --text-color: #2c3e50;
@@ -15,6 +15,8 @@
             --code-text: #f8f8f2;
             --task-bg: #e8f5e9; 
             --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
         }
 
         body {
@@ -36,34 +38,18 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Навігація */
         .nav-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
         }
-
         .nav-btn {
-            display: inline-block;
-            text-decoration: none;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background 0.3s;
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
         }
-
-        .nav-btn.secondary {
-            background-color: #607d8b; /* Сіра кнопка для повернення до теорії */
-        }
-
+        .nav-btn.secondary { background-color: #607d8b; }
         .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
         .nav-btn.secondary:hover { background-color: #455a64; }
 
-        h1, h2 { color: var(--primary-color); }
+        h1, h2, h4 { color: var(--primary-color); margin-top: 0;}
         h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
 
         /* Стилі завдань */
@@ -73,42 +59,51 @@
             border-radius: 8px;
             padding: 20px;
             margin: 30px 0;
+            position: relative;
         }
         
-        .task-header {
-            background-color: var(--task-border);
+        .level-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: var(--primary-color);
             color: white;
             padding: 5px 15px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
             font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .highlight-box {
-            background-color: #fff3cd; 
-            border-left: 5px solid #ffc107;
+        .task-header {
+            font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px;
+        }
+
+        /* Стилізація очікуваного результату */
+        .console-preview {
+            background-color: var(--console-bg);
+            color: var(--console-text);
             padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
             margin: 15px 0;
+            border-left: 5px solid #555;
+        }
+        .console-label {
+            font-size: 0.8em; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; display: block;
         }
 
         pre {
-            background-color: var(--code-bg);
-            color: var(--code-text);
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            margin-top: 5px;
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
         }
-        
         code { font-family: 'Consolas', 'Monaco', monospace; }
-        
+
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .container { padding: 20px; }
+            body { padding: 10px; } .container { padding: 20px; }
             .nav-container { flex-direction: column; }
-            .nav-btn { text-align: center; width: 100%; box-sizing: border-box; }
+            .nav-btn { text-align: center; width: 100%; }
         }
     </style>
 </head>
@@ -121,111 +116,178 @@
         </div>
 
         <header>
-            <h1>Практична робота: Введення даних та Алгоритми</h1>
+            <h1>Практична робота: 7 кроків до алгоритмів</h1>
+            <p>Виконуйте завдання послідовно в <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>. Складність зростає!</p>
         </header>
 
         <main>
-            <p>Відкрийте <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" style="font-weight: bold;">OnlineGDB</a> для виконання завдань.</p>
             
+            <h3 style="margin-top: 40px; border-bottom: 1px solid #ccc;">Рівень 1: Новачок (Введення та виведення)</h3>
+
             <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: Анкета</span>
+                <p>Спитайте в користувача його Ім'я, Прізвище та Вік. Виведіть це одним реченням.</p>
                 
-                <div>
-                    <span class="task-header">Завдання 1: Інтерактивне знайомство</span>
-                    <p>До цього ваші програми говорили самі з собою. Тепер навчимо їх питати!</p>
-                    <div class="highlight-box">
-                        <strong>Мета:</strong> Спитати ім'я користувача та рік народження, а потім вивести повідомлення.
-                    </div>
-                    <pre><code>#include &lt;iostream&gt;
+                <span class="console-label">Очікуваний результат (приклад):</span>
+                <div class="console-preview">
+                    Введіть ім'я: <strong>Ivan</strong><br>
+                    Введіть прізвище: <strong>Kozak</strong><br>
+                    Введіть вік: <strong>16</strong><br>
+                    <br>
+                    Вітаю, Ivan Kozak! Тобі 16 років.
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
 
 int main() {
-    string name;
-    int year;
+    string name, surname;
+    int age;
 
-    cout &lt;&lt; "Як тебе звати? ";
-    // ДОПИШИ КОД: Використай cin, щоб зчитати ім'я у змінну name
-    // cin >> ...;
-
-    cout &lt;&lt; "Якого ти року народження? ";
-    // ДОПИШИ КОД: Використай cin, щоб зчитати рік у змінну year
+    cout &lt;&lt; "Введіть ім'я: ";
+    cin >> name;
     
-
-    cout &lt;&lt; "Привіт, " &lt;&lt; name &lt;&lt; "!" &lt;&lt; endl;
-    cout &lt;&lt; "Твій рік народження: " &lt;&lt; year &lt;&lt; endl;
-
+    // ДОПИШИ КОД: Спитай прізвище та вік
+    
+    // ДОПИШИ КОД: Виведи фінальне повідомлення
+    
     return 0;
 }</code></pre>
-                </div>
-
-                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-                    <span class="task-header">Завдання 2: Конвертер Часу</span>
-                    <p>Користувач вводить кількість секунд (наприклад, <strong>3665</strong>). Програма має перетворити це у формат: <code>1 год 1 хв 5 сек</code>.</p>
-                    <p>Використовуйте оператори <code>/</code> (ціле ділення) та <code>%</code> (остача).</p>
-
-                    <pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-int main() {
-    int total_seconds;
-    
-    cout &lt;&lt; "Введіть кількість секунд: ";
-    cin >> total_seconds;
-
-    // 1. Рахуємо години (скільки разів по 3600 влізає в число)
-    int hours = total_seconds / 3600;
-
-    // 2. Рахуємо решту секунд після вирахування годин
-    int remainder = total_seconds % 3600;
-
-    // 3. З цієї решти (remainder) вираховуємо хвилини (по 60 сек)
-    // ДОПИШИ КОД:
-    int minutes = remainder / 60;
-
-    // 4. Все, що залишилось від хвилин — це секунди
-    // ДОПИШИ КОД:
-    int seconds = 
-
-    cout &lt;&lt; hours &lt;&lt; " год " &lt;&lt; minutes &lt;&lt; " хв " &lt;&lt; seconds &lt;&lt; " сек" &lt;&lt; endl;
-
-    return 0;
-}</code></pre>
-                </div>
-
-                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-                    <span class="task-header">Завдання 3: Розумний лічильник (Алгоритм)</span>
-                    <p><strong>Задача:</strong> Порахувати, скільки чисел діляться на <strong>K</strong> у діапазоні від <strong>A</strong> до <strong>B</strong>.</p>
-                    <p><em>Приклад:</em> Від 10 до 25, дільник 5. Числа: 10, 15, 20, 25. Відповідь: 4.</p>
-                    
-                    <div class="highlight-box">
-                        Формула: <code>Кількість = (B / K) - ((A - 1) / K)</code>
-                    </div>
-
-                    <pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-int main() {
-    int A, B, K;
-
-    cout &lt;&lt; "Введіть початок відрізка (A): ";
-    cin >> A;
-    
-    cout &lt;&lt; "Введіть кінець відрізка (B): ";
-    cin >> B;
-    
-    cout &lt;&lt; "На яке число ділимо (K): ";
-    cin >> K;
-
-    // Реалізуйте формулу тут:
-    int count = (B / K) - ((A - 1) / K);
-
-    cout &lt;&lt; "Кількість чисел, що діляться на " &lt;&lt; K &lt;&lt; ": " &lt;&lt; count &lt;&lt; endl;
-
-    return 0;
-}</code></pre>
-                </div>
-
             </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Площа кімнати</span>
+                <p>Користувач вводить довжину і ширину кімнати (цілі числа). Програма рахує площу.</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Довжина: <strong>5</strong><br>
+                    Ширина: <strong>4</strong><br>
+                    Площа кімнати: 20 кв.м.
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a, b;
+    cout &lt;&lt; "Довжина: ";
+    cin >> a;
+    // Допиши введення ширини і розрахунок площі (S = a * b)
+    
+    return 0;
+}</code></pre>
+            </section>
+
+
+            <h3 style="margin-top: 40px; border-bottom: 1px solid #ccc;">Рівень 2: Впевнений (Математика та формати)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Гіпотенуза (Теорема Піфагора)</span>
+                <p>Знайти довжину гіпотенузи прямокутного трикутника за катетами. <br>
+                <em>Формула:</em> \( c = \sqrt{a^2 + b^2} \). Вам знадобиться бібліотека <code>cmath</code>.</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Катет 1: <strong>3</strong><br>
+                    Катет 2: <strong>4</strong><br>
+                    Гіпотенуза дорівнює: 5
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;cmath&gt; // Потрібна для sqrt (корінь) та pow (степінь)
+using namespace std;
+
+int main() {
+    double a, b;
+    // Організуйте введення a і b...
+
+    // Формула: sqrt(pow(a, 2) + pow(b, 2))
+    double c = sqrt(pow(a, 2) + pow(b, 2));
+
+    cout &lt;&lt; "Гіпотенуза дорівнює: " &lt;&lt; c &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Чек в магазині (Робота з грошима)</span>
+                <p>Користувач купує яблука. Він вводить <strong>ціну</strong> за кг (може бути з копійками, наприклад 12.50) та <strong>вагу</strong> в кілограмах.
+                <br>Виведіть загальну вартість з точністю до 2 знаків після коми.</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Ціна за кг: <strong>24.50</strong><br>
+                    Вага (кг): <strong>2.5</strong><br>
+                    До сплати: 61.25 грн
+                </div>
+
+                <div style="background-color: #fff3cd; padding: 10px; border-radius: 5px; font-size: 0.9em;">
+                    <strong>Підказка:</strong> Не забудьте <code>#include &lt;iomanip&gt;</code> та команду <code>cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; ...</code>
+                </div>
+                
+                </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 5: Цифровий годинник</span>
+                <p>Дано кількість секунд (наприклад, 8000). Переведіть їх у формат: Години, Хвилини, Секунди.</p>
+                <p><em>Алгоритм був у лекції! Використовуйте <code>/</code> та <code>%</code>.</em></p>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Введіть секунди: <strong>8000</strong><br>
+                    Це: 2 год 13 хв 20 сек
+                </div>
+            </section>
+
+
+            <h3 style="margin-top: 40px; border-bottom: 1px solid #ccc;">Рівень 3: Профі (Алгоритмічне мислення)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 6: Реверс числа</span>
+                <p>Користувач вводить трицифрове число (наприклад, <strong>123</strong>). Програма має вивести його навпаки (<strong>321</strong>).</p>
+                <p><strong>Важливо:</strong> Не використовуйте рядки! Використовуйте лише математику.</p>
+                
+                <div style="background-color: #e3f2fd; padding: 10px; border-radius: 5px; font-size: 0.9em; margin-bottom: 10px;">
+                    <strong>Логіка:</strong>
+                    <ol>
+                        <li>Отримати останню цифру (3): <code>123 % 10</code></li>
+                        <li>Отримати середню цифру (2): <code>(123 / 10) % 10</code></li>
+                        <li>Отримати першу цифру (1): <code>123 / 100</code></li>
+                    </ol>
+                </div>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Введіть число: <strong>592</strong><br>
+                    Навпаки: 295
+                </div>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 7: "Розумний лічильник"</span>
+                <p>Скільки чисел діляться на <strong>7</strong> у діапазоні від <strong>100</strong> до <strong>500</strong>?</p>
+                <p>Напишіть програму, де користувач сам вводить: Початок (A), Кінець (B) і Дільник (K). Програма видає кількість таких чисел.</p>
+                <p><em>Формулу шукайте в кінці лекції 1.3.</em></p>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Початок (A): <strong>10</strong><br>
+                    Кінець (B): <strong>25</strong><br>
+                    Дільник (K): <strong>5</strong><br>
+                    Кількість чисел: 4
+                </div>
+                <p style="font-size: 0.8em; color: #666;">(Пояснення: це числа 10, 15, 20, 25)</p>
+            </section>
+
         </main>
         
         <footer>
