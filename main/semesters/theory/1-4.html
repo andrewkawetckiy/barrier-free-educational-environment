@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теорія: Дійсні числа та iomanip</title>
+    <style>
+        /* Стилі з попередніх тем */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --accent-color: #ffffff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --diagram-bg: #fff8e1;
+            --btn-practice-bg: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { margin-bottom: 20px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h2, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        .highlight-box {
+            background-color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--primary-color); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        .math-block {
+            background-color: #e3f2fd; padding: 15px; border-radius: 5px;
+            text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 1.2em; margin: 15px 0;
+        }
+
+        .practice-btn {
+            display: block; width: fit-content; margin: 40px auto 0;
+            background-color: var(--btn-practice-bg); color: white;
+            padding: 15px 30px; border-radius: 8px; font-size: 1.1em;
+            font-weight: bold; text-decoration: none; text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.3s;
+        }
+        .practice-btn:hover { background-color: #1b5e20; transform: scale(1.02); }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+            table { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+        </div>
+
+        <header>
+            <h1>Тема 1.4. Числа з плаваючою точкою та Математика</h1>
+        </header>
+
+        <main>
+            <section id="float-types">
+                <h2>1. Типи даних з плаваючою точкою</h2>
+                <p>У реальному житті не все можна порахувати цілими числами. Вага, температура, відстань, гроші — все це потребує дробів.</p>
+                <p>У Python був один тип <code>float</code>. У C++ їх три, і вони відрізняються точністю (кількістю знаків, які можуть запам'ятати).</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Тип</th>
+                            <th>Пам'ять</th>
+                            <th>Точність (знаків)</th>
+                            <th>Рекомендація</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>float</code></td>
+                            <td>4 байти</td>
+                            <td>~6-7 знаків</td>
+                            <td>Для простої графіки, ігор (економія пам'яті)</td>
+                        </tr>
+                        <tr>
+                            <td><code>double</code></td>
+                            <td>8 байт</td>
+                            <td>~15-16 знаків</td>
+                            <td><strong>Стандарт!</strong> Використовуйте завжди за замовчуванням.</td>
+                        </tr>
+                        <tr>
+                            <td><code>long double</code></td>
+                            <td>10-16 байт</td>
+                            <td>18+ знаків</td>
+                            <td>Для надточних наукових розрахунків</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box" style="background-color: #ffebee; border-left-color: #f44336;">
+                    <strong>Чому double?</strong> Спробуйте зберегти число "пі" у <code>float</code> — після 7-го знаку почнеться "сміття" і помилки. <code>double</code> (подвійна точність) дає надійніший результат.
+                </div>
+            </section>
+
+            <section id="formatting">
+                <h2>2. Форматування виводу (iomanip)</h2>
+                <p>За замовчуванням C++ виводить стільки знаків, скільки вважає за потрібне (зазвичай 6). Але для грошей нам треба рівно 2 знаки (копійки), а для фізики — можливо 10.</p>
+                <p>Щоб керувати цим, підключаємо бібліотеку: <code>#include &lt;iomanip&gt;</code></p>
+
+                <h3>Основні "заклинання" (маніпулятори):</h3>
+                <ul>
+                    <li><code>fixed</code> — закріпити кому (заборонити науковий формат типу 1.5e+02).</li>
+                    <li><code>setprecision(n)</code> — встановити кількість знаків <strong>після коми</strong>.</li>
+                </ul>
+
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;iomanip&gt; // Обов'язково!
+using namespace std;
+
+int main() {
+    double pi = 3.1415926535;
+    
+    // Вивести 2 знаки після коми
+    cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; pi &lt;&lt; endl; // 3.14
+    
+    // Вивести 5 знаків
+    cout &lt;&lt; fixed &lt;&lt; setprecision(5) &lt;&lt; pi &lt;&lt; endl; // 3.14159
+    
+    return 0;
+}</code></pre>
+            </section>
+
+            <section id="increment">
+                <h2>3. Інкремент та Декремент</h2>
+                <p>Програмісти ліниві, тому вони придумали короткі команди для додавання та віднімання одиниці.</p>
+                
+                <table style="text-align: center;">
+                    <tr>
+                        <th style="width: 25%">Назва</th>
+                        <th style="width: 25%">Команда</th>
+                        <th>Аналог</th>
+                        <th>Опис</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Інкремент</strong></td>
+                        <td><code>i++;</code></td>
+                        <td><code>i = i + 1;</code></td>
+                        <td>Збільшити на 1 (Level Up)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Декремент</strong></td>
+                        <td><code>i--;</code></td>
+                        <td><code>i = i - 1;</code></td>
+                        <td>Зменшити на 1</td>
+                    </tr>
+                </table>
+                <p><em>Примітка:</em> Існує префіксна (<code>++i</code>) та постфіксна (<code>i++</code>) форми. Поки що використовуйте <code>i++</code> як окрему команду.</p>
+            </section>
+
+            <section id="math-tasks">
+                <h2>4. Пропорції, Відсотки та Прогресії</h2>
+                
+                <h3>4.1. Відсотки (Головна пастка)</h3>
+                <p>У темі 1.2 ми вчили, що <code>int / int</code> дає ціле число. Це критично для відсотків!</p>
+                <div class="math-block">
+                    Задача: Знайти 50% від числа 90.<br>
+                    Формула: <code>(50 / 100) * 90</code>
+                </div>
+                <p><strong>Помилка:</strong> <code>50 / 100</code> дасть <strong>0</strong> (бо це цілі числа). Вся відповідь буде 0.</p>
+                <p><strong>Рішення:</strong> Писати <code>50.0 / 100.0</code> або використовувати змінні типу <code>double</code>.</p>
+
+                <h3>4.2. Арифметична прогресія</h3>
+                <p>Кожне наступне число більше за попереднє на <code>d</code> (крок). Наприклад: 2, 5, 8, 11...</p>
+                
+
+[Image of C++ compilation process diagram]
+ <div class="math-block">
+                    n-й член: \( a_n = a_1 + d(n-1) \)<br>
+                    Сума n членів: \( S_n = \frac{(a_1 + a_n) \cdot n}{2} \)
+                </div>
+
+                <h3>4.3. Геометрична прогресія</h3>
+                <p>Кожне наступне число множиться на <code>q</code> (знаменник). Наприклад: 3, 6, 12, 24... (росте дуже швидко, як вірус або популяція бактерій).</p>
+                <div class="math-block">
+                     n-й член: \( b_n = b_1 \cdot q^{n-1} \)
+                </div>
+                <p>Для степеня використовуємо функцію <code>pow(q, n-1)</code> з бібліотеки <code>&lt;cmath&gt;</code>.</p>
+            </section>
+        </main>
+        
+        <a href="../practice/1-4.html" class="practice-btn">Перейти до практичної роботи →</a>
+
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Тема 1.4
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
