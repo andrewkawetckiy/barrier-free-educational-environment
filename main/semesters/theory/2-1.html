@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теорія: Умовні оператори та розгалуження</title>
+    <style>
+        /* Стилі з попередніх тем */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --accent-color: #ffffff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --diagram-bg: #fff8e1;
+            --btn-practice-bg: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { margin-bottom: 20px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h2, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        .highlight-box {
+            background-color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--primary-color); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        .practice-btn {
+            display: block; width: fit-content; margin: 40px auto 0;
+            background-color: var(--btn-practice-bg); color: white;
+            padding: 15px 30px; border-radius: 8px; font-size: 1.1em;
+            font-weight: bold; text-decoration: none; text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.3s;
+        }
+        .practice-btn:hover { background-color: #1b5e20; transform: scale(1.02); }
+
+        .comparison-table td { width: 50%; vertical-align: top; }
+        .comparison-header { font-weight: bold; text-align: center; color: #555; margin-bottom: 5px; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+            table { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+        </div>
+
+        <header>
+            <h1>Тема 2.1. Умовний оператор та Розгалуження</h1>
+        </header>
+
+        <main>
+            <section id="intro">
+                <h2>1. Що таке розгалуження?</h2>
+                <p>У житті ми постійно приймаємо рішення: "Якщо йде дощ, я беру парасольку, інакше — йду в футболці". Це і є <strong>розгалуження</strong>.</p>
+                <p>Алгоритм перестає бути прямою лінією і отримує розвилки.</p>
+                
+
+[Image of C++ compilation process diagram]
+ </section>
+
+            <section id="syntax-comparison">
+                <h2>2. Головна відмінність: Python vs C++</h2>
+                <p>Ви вже знайомі з оператором <code>if</code> у Python. У C++ логіка та сама, але запис суворіший.</p>
+                
+                <div class="highlight-box" style="background-color: #fff3cd; border-left-color: #ffc107;">
+                    <strong>Золоте правило C++:</strong> Умова завжди в круглих дужках <code>(...)</code>, а дії — у фігурних <code>{...}</code>.
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Python (Як ви звикли)</th>
+                            <th>C++ (Як треба тепер)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <pre><code>if x > 0:
+    print("Positive")
+else:
+    print("Negative")</code></pre>
+                                <ul>
+                                    <li>Без дужок біля умови</li>
+                                    <li>Двокрапка <code>:</code> в кінці</li>
+                                    <li>Відступи (Tab) обов'язкові</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <pre><code>if (x > 0) {
+    cout << "Positive";
+} else {
+    cout << "Negative";
+}</code></pre>
+                                <ul>
+                                    <li>Дужки <code>()</code> обов'язкові</li>
+                                    <li>Фігурні дужки <code>{}</code> замість відступів</li>
+                                    <li>Крапка з комою <code>;</code> в кінці команд</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="logical-operators">
+                <h2>3. Логічні вирази (Comparison & Logic)</h2>
+                <p>Як сказати комп'ютеру "Якщо x більше 5 <strong>І</strong> менше 10"?</p>
+                
+                <h3>Оператори порівняння (так само, як в Python):</h3>
+                <ul>
+                    <li><code>==</code> — дорівнює (не плутати з <code>=</code>)</li>
+                    <li><code>!=</code> — не дорівнює</li>
+                    <li><code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> — більше/менше</li>
+                </ul>
+
+                <h3>Логічні зв'язки (Відрізняються!):</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дія</th>
+                            <th>Python</th>
+                            <th>C++</th>
+                            <th>Приклад C++</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>І (AND)</strong></td>
+                            <td><code>and</code></td>
+                            <td><code>&&</code></td>
+                            <td><code>if (age > 10 && age < 18)</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>АБО (OR)</strong></td>
+                            <td><code>or</code></td>
+                            <td><code>||</code></td>
+                            <td><code>if (day == 6 || day == 7)</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>НЕ (NOT)</strong></td>
+                            <td><code>not</code></td>
+                            <td><code>!</code></td>
+                            <td><code>if (!isReady)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="types-of-branching">
+                <h2>4. Типи розгалужень</h2>
+
+                <h3>4.1. Неповне розгалуження (Тільки if)</h3>
+                <p>Робимо щось тільки якщо умова істинна. Якщо ні — просто йдемо далі.</p>
+                <pre><code>if (money >= 100) {
+    cout << "Купуємо піцу!";
+}
+// Якщо грошей менше, просто мовчимо і йдемо далі</code></pre>
+
+                <h3>4.2. Повне розгалуження (if ... else)</h3>
+                <p>Або одне, або інше. Третього не дано.</p>
+                <pre><code>if (number % 2 == 0) {
+    cout << "Число парне";
+} else {
+    cout << "Число непарне";
+}</code></pre>
+
+                <h3>4.3. Багатоальтернативне (if ... else if ... else)</h3>
+                <p>Коли варіантів багато (як у прикладі з підручника про результати матчів).</p>
+                <pre><code>if (place == 1) {
+    cout << "Золото";
+} else if (place == 2) {
+    cout << "Срібло";
+} else if (place == 3) {
+    cout << "Бронза";
+} else {
+    cout << "Учасник";
+}</code></pre>
+            </section>
+
+            <section id="algorithms">
+                <h2>5. Базові алгоритми з числами</h2>
+                
+                <h3>5.1. Максимальне з двох</h3>
+                <p>Найпростіший спосіб знайти максимум:</p>
+                <pre><code>int max_num;
+if (a > b) {
+    max_num = a;
+} else {
+    max_num = b;
+}</code></pre>
+                <p><em>Або скорочено через вбудовану функцію:</em> <code>max_num = max(a, b);</code> (потрібна бібліотека <code>&lt;algorithm&gt;</code>).</p>
+
+                <h3>5.2. Сортування трьох чисел</h3>
+                <p>Задача: Є числа a, b, c. Вивести їх у порядку зростання.</p>
+                <p>Алгоритм "бульбашки" (спрощений): порівнюємо пари і міняємо місцями, якщо вони стоять неправильно.</p>
+                <pre><code>// Якщо a більше b, міняємо їх місцями (swap)
+if (a > b) swap(a, b);
+// Тепер у a точно менше число, ніж у b.
+// Перевіряємо b і c...
+if (b > c) swap(b, c);
+// Тепер найбільше число точно в кінці (в c).
+// Але a і b могли знову стати неправильно, перевіряємо ще раз:
+if (a > b) swap(a, b);
+
+cout << a << " " << b << " " << c;</code></pre>
+            </section>
+        </main>
+        
+        <a href="../practice/2-1.html" class="practice-btn">Перейти до практичної роботи →</a>
+
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Тема 2.1
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
