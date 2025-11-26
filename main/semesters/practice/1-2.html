@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Практика: Змінні та Математика</title>
+    <title>Практика: Змінні та Числа</title>
     <style>
-        /* Стилі ідентичні попереднім */
         :root {
             --bg-color: #fff3e0;
             --text-color: #2c3e50;
@@ -14,6 +13,8 @@
             --code-text: #f8f8f2;
             --task-bg: #e8f5e9; 
             --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
         }
 
         body {
@@ -43,41 +44,61 @@
         .nav-btn.secondary { background-color: #607d8b; }
         .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
 
-        h1, h2 { color: var(--primary-color); }
+        h1, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+        h3 { border-bottom: 1px solid #ccc; margin-top: 40px; padding-bottom: 5px; }
 
+        /* Стилі завдань */
         .task-box {
             background-color: var(--task-bg);
             border: 2px solid var(--task-border);
             border-radius: 8px;
             padding: 20px;
             margin: 30px 0;
+            position: relative;
         }
         
-        .task-header {
-            background-color: var(--task-border);
+        .level-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: var(--primary-color);
             color: white;
             padding: 5px 15px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
             font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .task-header {
+            font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px;
+        }
+
+        .console-preview {
+            background-color: var(--console-bg);
+            color: var(--console-text);
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            border-left: 5px solid #555;
+        }
+        .console-label {
+            font-size: 0.8em; color: #666; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; display: block;
         }
 
         pre {
-            background-color: var(--code-bg);
-            color: var(--code-text);
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
         }
         code { font-family: 'Consolas', 'Monaco', monospace; }
 
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .container { padding: 20px; }
+            body { padding: 10px; } .container { padding: 20px; }
             .nav-container { flex-direction: column; }
-            .nav-btn { text-align: center; width: 100%; box-sizing: border-box; }
+            .nav-btn { text-align: center; width: 100%; }
         }
     </style>
 </head>
@@ -91,88 +112,144 @@
 
         <header>
             <h1>Практична робота: Змінні та Числа</h1>
+            <p>Виконуйте завдання послідовно в <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>.</p>
         </header>
 
         <main>
-            <p>Відкрийте <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" style="font-weight: bold;">OnlineGDB</a> та виконайте завдання.</p>
             
+            <h3>Рівень 1: Новачок (Типи даних)</h3>
+
             <section class="task-box">
-                <div>
-                    <span class="task-header">Завдання 1: Правильний розмір коробки</span>
-                    <p>Ми хочемо зберегти населення Землі (приблизно 8 мільярдів). Але програміст помилився з типом даних, і число "не влізло".</p>
-                    <p><strong>Завдання:</strong> Змініть тип int на потрібний, щоб побачити правильне число.</p>
-                    <pre><code>#include &lt;iostream&gt;
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: Переповнення</span>
+                <p>Ми хочемо зберегти населення Землі (8 мільярдів). Тип <code>int</code> вміщує лише 2 мільярди. Виправте це.</p>
+                
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">Населення Землі: 8000000000</div>
+
+                <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 int main() {
-    // ПОМИЛКА: тип 'int' вміщує тільки до 2 мільярдів
-    // Зміни 'int' на інший у рядку нижче:
+    // ПОМИЛКА: int замалий для цього числа
+    // Зміни 'int' на 'long long'
     int population = 8000000000; 
 
     cout &lt;&lt; "Населення Землі: " &lt;&lt; population &lt;&lt; endl;
     return 0;
 }</code></pre>
-                </div>
+            </section>
 
-                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-                    <span class="task-header">Завдання 2: Піцерія (Ділення та Остача)</span>
-                    <p>У нас є 10 шматків піци і 3 друзів. Ми хочемо дізнатися, скільки шматків отримає кожен, і скільки залишиться в коробці.</p>
-                    <p><strong>Завдання:</strong> Допишіть формули, використовуючи оператори ділення.</p>
-                    <pre><code>#include &lt;iostream&gt;
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Проста арифметика</span>
+                <p>Є 5 яблук і 4 груші. Порахуйте загальну кількість фруктів.</p>
+
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">Всього фруктів: 9</div>
+
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int apples = 5;
+    int pears = 4;
+    // Створи змінну total і запиши туди суму
+    
+    // Виведи total на екран
+    return 0;
+}</code></pre>
+            </section>
+
+
+            <h3>Рівень 2: Впевнений (Ділення та Остача)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Піцерія</span>
+                <p>10 шматків піци ділимо на 3 друзів. Скільки кожному і скільки залишиться?</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Кожному по: 3<br>
+                    Залишилось: 1
+                </div>
+                <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 int main() {
     int slices = 10;
     int friends = 3;
 
-    // Скільки кожному? 
-    int per_person = slices / friends; 
-
-    // Скільки залишиться? (Використанй остачу, який це оператор?)
-    // ДОПИШИ КОД НИЖЧЕ:
+    int per_person = slices / friends; // Ділення націло
+    // Допиши розрахунок остачі (left_over) використовуючи %
     int left_over = 
 
     cout &lt;&lt; "Кожному по: " &lt;&lt; per_person &lt;&lt; endl;
     cout &lt;&lt; "Залишилось: " &lt;&lt; left_over &lt;&lt; endl;
-
     return 0;
 }</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Тижні та дні</span>
+                <p>У змінній <code>days</code> записано 15 днів. Розрахуйте, скільки це повних тижнів і скільки "зайвих" днів.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Днів: 15<br>
+                    Це 2 тижні та 1 дні.
                 </div>
+                <p><em>Підказка:</em> В тижні 7 днів. Використовуйте <code>/ 7</code> та <code>% 7</code>.</p>
+            </section>
 
-                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-                    <span class="task-header">Завдання 3: Банкомат (Цифри числа)</span>
-                    <p>Це класична задача. У змінній <code>money</code> записана сума: <strong>567</strong> гривень.</p>
-                    <p>Уявіть, що банкомат видає гроші лише купюрами: по 100, по 10 і по 1 гривні. Нам треба дізнатися, скільки яких купюр треба.</p>
-                    
-                    <pre><code>#include &lt;iostream&gt;
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 5: Остання цифра</span>
+                <p>Дано число 1234. Отримайте і виведіть його останню цифру (4).</p>
+                <p><em>Підказка:</em> Остача від ділення на 10 завжди дає останню цифру.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">Остання цифра: 4</div>
+            </section>
+
+
+            <h3>Рівень 3: Профі (Алгоритми з цифрами)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 6: Банкомат</span>
+                <p>Сума 567 грн. Розбийте її на сотні, десятки та одиниці.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Сума: 567<br>
+                    Сотні: 5<br>
+                    Десятки: 6<br>
+                    Одиниці: 7
+                </div>
+                <pre><code>#include &lt;iostream&gt;
 using namespace std;
-
 int main() {
     int money = 567;
-
-    // 1. Останню цифру (одиниці) ми отримуємо через остачу від ділення на 10
-    int units = money % 10; // буде 7
-
-    // 2. Тепер треба "відрізати" останню цифру.
-    // 567 / 10 = 56 (бо це ціле ділення!)
-    int temp = money / 10; 
-
-    // 3. Тепер з числа 56 беремо останню цифру (це будуть десятки)
-    // ДОПИШИ КОД:
-    int tens = temp % 10; 
-
-    // 4. І щоб отримати сотні, треба число 56 поділити на 10
-    // ДОПИШИ КОД:
-    int hundreds = 
-
-    cout &lt;&lt; "Сотні: " &lt;&lt; hundreds &lt;&lt; endl;
-    cout &lt;&lt; "Десятки: " &lt;&lt; tens &lt;&lt; endl;
-    cout &lt;&lt; "Одиниці: " &lt;&lt; units &lt;&lt; endl;
-
+    int units = money % 10;      // 7
+    int tens = (money / 10) % 10; // (56) -> 6
+    // Допиши код для сотень (hundreds)
+    
+    // Виведи все на екран
     return 0;
 }</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 7: Сума цифр</span>
+                <p>Дано число <strong>235</strong>. Знайдіть суму його цифр (2 + 3 + 5).</p>
+                <p>Використовуйте знання з попереднього завдання. Розбийте число на окремі змінні і додайте їх.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Число: 235<br>
+                    Сума цифр: 10
                 </div>
             </section>
+
         </main>
         
         <footer>
@@ -181,6 +258,5 @@ int main() {
             </p>
         </footer>
     </div>
-
 </body>
 </html>
