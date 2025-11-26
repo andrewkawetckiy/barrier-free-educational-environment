@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Практика: Перші кроки в C++</title>
     <style>
+        /* Той самий набір стилів */
         :root {
             --bg-color: #fff3e0;
             --text-color: #2c3e50;
             --primary-color: #0056b3;
-            --accent-color: #ffffff;
             --code-bg: #2d2d2d;
             --code-text: #f8f8f2;
             --task-bg: #e8f5e9; 
             --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
         }
 
         body {
@@ -27,100 +29,46 @@
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px;
         }
-
-        /* Навігація вгорі */
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .nav-btn {
-            display: inline-block;
-            text-decoration: none;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background 0.3s;
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
         }
+        .nav-btn.secondary { background-color: #607d8b; }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
 
-        .nav-btn.secondary {
-            background-color: #607d8b; /* Сірий колір для кнопки "До теорії" */
-        }
-
-        .nav-btn:hover {
-            background-color: #003d82;
-            text-decoration: underline;
-        }
-        
-        .nav-btn.secondary:hover {
-            background-color: #455a64;
-        }
-
-        h1, h2, h3 { color: var(--primary-color); }
+        h1, h3 { color: var(--primary-color); }
         h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+        h3 { border-bottom: 1px solid #ccc; margin-top: 40px; padding-bottom: 5px; }
 
         .task-box {
-            background-color: var(--task-bg);
-            border: 2px solid var(--task-border);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 30px 0;
+            background-color: var(--task-bg); border: 2px solid var(--task-border);
+            border-radius: 8px; padding: 20px; margin: 30px 0; position: relative;
         }
-        
-        .task-header {
-            background-color: var(--task-border);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 10px;
-            font-weight: bold;
+        .level-badge {
+            position: absolute; top: -15px; right: 20px; background-color: var(--primary-color);
+            color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold;
         }
+        .task-header { font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px; }
 
-        .highlight-box {
-            background-color: #fff3cd; 
-            border-left: 5px solid #ffc107;
-            padding: 15px;
-            margin: 15px 0;
+        .console-preview {
+            background-color: var(--console-bg); color: var(--console-text); padding: 15px;
+            border-radius: 5px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9em;
+            margin: 15px 0; border-left: 5px solid #555;
         }
+        .console-label { font-size: 0.8em; color: #666; text-transform: uppercase; font-weight: bold; }
 
         pre {
-            background-color: var(--code-bg);
-            color: var(--code-text);
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            margin-top: 5px;
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
         }
-        
         code { font-family: 'Consolas', 'Monaco', monospace; }
-        
-        .inline-code {
-            background-color: #eeeeee;
-            color: #c7254e;
-            padding: 2px 4px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
 
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .container { padding: 20px; }
-            .nav-container { flex-direction: column; }
-            .nav-btn { text-align: center; width: 100%; box-sizing: border-box; }
+            body { padding: 10px; } .container { padding: 20px; }
+            .nav-container { flex-direction: column; } .nav-btn { text-align: center; width: 100%; }
         }
     </style>
 </head>
@@ -134,108 +82,131 @@
 
         <header>
             <h1>Практична робота: Перші кроки</h1>
+            <p>Відкрийте <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>.</p>
         </header>
 
         <main>
-            <p>Щоб стати програмістом, треба писати код! Відкрийте <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" style="font-weight: bold;">OnlineGDB (натисніть тут)</a> в новій вкладці та виконайте завдання по черзі.</p>
             
+            <h3>Рівень 1: Новачок (Текст і Змінні)</h3>
+
             <section class="task-box">
-                <div style="margin-top: 10px;">
-                    <span class="task-header">Завдання 1: "Привіт, Світ!" та Змінні</span>
-                    <p>Скопіюйте код нижче. Ваша мета — навчитися змінювати текст у програмі та значення змінних.</p>
-                    <pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt; // Підключаємо можливість писати слова (рядки)
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: "Привіт, Україно!"</span>
+                <p>Змініть стандартний текст "Hello World" на привітання українською.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">Привіт, Україно!</div>
+                <pre><code>#include &lt;iostream&gt;
 using namespace std;
-
 int main() {
-    // 1. ЗМІНИ ТЕКСТ:
-    // Замість "Hello World" напиши "Привіт, Україно!" або щось своє
+    // Зміни текст у лапках нижче:
     cout &lt;&lt; "Hello World!" &lt;&lt; endl;
-
-    // 2. ЗМІНИ ЗМІННУ:
-    // Тут створена змінна name. Заміни "Student" на своє ім'я (англійською)
-    string name = "Student"; 
-    
-    // Цей рядок виведе твоє ім'я на екран
-    cout &lt;&lt; "My name is " &lt;&lt; name &lt;&lt; endl;
-
     return 0;
 }</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Візитка</span>
+                <p>Створіть дві змінні: <code>name</code> (ім'я) та <code>city</code> (місто). Виведіть їх.</p>
+                <span class="console-label">Очікуваний результат (наприклад):</span>
+                <div class="console-preview">
+                    Мене звати Андрій.<br>
+                    Я з міста Київ.
                 </div>
-
-                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-                    <span class="task-header">Завдання 2: Калькулятор</span>
-                    <p>Комп'ютери створені для обчислень. Спробуйте додати операції віднімання та множення.</p>
-                    <pre><code>#include &lt;iostream&gt;
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
 using namespace std;
-
 int main() {
-    // Це наші числа. Можете змінити їх на інші.
+    string name = "Андрій";
+    // Створи змінну city і запиши туди своє місто
+    
+    cout &lt;&lt; "Мене звати " &lt;&lt; name &lt;&lt; "." &lt;&lt; endl;
+    // Допиши виведення міста
+    return 0;
+}</code></pre>
+            </section>
+
+
+            <h3>Рівень 2: Впевнений (Пошук помилок)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Синтаксична помилка</span>
+                <p>Цей код не запускається. Комп'ютер скаже <code>expected ';'</code>. Знайдіть і виправте помилку.</p>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    int age = 16;
+    cout &lt;&lt; "Вік: " &lt;&lt; age &lt;&lt; endl
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Логічна помилка</span>
+                <p>Код запускається, але нічого не показує на екрані. Додайте команду <code>cout</code>, щоб побачити результат.</p>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    int a = 10;
+    int b = 20;
+    int sum = a + b;
+    // Додай команду cout тут, щоб вивести sum
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 5: Квадрат</span>
+                <p>Виведіть квадрат із зірочок за допомогою кількох команд <code>cout</code>.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    ****<br>
+                    * *<br>
+                    * *<br>
+                    ****
+                </div>
+            </section>
+
+
+            <h3>Рівень 3: Профі (Змінні і розрахунки)</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 6: Калькулятор</span>
+                <p>Дано числа 20 і 5. Виведіть їх суму, різницю та добуток.</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    Числа: 20 і 5<br>
+                    Сума: 25<br>
+                    Різниця: 15<br>
+                    Добуток: 100
+                </div>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
     int a = 20;
     int b = 5;
-
-    // 1. ДОДАВАННЯ (вже готове)
-    int sum = a + b;
-    cout &lt;&lt; "Сума: " &lt;&lt; sum &lt;&lt; endl;
-
-    // 2. ВІДНІМАННЯ (Треба зробити!)
-    // Видаліть дві скісні риски (//) на початку рядків нижче, щоб активувати код:
-    
-    // int riznytsya = a - b;
-    // cout &lt;&lt; "Різниця: " &lt;&lt; riznytsya &lt;&lt; endl;
-
-    // 3. МНОЖЕННЯ (Спробуйте самі!)
-    // Напишіть код для множення (знак *), створивши змінну 'dobutok'
-    // Не забудьте в кінці команди ставити крапку з комою ;
-    
-    
+    // Напиши код для обчислень та виведення
     return 0;
 }</code></pre>
-                </div>
-
-                <div style="margin-top: 40px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-                    <span class="task-header">Завдання 3: "Логічна помилка" (Детектив)</span>
-                    <p>Програми можуть мати помилки двох типів:
-                        <br>1. <strong>Синтаксичні</strong> (код не запускається взагалі).
-                        <br>2. <strong>Логічні</strong> (код працює, але робить не те, що треба, або нічого не показує).
-                    </p>
-                    
-                    <p><strong>Ситуація:</strong> У нас є програма для розрахунку площі прямокутного трикутника. Ми очікуємо побачити число 25 (бо (10 * 5) / 2 = 25). Але коли ми запускаємо код — <strong>екран пустий</strong>.</p>
-                    
-                    <div class="highlight-box">
-                        <strong>Ваше завдання:</strong>
-                        <ol>
-                            <li>Скопіювати код.</li>
-                            <li>Запустити його і переконатися, що він працює "мовчки".</li>
-                            <li>Знайти причину: ми порахували площу, але забули дати команду "Показати".</li>
-                            <li>Дописати команду <code>cout</code>, щоб вивести значення змінної <code>ploshcha</code> на екран.</li>
-                        </ol>
-                    </div>
-
-                    <pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-int main() {
-    cout &lt;&lt; "--- Розрахунок площі трикутника ---" &lt;&lt; endl;
-    
-    // Катети трикутника
-    int a = 10;
-    int b = 5;
-
-    // Формула: (a * b) / 2
-    int ploshcha = (a * b) / 2;
-
-    // ПОМИЛКА ТУТ:
-    // Комп'ютер порахував площу і записав її у пам'ять у змінну 'ploshcha'.
-    // Але ми не попросили його показати це нам!
-    // Допишіть рядок з 'cout' нижче, щоб побачити результат:
-
-
-    return 0;
-}</code></pre>
-                </div>
-
             </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 7: Оформлення</span>
+                <p>Використовуючи змінні та текст, створіть красивий "банер".</p>
+                <span class="console-label">Очікуваний результат:</span>
+                <div class="console-preview">
+                    ===================<br>
+                    |  C++ is Super!  |<br>
+                    ===================
+                </div>
+                <p><em>Підказка:</em> Використовуйте <code>endl</code> для переходу на новий рядок.</p>
+            </section>
+
         </main>
         
         <footer>
@@ -244,6 +215,5 @@ int main() {
             </p>
         </footer>
     </div>
-
 </body>
 </html>
