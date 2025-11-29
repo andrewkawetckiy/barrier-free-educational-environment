@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Теорія: Умовні оператори та розгалуження</title>
     <style>
-        /* Стилі з попередніх тем */
+        /* === ЗМІННІ (ВКЛЮЧАЮЧИ ДОСТУПНІСТЬ) === */
         :root {
             --bg-color: #fff3e0;
             --text-color: #2c3e50;
@@ -15,25 +15,58 @@
             --code-text: #f8f8f2;
             --diagram-bg: #fff8e1;
             --btn-practice-bg: #2e7d32;
+
+            /* Змінні доступності */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --base-font-size: 18px; 
+            --letter-spacing: normal;
+            --word-spacing: normal;
+            --line-height: 1.6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            font-family: var(--font-family);
+            line-height: var(--line-height);
             color: var(--text-color);
             background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
-            font-size: 18px;
+            /* Застосування доступності */
+            font-size: var(--base-font-size);
+            letter-spacing: var(--letter-spacing);
+            word-spacing: var(--word-spacing);
         }
 
+        /* === ПАНЕЛЬ ДОСТУПНОСТІ === */
+        .a11y-toggle-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            background: var(--primary-color); color: white; border: none;
+            border-radius: 50%; width: 50px; height: 50px; font-size: 24px;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .a11y-panel {
+            position: fixed; top: 80px; right: 20px; width: 300px;
+            background: white; padding: 20px; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 999;
+            display: none; border: 2px solid var(--primary-color);
+        }
+
+        .a11y-panel.open { display: block; animation: fadeIn 0.3s; }
+        .a11y-control { margin-bottom: 15px; }
+        .a11y-control label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
+        .a11y-control input[type="range"] { width: 100%; cursor: pointer; }
+        .a11y-btn-group { display: flex; gap: 10px; }
+        .a11y-btn { flex: 1; padding: 8px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+        .a11y-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* === ОСНОВНИЙ КОНТЕНТ === */
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            max-width: 900px; margin: 0 auto; background: white; padding: 40px;
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .nav-container { margin-bottom: 20px; }
@@ -47,11 +80,8 @@
         h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
 
         .highlight-box {
-            background-color: var(--accent-color);
-            border-left: 5px solid var(--primary-color);
-            padding: 15px;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: var(--accent-color); border-left: 5px solid var(--primary-color);
+            padding: 15px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em; }
@@ -75,15 +105,49 @@
         .practice-btn:hover { background-color: #1b5e20; transform: scale(1.02); }
 
         .comparison-table td { width: 50%; vertical-align: top; }
-        .comparison-header { font-weight: bold; text-align: center; color: #555; margin-bottom: 5px; }
 
         @media (max-width: 600px) {
             body { padding: 10px; } .container { padding: 20px; }
             table { font-size: 0.8em; }
+            .a11y-toggle-btn { top: 10px; right: 10px; width: 40px; height: 40px; }
+            .a11y-panel { width: 85%; right: 5%; top: 60px; }
         }
     </style>
 </head>
 <body>
+
+    <button class="a11y-toggle-btn" onclick="toggleA11yPanel()" title="Налаштування вигляду">👁️</button>
+
+    <div class="a11y-panel" id="a11yPanel">
+        <h3 style="margin-top:0; text-align:center;">Налаштування тексту</h3>
+        
+        <div class="a11y-control">
+            <label>Шрифт:</label>
+            <div class="a11y-btn-group">
+                <button class="a11y-btn active" id="btn-sans" onclick="setFontType('sans')">Без зарубок</button>
+                <button class="a11y-btn" id="btn-serif" onclick="setFontType('serif')" style="font-family: 'Times New Roman', serif;">Із зарубками</button>
+            </div>
+        </div>
+
+        <div class="a11y-control">
+            <label>Розмір шрифту:</label>
+            <input type="range" min="14" max="26" value="18" oninput="updateStyle('fontSize', this.value + 'px')">
+        </div>
+
+        <div class="a11y-control">
+            <label>Відстань між літерами:</label>
+            <input type="range" min="0" max="5" step="0.5" value="0" oninput="updateStyle('letterSpacing', this.value + 'px')">
+        </div>
+
+        <div class="a11y-control">
+            <label>Відстань між словами:</label>
+            <input type="range" min="0" max="10" step="1" value="0" oninput="updateStyle('wordSpacing', this.value + 'px')">
+        </div>
+        
+        <div style="text-align: center;">
+            <button onclick="resetA11y()" style="background:none; border:none; text-decoration:underline; cursor:pointer; color:#666;">Скинути налаштування</button>
+        </div>
+    </div>
 
     <div class="container">
         <div class="nav-container">
@@ -100,9 +164,11 @@
                 <p>У житті ми постійно приймаємо рішення: "Якщо йде дощ, я беру парасольку, інакше — йду в футболці". Це і є <strong>розгалуження</strong>.</p>
                 <p>Алгоритм перестає бути прямою лінією і отримує розвилки.</p>
                 
+                
 
-[Image of C++ compilation process diagram]
- </section>
+[Image of flowchart if else logic]
+
+            </section>
 
             <section id="syntax-comparison">
                 <h2>2. Головна відмінність: Python vs C++</h2>
@@ -258,10 +324,93 @@ cout << a << " " << b << " " << c;</code></pre>
 
         <footer>
             <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
-                Тема 2.1
+                Матеріал адаптовано на основі підручника "Інформатика 10 клас" (авт. В.Д. Руденко).
             </p>
         </footer>
     </div>
 
+    <script>
+        function toggleA11yPanel() {
+            const panel = document.getElementById('a11yPanel');
+            panel.classList.toggle('open');
+        }
+
+        function updateStyle(variable, value) {
+            let cssVarName;
+            if (variable === 'fontSize') cssVarName = '--base-font-size';
+            if (variable === 'letterSpacing') cssVarName = '--letter-spacing';
+            if (variable === 'wordSpacing') cssVarName = '--word-spacing';
+            
+            if (cssVarName) {
+                document.documentElement.style.setProperty(cssVarName, value);
+                localStorage.setItem(variable, value);
+            }
+        }
+
+        function setFontType(type) {
+            const sansBtn = document.getElementById('btn-sans');
+            const serifBtn = document.getElementById('btn-serif');
+            let fontVal;
+
+            if (type === 'serif') {
+                fontVal = "'Times New Roman', Times, serif";
+                serifBtn.classList.add('active');
+                sansBtn.classList.remove('active');
+            } else {
+                fontVal = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                sansBtn.classList.add('active');
+                serifBtn.classList.remove('active');
+            }
+
+            document.documentElement.style.setProperty('--font-family', fontVal);
+            localStorage.setItem('fontType', type);
+        }
+
+        function resetA11y() {
+            localStorage.removeItem('fontSize');
+            localStorage.removeItem('letterSpacing');
+            localStorage.removeItem('wordSpacing');
+            localStorage.removeItem('fontType');
+
+            document.documentElement.style.setProperty('--base-font-size', '18px');
+            document.documentElement.style.setProperty('--letter-spacing', 'normal');
+            document.documentElement.style.setProperty('--word-spacing', 'normal');
+            
+            setFontType('sans');
+
+            const sizeInput = document.querySelector('input[oninput*="fontSize"]');
+            if (sizeInput) sizeInput.value = 18;
+            const letterInput = document.querySelector('input[oninput*="letterSpacing"]');
+            if (letterInput) letterInput.value = 0;
+            const wordInput = document.querySelector('input[oninput*="wordSpacing"]');
+            if (wordInput) wordInput.value = 0;
+        }
+
+        function loadA11ySettings() {
+            if (localStorage.getItem('fontSize')) {
+                const val = localStorage.getItem('fontSize');
+                document.documentElement.style.setProperty('--base-font-size', val);
+                const input = document.querySelector('input[oninput*="fontSize"]');
+                if (input) input.value = parseInt(val);
+            }
+            if (localStorage.getItem('letterSpacing')) {
+                const val = localStorage.getItem('letterSpacing');
+                document.documentElement.style.setProperty('--letter-spacing', val);
+                const input = document.querySelector('input[oninput*="letterSpacing"]');
+                if (input) input.value = parseFloat(val);
+            }
+            if (localStorage.getItem('wordSpacing')) {
+                const val = localStorage.getItem('wordSpacing');
+                document.documentElement.style.setProperty('--word-spacing', val);
+                const input = document.querySelector('input[oninput*="wordSpacing"]');
+                if (input) input.value = parseInt(val);
+            }
+            if (localStorage.getItem('fontType')) {
+                setFontType(localStorage.getItem('fontType'));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadA11ySettings);
+    </script>
 </body>
 </html>
