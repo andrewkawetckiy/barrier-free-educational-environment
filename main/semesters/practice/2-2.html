@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Логічні оператори</title>
+    <style>
+        /* === ЗМІННІ === */
+        :root {
+            --bg-color: #fff3e0; --text-color: #2c3e50; --primary-color: #0056b3;
+            --code-bg: #2d2d2d; --code-text: #f8f8f2; --task-bg: #e8f5e9; --task-border: #2e7d32;
+            --console-bg: #000000; --console-text: #00ff00;
+            --font-family: 'Segoe UI', sans-serif; --base-font-size: 18px; 
+            --letter-spacing: normal; --word-spacing: normal; --line-height: 1.6;
+        }
+        body { font-family: var(--font-family); line-height: var(--line-height); color: var(--text-color); background-color: var(--bg-color); margin: 0; padding: 20px; font-size: var(--base-font-size); letter-spacing: var(--letter-spacing); word-spacing: var(--word-spacing); }
+        .a11y-toggle-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--primary-color); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
+        .a11y-panel { position: fixed; top: 80px; right: 20px; width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 999; display: none; border: 2px solid var(--primary-color); }
+        .a11y-panel.open { display: block; animation: fadeIn 0.3s; }
+        .a11y-control { margin-bottom: 15px; } .a11y-control label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; } .a11y-control input[type="range"] { width: 100%; cursor: pointer; }
+        .a11y-btn-group { display: flex; gap: 10px; } .a11y-btn { flex: 1; padding: 8px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 0.9em; } .a11y-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-btn { display: inline-block; text-decoration: none; background-color: var(--primary-color); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
+        .nav-btn.secondary { background-color: #607d8b; } .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+        h1, h3 { color: var(--primary-color); } h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; } h3 { border-bottom: 1px solid #ccc; margin-top: 40px; padding-bottom: 5px; }
+        .task-box { background-color: var(--task-bg); border: 2px solid var(--task-border); border-radius: 8px; padding: 20px; margin: 30px 0; position: relative; }
+        .level-badge { position: absolute; top: -15px; right: 20px; background-color: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .task-header { font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px; }
+        .console-preview { background-color: var(--console-bg); color: var(--console-text); padding: 15px; border-radius: 5px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9em; margin: 15px 0; border-left: 5px solid #555; }
+        pre { background-color: var(--code-bg); color: var(--code-text); padding: 15px; border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace; } code { font-family: 'Consolas', 'Monaco', monospace; }
+        @media (max-width: 600px) { body { padding: 10px; } .container { padding: 20px; } .nav-container { flex-direction: column; } .nav-btn { text-align: center; width: 100%; } .a11y-toggle-btn { top: 10px; right: 10px; width: 40px; height: 40px; } .a11y-panel { width: 85%; right: 5%; top: 60px; } }
+    </style>
+</head>
+<body>
+
+    <button class="a11y-toggle-btn" onclick="toggleA11yPanel()" title="Налаштування вигляду">👁️</button>
+    <div class="a11y-panel" id="a11yPanel">
+        <h3 style="margin-top:0; text-align:center;">Налаштування</h3>
+        <div class="a11y-control"><label>Шрифт:</label><div class="a11y-btn-group"><button class="a11y-btn active" id="btn-sans" onclick="setFontType('sans')">Без зарубок</button><button class="a11y-btn" id="btn-serif" onclick="setFontType('serif')" style="font-family: 'Times New Roman', serif;">Із зарубками</button></div></div>
+        <div class="a11y-control"><label>Розмір:</label><input type="range" min="14" max="26" value="18" oninput="updateStyle('fontSize', this.value + 'px')"></div>
+        <div style="text-align: center;"><button onclick="resetA11y()" style="background:none; border:none; text-decoration:underline; cursor:pointer; color:#666;">Скинути</button></div>
+    </div>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/2-2.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практична робота: Логічні оператори</h1>
+            <p>Завдання на <code>&&</code>, <code>||</code>, <code>!</code> та <code>bool</code>.</p>
+        </header>
+
+        <main>
+            <h3>Рівень 1: Основи Bool</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: True чи False?</span>
+                <p>Оголосіть змінну <code>bool isLightOn = true;</code>. Виведіть її на екран. <br>
+                Щоб замість 1/0 бачити true/false, додайте команду <code>cout &lt;&lt; boolalpha;</code> перед виводом.</p>
+                <div class="console-preview">Світло увімкнено: true</div>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    bool isLightOn = true;
+    cout << boolalpha; // "Магія" для виводу слів
+    cout << "Світло увімкнено: " << isLightOn << endl;
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Діапазон (&&)</span>
+                <p>Користувач вводить число <code>x</code>. Перевірте, чи воно знаходиться в межах від 10 до 20 (включно).</p>
+                <p><em>Умова:</em> <code>x >= 10 && x <= 20</code></p>
+            </section>
+
+            <h3>Рівень 2: Складні умови</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Система входу (Login)</span>
+                <p>У програмі є правильні <code>login ("admin")</code> та <code>pass (1234)</code>. <br>
+                Користувач вводить свої дані. Доступ дозволено, тільки якщо <strong>І</strong> логін збігається, <strong>І</strong> пароль збігається.</p>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Вихідний день (||)</span>
+                <p>Користувач вводить номер дня тижня (1-7). <br>
+                Якщо це 6 (Субота) <strong>АБО</strong> 7 (Неділя) — вивести "Вихідний". Інакше — "Робочий".</p>
+                <p><em>Умова:</em> <code>day == 6 || day == 7</code></p>
+            </section>
+
+            <h3>Рівень 3: Профі</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 5: Високосний рік</span>
+                <p>Реалізуйте алгоритм перевірки високосного року з лекції. Користувач вводить рік, програма каже "Leap" або "Not Leap".</p>
+                <div class="console-preview">
+                    Введіть рік: 2000 -> Leap<br>
+                    Введіть рік: 2100 -> Not Leap<br>
+                    Введіть рік: 2024 -> Leap
+                </div>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 6: XOR Шифрування (Магія бітів)</span>
+                <p>Введіть два цілих числа: <code>key</code> (ключ) = 5 та <code>secret</code> (секрет) = 10.</p>
+                <p>1. Зробіть <code>result = secret ^ key;</code>. Виведіть result.<br>
+                2. Зробіть <code>original = result ^ key;</code>. Виведіть original.</p>
+                <p><em>Ви побачите, як XOR відновлює дані!</em></p>
+            </section>
+
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 2.2
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Спрощений скрипт доступності для практики (такий самий як в теорії)
+        function toggleA11yPanel() { document.getElementById('a11yPanel').classList.toggle('open'); }
+        function updateStyle(v, val) { 
+            let n; if(v==='fontSize')n='--base-font-size'; else if(v==='letterSpacing')n='--letter-spacing'; else if(v==='wordSpacing')n='--word-spacing';
+            if(n){document.documentElement.style.setProperty(n, val); localStorage.setItem(v, val);} 
+        }
+        function setFontType(t) {
+            const s=document.getElementById('btn-sans'), r=document.getElementById('btn-serif');
+            let f; if(t==='serif'){f="'Times New Roman', serif";r.classList.add('active');s.classList.remove('active');}
+            else{f="'Segoe UI', sans-serif";s.classList.add('active');r.classList.remove('active');}
+            document.documentElement.style.setProperty('--font-family', f); localStorage.setItem('fontType', t);
+        }
+        function resetA11y() {
+            ['fontSize','letterSpacing','wordSpacing','fontType'].forEach(k=>localStorage.removeItem(k));
+            document.documentElement.style.setProperty('--base-font-size','18px');
+            setFontType('sans');
+            document.querySelector('input[oninput*="fontSize"]').value=18;
+        }
+        function loadA11ySettings() {
+            if(localStorage.getItem('fontSize')) { document.documentElement.style.setProperty('--base-font-size',localStorage.getItem('fontSize')); document.querySelector('input[oninput*="fontSize"]').value=parseInt(localStorage.getItem('fontSize')); }
+            if(localStorage.getItem('fontType')) setFontType(localStorage.getItem('fontType'));
+        }
+        document.addEventListener('DOMContentLoaded', loadA11ySettings);
+    </script>
+</body>
+</html>
