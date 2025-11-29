@@ -508,11 +508,32 @@
         }
 
         function resetA11y() {
+            // 1. Очищаємо пам'ять
             localStorage.removeItem('fontSize');
             localStorage.removeItem('letterSpacing');
             localStorage.removeItem('wordSpacing');
             localStorage.removeItem('fontType');
-            location.reload();
+
+            // 2. Скидаємо змінні CSS (візуально повертаємо вигляд)
+            document.documentElement.style.setProperty('--base-font-size', '18px');
+            document.documentElement.style.setProperty('--letter-spacing', 'normal');
+            document.documentElement.style.setProperty('--word-spacing', 'normal');
+            
+            // 3. Повертаємо активність кнопці шрифту "Без зарубок"
+            setFontType('sans');
+
+            // 4. Скидаємо самі повзунки у дефолтні значення (ВИПРАВЛЕННЯ БАГУ)
+            // Ми шукаємо input-и за їхніми функціями updateStyle
+            const sizeInput = document.querySelector('input[oninput*="fontSize"]');
+            if (sizeInput) sizeInput.value = 18;
+
+            const letterInput = document.querySelector('input[oninput*="letterSpacing"]');
+            if (letterInput) letterInput.value = 0;
+
+            const wordInput = document.querySelector('input[oninput*="wordSpacing"]');
+            if (wordInput) wordInput.value = 0;
+            
+            // Ми прибрали location.reload(), тепер все працює миттєво і коректно
         }
 
         // Завантаження налаштувань при старті
