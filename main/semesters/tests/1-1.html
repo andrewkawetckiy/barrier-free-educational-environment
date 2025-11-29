@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тестування: Вступ до C++</title>
     <style>
+        /* === ЗМІННІ ДЛЯ ДОСТУПНОСТІ === */
         :root {
+            /* Базові кольори */
             --bg-color: #fff3e0;
             --text-color: #333;
             --primary-color: #0056b3;
@@ -14,17 +16,110 @@
             --wrong-color: #f8d7da;
             --wrong-border: #f5c6cb;
             --explanation-bg: #e2e3e5;
+
+            /* Динамічні змінні (змінюються через JS) */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --base-font-size: 18px; 
+            --letter-spacing: normal;
+            --word-spacing: normal;
+            --line-height: 1.6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-family);
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            /* Застосування змінних доступності */
+            font-size: var(--base-font-size);
+            letter-spacing: var(--letter-spacing);
+            word-spacing: var(--word-spacing);
+            line-height: var(--line-height);
         }
 
+        /* === ПАНЕЛЬ ДОСТУПНОСТІ (АБСОЛЮТНО НОВЕ) === */
+        .a11y-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .a11y-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+            display: none; /* Приховано за замовчуванням */
+            border: 2px solid var(--primary-color);
+        }
+
+        .a11y-panel.open {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        .a11y-control {
+            margin-bottom: 15px;
+        }
+
+        .a11y-control label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .a11y-control input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .a11y-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .a11y-btn {
+            flex: 1;
+            padding: 8px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .a11y-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === ОСНОВНИЙ КОНТЕЙНЕР === */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -55,7 +150,7 @@
 
         .nav-btn:hover { background-color: #003d82; }
 
-        /* Стилі тесту */
+        /* Стилі блоків питань */
         .question-block {
             margin-bottom: 25px;
             padding: 15px;
@@ -87,13 +182,10 @@
 
         input[type="radio"], input[type="checkbox"] {
             margin-right: 10px;
-            transform: scale(1.2);
+            transform: scale(1.3); /* Трохи збільшили для зручності */
         }
 
-        /* Стилі для неактивних елементів після тесту */
-        input:disabled {
-            cursor: not-allowed;
-        }
+        input:disabled { cursor: not-allowed; }
         
         .options label.disabled-label {
             cursor: default;
@@ -102,13 +194,13 @@
 
         /* Пояснення */
         .explanation {
-            display: none; /* Приховано за замовчуванням */
+            display: none;
             margin-top: 10px;
             padding: 10px;
             background-color: var(--explanation-bg);
             border-radius: 5px;
-            font-size: 0.9em;
-            border-left: 4px solid #6c757d;
+            font-size: 0.95em;
+            border-left: 5px solid #6c757d;
         }
 
         /* Кнопки */
@@ -122,7 +214,6 @@
             border-radius: 8px;
             cursor: pointer;
             margin-top: 30px;
-            transition: background 0.3s;
             text-align: center;
             text-decoration: none;
         }
@@ -134,7 +225,6 @@
         .retry-btn { background-color: #ffc107; color: #333; display: none; }
         .retry-btn:hover { background-color: #e0a800; }
 
-        /* Інформація про спроби */
         .attempts-info {
             text-align: center;
             margin-top: 10px;
@@ -142,7 +232,6 @@
             color: #dc3545;
         }
 
-        /* Результати */
         #result-area {
             margin-top: 30px;
             padding: 20px;
@@ -159,18 +248,50 @@
             margin: 10px 0;
         }
 
-        .correct-answer {
-            background-color: var(--correct-color);
-            border-color: var(--correct-border);
-        }
+        .correct-answer { background-color: var(--correct-color); border-color: var(--correct-border); }
+        .wrong-answer { background-color: var(--wrong-color); border-color: var(--wrong-border); }
 
-        .wrong-answer {
-            background-color: var(--wrong-color);
-            border-color: var(--wrong-border);
+        /* Адаптивність */
+        @media (max-width: 600px) {
+            .a11y-toggle-btn { top: 10px; right: 10px; width: 40px; height: 40px; }
+            .a11y-panel { width: 85%; right: 5%; top: 60px; }
         }
     </style>
 </head>
 <body>
+
+    <button class="a11y-toggle-btn" onclick="toggleA11yPanel()" title="Налаштування вигляду">👁️</button>
+
+    <div class="a11y-panel" id="a11yPanel">
+        <h3 style="margin-top:0; text-align:center;">Налаштування тексту</h3>
+        
+        <div class="a11y-control">
+            <label>Шрифт:</label>
+            <div class="a11y-btn-group">
+                <button class="a11y-btn active" id="btn-sans" onclick="setFontType('sans')">Без зарубок</button>
+                <button class="a11y-btn" id="btn-serif" onclick="setFontType('serif')" style="font-family: 'Times New Roman', serif;">Із зарубками</button>
+            </div>
+        </div>
+
+        <div class="a11y-control">
+            <label>Розмір шрифту:</label>
+            <input type="range" min="14" max="26" value="18" oninput="updateStyle('fontSize', this.value + 'px')">
+        </div>
+
+        <div class="a11y-control">
+            <label>Відстань між літерами:</label>
+            <input type="range" min="0" max="5" step="0.5" value="0" oninput="updateStyle('letterSpacing', this.value + 'px')">
+        </div>
+
+        <div class="a11y-control">
+            <label>Відстань між словами:</label>
+            <input type="range" min="0" max="10" step="1" value="0" oninput="updateStyle('wordSpacing', this.value + 'px')">
+        </div>
+        
+        <div style="text-align: center;">
+            <button onclick="resetA11y()" style="background:none; border:none; text-decoration:underline; cursor:pointer; color:#666;">Скинути налаштування</button>
+        </div>
+    </div>
 
     <div class="container">
         <a href="../semester-01.html" class="nav-btn">← Назад до семестру</a>
@@ -184,7 +305,6 @@
         <div id="attempt-message" class="attempts-info"></div>
 
         <form id="quiz-form">
-            
             <div class="question-block" id="q1">
                 <div class="question-title">1. Хто вважається першим програмістом в історії?</div>
                 <div class="options">
@@ -194,7 +314,7 @@
                     <label><input type="radio" name="q1" value="d"> Блез Паскаль</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: Ада Лавлейс.</strong> Вона написала першу програму для аналітичної машини Беббіджа ще у XIX столітті.
+                    <strong>Правильна відповідь: Ада Лавлейс.</strong> Вона написала першу програму для аналітичної машини Беббіджа.
                 </div>
             </div>
 
@@ -206,7 +326,7 @@
                     <label><input type="radio" name="q2" value="c"> Програма, що перекладає весь код у машинний вигляд перед виконанням</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: Перекладає весь код.</strong> Компілятор створює окремий файл (.exe), на відміну від інтерпретатора.
+                    <strong>Правильна відповідь: Перекладає весь код.</strong> Компілятор створює окремий файл (.exe).
                 </div>
             </div>
 
@@ -219,7 +339,7 @@
                     <label><input type="radio" name="q3" value="d"> .cpp</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: .cpp.</strong> Це скорочення від "C Plus Plus".
+                    <strong>Правильна відповідь: .cpp.</strong> C Plus Plus.
                 </div>
             </div>
 
@@ -232,7 +352,7 @@
                     <label><input type="radio" name="q4" value="d"> echo</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: cout &lt;&lt;.</strong> Частина бібліотеки iostream (Character OUTput).
+                    <strong>Правильна відповідь: cout &lt;&lt;.</strong> Console OUTput.
                 </div>
             </div>
 
@@ -245,7 +365,7 @@
                     <label><input type="radio" name="q5" value="d"> , (кома)</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: ; (крапка з комою).</strong> Це обов'язковий синтаксис C++.
+                    <strong>Правильна відповідь: ; (крапка з комою).</strong> Обов'язковий синтаксис.
                 </div>
             </div>
 
@@ -258,7 +378,7 @@
                     <label><input type="radio" name="q6" value="d"> iostream()</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: main().</strong> З цієї функції починається виконання програми.
+                    <strong>Правильна відповідь: main().</strong> Точка входу в програму.
                 </div>
             </div>
 
@@ -271,7 +391,7 @@
                     <label><input type="radio" name="q7" value="d"> bool</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: int.</strong> Скорочення від Integer.
+                    <strong>Правильна відповідь: int.</strong> (Integer).
                 </div>
             </div>
 
@@ -283,7 +403,7 @@
                     <label><input type="radio" name="q8" value="c"> Для коментування коду</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: Підключення бібліотеки.</strong> Містить визначення для введення/виведення даних.
+                    <strong>Правильна відповідь: Підключення бібліотеки.</strong> Input/Output Stream.
                 </div>
             </div>
 
@@ -295,7 +415,7 @@
                     <label><input type="radio" name="q9" value="c"> В C++ немає змінних</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: Типізація.</strong> У C++ тип змінної визначається заздалегідь (static typing).
+                    <strong>Правильна відповідь: Типізація.</strong>
                 </div>
             </div>
 
@@ -307,7 +427,7 @@
                     <label><input type="radio" name="q10" value="c"> Успішне завершення роботи програми</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильна відповідь: Успішне завершення.</strong> Код 0 повідомляє системі про відсутність помилок.
+                    <strong>Правильна відповідь: Успішне завершення.</strong>
                 </div>
             </div>
 
@@ -320,7 +440,7 @@
                     <label><input type="checkbox" name="q11" value="d"> Google Chrome</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильні відповіді: Visual Studio та Code::Blocks.</strong> Решта варіантів - це онлайн-інструменти або браузери.
+                    <strong>Правильні відповіді: Visual Studio та Code::Blocks.</strong>
                 </div>
             </div>
 
@@ -334,7 +454,7 @@
                     <label><input type="checkbox" name="q12" value="e"> Архівація</label>
                 </div>
                 <div class="explanation">
-                    <strong>Правильні відповіді: Код, Компіляція, Лінкування.</strong> Це технічні етапи перетворення тексту програми у виконуваний файл.
+                    <strong>Правильні відповіді: Код, Компіляція, Лінкування.</strong>
                 </div>
             </div>
 
@@ -350,31 +470,91 @@
     </div>
 
     <script>
-        // УНІКАЛЬНИЙ ID ТЕСТУ (Змінювати для кожного нового файлу: 'test_1_1', 'test_1_2'...)
+        function toggleA11yPanel() {
+            const panel = document.getElementById('a11yPanel');
+            panel.classList.toggle('open');
+        }
+
+        // Функція для оновлення змінних CSS
+        function updateStyle(variable, value) {
+            let cssVarName;
+            if (variable === 'fontSize') cssVarName = '--base-font-size';
+            if (variable === 'letterSpacing') cssVarName = '--letter-spacing';
+            if (variable === 'wordSpacing') cssVarName = '--word-spacing';
+            
+            if (cssVarName) {
+                document.documentElement.style.setProperty(cssVarName, value);
+                localStorage.setItem(variable, value); // Зберігаємо налаштування
+            }
+        }
+
+        function setFontType(type) {
+            const sansBtn = document.getElementById('btn-sans');
+            const serifBtn = document.getElementById('btn-serif');
+            let fontVal;
+
+            if (type === 'serif') {
+                fontVal = "'Times New Roman', Times, serif";
+                serifBtn.classList.add('active');
+                sansBtn.classList.remove('active');
+            } else {
+                fontVal = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                sansBtn.classList.add('active');
+                serifBtn.classList.remove('active');
+            }
+
+            document.documentElement.style.setProperty('--font-family', fontVal);
+            localStorage.setItem('fontType', type);
+        }
+
+        function resetA11y() {
+            localStorage.removeItem('fontSize');
+            localStorage.removeItem('letterSpacing');
+            localStorage.removeItem('wordSpacing');
+            localStorage.removeItem('fontType');
+            location.reload();
+        }
+
+        // Завантаження налаштувань при старті
+        function loadA11ySettings() {
+            if (localStorage.getItem('fontSize')) {
+                const val = localStorage.getItem('fontSize');
+                document.documentElement.style.setProperty('--base-font-size', val);
+                document.querySelector('input[oninput*="fontSize"]').value = parseInt(val);
+            }
+            if (localStorage.getItem('letterSpacing')) {
+                const val = localStorage.getItem('letterSpacing');
+                document.documentElement.style.setProperty('--letter-spacing', val);
+                document.querySelector('input[oninput*="letterSpacing"]').value = parseFloat(val);
+            }
+            if (localStorage.getItem('wordSpacing')) {
+                const val = localStorage.getItem('wordSpacing');
+                document.documentElement.style.setProperty('--word-spacing', val);
+                document.querySelector('input[oninput*="wordSpacing"]').value = parseInt(val);
+            }
+            if (localStorage.getItem('fontType')) {
+                setFontType(localStorage.getItem('fontType'));
+            }
+        }
+    </script>
+
+    <script>
         const TEST_ID = 'test_1_1_v2'; 
         const MAX_ATTEMPTS = 2;
-        const LOCKOUT_TIME_MS = 12 * 60 * 60 * 1000; // 12 годин
+        const LOCKOUT_TIME_MS = 12 * 60 * 60 * 1000;
 
-        // Правильні відповіді
         const answers = {
-            q1: 'b',
-            q2: 'c',
-            q3: 'd',
-            q4: 'b',
-            q5: 'c',
-            q6: 'c',
-            q7: 'c',
-            q8: 'a',
-            q9: 'b',
-            q10: 'c',
-            q11: ['a', 'c'],
-            q12: ['a', 'c', 'd']
+            q1: 'b', q2: 'c', q3: 'd', q4: 'b', q5: 'c',
+            q6: 'c', q7: 'c', q8: 'a', q9: 'b', q10: 'c',
+            q11: ['a', 'c'], q12: ['a', 'c', 'd']
         };
 
-        document.addEventListener('DOMContentLoaded', initTest);
+        document.addEventListener('DOMContentLoaded', () => {
+            initTest();
+            loadA11ySettings(); // Завантажуємо налаштування доступності
+        });
 
         function initTest() {
-            // Перемішування
             const questionBlocks = document.querySelectorAll('.question-block');
             questionBlocks.forEach(block => {
                 const optionsContainer = block.querySelector('.options');
@@ -386,7 +566,6 @@
                     }
                 }
             });
-
             checkAttemptsOnLoad();
         }
 
@@ -397,7 +576,6 @@
             const btn = document.getElementById('submitBtn');
             const msgDiv = document.getElementById('attempt-message');
 
-            // Якщо час блокування пройшов, скидаємо
             if (attempts >= MAX_ATTEMPTS && (now - lastAttemptTime > LOCKOUT_TIME_MS)) {
                 localStorage.setItem(TEST_ID + '_attempts', '0');
                 localStorage.removeItem(TEST_ID + '_time');
@@ -406,15 +584,11 @@
             }
 
             if (attempts >= MAX_ATTEMPTS) {
-                // Блокуємо, якщо спроби вичерпані
                 const hoursLeft = Math.ceil((LOCKOUT_TIME_MS - (now - lastAttemptTime)) / (1000 * 60 * 60));
                 disableAllInputs();
                 btn.disabled = true;
                 btn.textContent = `Тест заблоковано на 12 годин`;
                 msgDiv.innerHTML = `Ви використали всі спроби. Наступна спроба через ${hoursLeft} год.`;
-                
-                // Якщо тест заблоковано, показуємо учню його попередній результат (якщо хочете)
-                // Або просто залишаємо заблокованим.
             } else {
                 msgDiv.innerHTML = `Спроба ${attempts + 1} з ${MAX_ATTEMPTS}`;
             }
@@ -423,8 +597,6 @@
         function checkAnswers() {
             let attempts = parseInt(localStorage.getItem(TEST_ID + '_attempts') || '0');
             attempts++;
-            
-            // Зберігаємо нову кількість спроб
             localStorage.setItem(TEST_ID + '_attempts', attempts);
             
             let score = 0;
@@ -436,80 +608,62 @@
             const retryBtn = document.getElementById('retryBtn');
             const msgDiv = document.getElementById('attempt-message');
 
-            // --- 1. ПІДРАХУНОК БАЛІВ (без візуалізації) ---
-            
-            // Radio
+            // Рахуємо бали
             for (let i = 1; i <= 10; i++) {
                 const qId = 'q' + i;
-                const selected = form.elements[qId].value;
-                if (selected === answers[qId]) score++;
+                if (form.elements[qId].value === answers[qId]) score++;
             }
-
-            // Checkbox
+            
             function checkMulti(qId, correctArr) {
                 const checkboxes = document.querySelectorAll(`input[name="${qId}"]:checked`);
                 let selectedValues = [];
                 checkboxes.forEach((cb) => selectedValues.push(cb.value));
-                selectedValues.sort();
-                correctArr.sort();
+                selectedValues.sort(); correctArr.sort();
                 if (JSON.stringify(selectedValues) === JSON.stringify(correctArr)) score++;
             }
             checkMulti('q11', answers.q11);
             checkMulti('q12', answers.q12);
 
-            // Показуємо сам бал
             scoreDisplay.textContent = score;
             resultArea.style.display = 'block';
             
-            // Визначаємо, чи це остання спроба або ідеальний результат
             const isFinalAttempt = (attempts >= MAX_ATTEMPTS);
             const isPerfectScore = (score === 12);
-            
-            // --- 2. ЛОГІКА ВІДОБРАЖЕННЯ ---
 
             if (isPerfectScore || isFinalAttempt) {
-                // ВАРІАНТ А: Показуємо все (зелене/червоне + пояснення)
-                
                 if (isFinalAttempt) {
-                    localStorage.setItem(TEST_ID + '_time', Date.now()); // Ставимо таймер
+                    localStorage.setItem(TEST_ID + '_time', Date.now());
                     msgDiv.innerHTML = "Спроби вичерпано. Правильні відповіді відкриті.";
                 }
 
-                // Зафарбовуємо відповіді
+                // Візуалізація
                 for (let i = 1; i <= 10; i++) {
                     const qId = 'q' + i;
                     const block = document.getElementById(qId);
-                    const selected = form.elements[qId].value;
-                    if (selected === answers[qId]) block.classList.add('correct-answer');
+                    if (form.elements[qId].value === answers[qId]) block.classList.add('correct-answer');
                     else block.classList.add('wrong-answer');
                 }
                 
-                // Для чекбоксів складніше зафарбувати, тому просто підсвічуємо блок
                 function highlightMulti(qId, correctArr) {
                     const block = document.getElementById(qId);
                     const checkboxes = document.querySelectorAll(`input[name="${qId}"]:checked`);
                     let selectedValues = [];
                     checkboxes.forEach((cb) => selectedValues.push(cb.value));
-                    selectedValues.sort();
-                    correctArr.sort();
+                    selectedValues.sort(); correctArr.sort();
                     if (JSON.stringify(selectedValues) === JSON.stringify(correctArr)) block.classList.add('correct-answer');
                     else block.classList.add('wrong-answer');
                 }
                 highlightMulti('q11', answers.q11);
                 highlightMulti('q12', answers.q12);
 
-                // Показуємо пояснення
                 document.querySelectorAll('.explanation').forEach(el => el.style.display = 'block');
                 
-                // Текст результату
                 if (score === 12) {
-                    resultArea.style.backgroundColor = '#d4edda';
-                    resultArea.style.color = '#155724';
+                    resultArea.style.backgroundColor = '#d4edda'; resultArea.style.color = '#155724';
                     feedbackText.textContent = "Вітаємо! Ідеальний результат.";
                 } else {
-                    resultArea.style.backgroundColor = '#f8d7da';
-                    resultArea.style.color = '#721c24';
-                    feedbackText.textContent = "Тест завершено. Перегляньте помилки та пояснення нижче.";
+                    resultArea.style.backgroundColor = '#f8d7da'; resultArea.style.color = '#721c24';
+                    feedbackText.textContent = "Тест завершено. Перегляньте помилки та пояснення.";
                 }
 
                 disableAllInputs();
@@ -517,20 +671,12 @@
                 submitBtn.textContent = "Тест завершено";
 
             } else {
-                // ВАРІАНТ Б: Перша спроба з помилками (Сліпий режим)
-                
-                resultArea.style.backgroundColor = '#fff3cd'; // Жовтий колір
-                resultArea.style.color = '#856404';
-                feedbackText.textContent = "Ви не набрали максимальний бал. Правильні відповіді приховані, щоб ви могли подумати ще раз.";
-                
-                // Ховаємо кнопку перевірки, показуємо кнопку "Спробувати ще раз"
+                resultArea.style.backgroundColor = '#fff3cd'; resultArea.style.color = '#856404';
+                feedbackText.textContent = "Правильні відповіді приховані, спробуйте ще раз.";
                 submitBtn.style.display = 'none';
                 retryBtn.style.display = 'block';
-                
-                // Блокуємо інпути, щоб учень мусив натиснути "Спробувати ще раз" (reload)
                 const inputs = document.querySelectorAll('input');
                 inputs.forEach(input => input.disabled = true);
-                
                 msgDiv.innerHTML = `Ви використали 1 спробу з ${MAX_ATTEMPTS}.`;
             }
 
