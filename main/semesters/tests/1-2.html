@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест 1.2: Змінні та цілі числа</title>
+    <style>
+        /* === ЗМІННІ ДЛЯ ДОСТУПНОСТІ === */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #333;
+            --primary-color: #0056b3;
+            --correct-color: #d4edda;
+            --correct-border: #c3e6cb;
+            --wrong-color: #f8d7da;
+            --wrong-border: #f5c6cb;
+            --explanation-bg: #e2e3e5;
+
+            /* Динамічні змінні */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --base-font-size: 18px; 
+            --letter-spacing: normal;
+            --word-spacing: normal;
+            --line-height: 1.6;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            font-size: var(--base-font-size);
+            letter-spacing: var(--letter-spacing);
+            word-spacing: var(--word-spacing);
+            line-height: var(--line-height);
+        }
+
+        /* === ПАНЕЛЬ ДОСТУПНОСТІ === */
+        .a11y-toggle-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            background: var(--primary-color); color: white; border: none;
+            border-radius: 50%; width: 50px; height: 50px; font-size: 24px;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .a11y-panel {
+            position: fixed; top: 80px; right: 20px; width: 300px;
+            background: white; padding: 20px; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 999;
+            display: none; border: 2px solid var(--primary-color);
+        }
+
+        .a11y-panel.open { display: block; animation: fadeIn 0.3s; }
+        .a11y-control { margin-bottom: 15px; }
+        .a11y-control label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; }
+        .a11y-control input[type="range"] { width: 100%; cursor: pointer; }
+        .a11y-btn-group { display: flex; gap: 10px; }
+        .a11y-btn { flex: 1; padding: 8px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+        .a11y-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* === КОНТЕЙНЕР ТЕСТУ === */
+        .container {
+            max-width: 800px; margin: 0 auto; background: white; padding: 40px;
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center; color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;
+        }
+
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold;
+            margin-bottom: 20px; font-size: 0.9em;
+        }
+        .nav-btn:hover { background-color: #003d82; }
+
+        .question-block {
+            margin-bottom: 25px; padding: 15px; border: 1px solid #ddd;
+            border-radius: 8px; background-color: #fff; transition: background-color 0.3s;
+        }
+
+        .question-title { font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
+
+        .options label {
+            display: block; margin-bottom: 8px; cursor: pointer; padding: 8px;
+            border-radius: 4px; border: 1px solid transparent; transition: background 0.2s;
+        }
+        .options label:hover { background-color: #f0f0f0; }
+
+        input[type="radio"], input[type="checkbox"] { margin-right: 10px; transform: scale(1.3); }
+        input:disabled { cursor: not-allowed; }
+        .options label.disabled-label { cursor: default; color: #555; }
+
+        .explanation {
+            display: none; margin-top: 10px; padding: 10px;
+            background-color: var(--explanation-bg); border-radius: 5px;
+            font-size: 0.95em; border-left: 5px solid #6c757d;
+        }
+
+        .submit-btn, .retry-btn {
+            display: block; width: 100%; color: white; padding: 15px; font-size: 1.2em;
+            border: none; border-radius: 8px; cursor: pointer; margin-top: 30px;
+            text-align: center; text-decoration: none;
+        }
+        .submit-btn { background-color: #28a745; }
+        .submit-btn:hover { background-color: #218838; }
+        .submit-btn:disabled { background-color: #6c757d; cursor: not-allowed; }
+        .retry-btn { background-color: #ffc107; color: #333; display: none; }
+        .retry-btn:hover { background-color: #e0a800; }
+
+        .attempts-info { text-align: center; margin-top: 10px; font-weight: bold; color: #dc3545; }
+
+        #result-area {
+            margin-top: 30px; padding: 20px; border-radius: 8px;
+            text-align: center; font-size: 1.2em; font-weight: bold; display: none;
+        }
+        
+        .score-box { font-size: 2em; color: var(--primary-color); margin: 10px 0; }
+        .correct-answer { background-color: var(--correct-color); border-color: var(--correct-border); }
+        .wrong-answer { background-color: var(--wrong-color); border-color: var(--wrong-border); }
+        
+        code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 4px; font-family: monospace; color: #d63384; }
+
+        @media (max-width: 600px) {
+            .a11y-toggle-btn { top: 10px; right: 10px; width: 40px; height: 40px; }
+            .a11y-panel { width: 85%; right: 5%; top: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="a11y-toggle-btn" onclick="toggleA11yPanel()" title="Налаштування вигляду">👁️</button>
+
+    <div class="a11y-panel" id="a11yPanel">
+        <h3 style="margin-top:0; text-align:center;">Налаштування тексту</h3>
+        
+        <div class="a11y-control">
+            <label>Шрифт:</label>
+            <div class="a11y-btn-group">
+                <button class="a11y-btn active" id="btn-sans" onclick="setFontType('sans')">Без зарубок</button>
+                <button class="a11y-btn" id="btn-serif" onclick="setFontType('serif')" style="font-family: 'Times New Roman', serif;">Із зарубками</button>
+            </div>
+        </div>
+
+        <div class="a11y-control">
+            <label>Розмір шрифту:</label>
+            <input type="range" min="14" max="26" value="18" oninput="updateStyle('fontSize', this.value + 'px')">
+        </div>
+
+        <div class="a11y-control">
+            <label>Відстань між літерами:</label>
+            <input type="range" min="0" max="5" step="0.5" value="0" oninput="updateStyle('letterSpacing', this.value + 'px')">
+        </div>
+
+        <div class="a11y-control">
+            <label>Відстань між словами:</label>
+            <input type="range" min="0" max="10" step="1" value="0" oninput="updateStyle('wordSpacing', this.value + 'px')">
+        </div>
+        
+        <div style="text-align: center;">
+            <button onclick="resetA11y()" style="background:none; border:none; text-decoration:underline; cursor:pointer; color:#666;">Скинути налаштування</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="../semester-01.html" class="nav-btn">← Назад до семестру</a>
+        
+        <h1>Тест 1.2: Змінні та цілі числа</h1>
+        <p style="text-align:center; color:#666; font-style:italic;">
+            Питання 1-10: одна відповідь. Питання 11-12: кілька відповідей.<br>
+            Всього балів: 12.
+        </p>
+
+        <div id="attempt-message" class="attempts-info"></div>
+
+        <form id="quiz-form">
+            
+            <div class="question-block" id="q1">
+                <div class="question-title">1. Який символ використовується для створення однорядкового коментаря?</div>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="a"> <code>#</code></label>
+                    <label><input type="radio" name="q1" value="b"> <code>//</code></label>
+                    <label><input type="radio" name="q1" value="c"> <code>/*</code></label>
+                    <label><input type="radio" name="q1" value="d"> <code>--</code></label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: <code>//</code>.</strong> Символ <code>#</code> використовується в Python, а <code>/*</code> — для багаторядкових коментарів у C++.
+                </div>
+            </div>
+
+            <div class="question-block" id="q2">
+                <div class="question-title">2. Що таке змінна в C++?</div>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="a"> Це просто текст на екрані</label>
+                    <label><input type="radio" name="q2" value="b"> Це команда для завершення програми</label>
+                    <label><input type="radio" name="q2" value="c"> Це іменована ділянка пам'яті ("коробка") для зберігання даних</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: Ділянка пам'яті.</strong> Змінна схожа на коробку, яка має ім'я, тип і вміст.
+                </div>
+            </div>
+
+            <div class="question-block" id="q3">
+                <div class="question-title">3. Який тип даних слід обрати для збереження населення Землі (близько 8 мільярдів)?</div>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="a"> <code>short</code></label>
+                    <label><input type="radio" name="q3" value="b"> <code>int</code></label>
+                    <label><input type="radio" name="q3" value="c"> <code>long long</code></label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: <code>long long</code>.</strong> Тип <code>int</code> вміщує лише до 2 мільярдів, тому для 8 мільярдів його буде замало.
+                </div>
+            </div>
+
+            <div class="question-block" id="q4">
+                <div class="question-title">4. Чому буде дорівнювати результат виразу <code>7 / 2</code> в C++? </div>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="a"> 3.5</label>
+                    <label><input type="radio" name="q4" value="b"> 3</label>
+                    <label><input type="radio" name="q4" value="c"> 4</label>
+                    <label><input type="radio" name="q4" value="d"> Виникне помилка</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: 3.</strong> Оскільки обидва числа цілі, C++ виконує цілочисельне ділення і відкидає дробову частину.
+                </div>
+            </div>
+
+            <div class="question-block" id="q5">
+                <div class="question-title">5. Чому дорівнює результат операції <code>10 % 3</code> (остача)?</div>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="a"> 3</label>
+                    <label><input type="radio" name="q5" value="b"> 1</label>
+                    <label><input type="radio" name="q5" value="c"> 0.33</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: 1.</strong> 10 ділимо на 3: беремо по 3, отримуємо 9. Остача: 10 - 9 = 1.
+                </div>
+            </div>
+
+            <div class="question-block" id="q6">
+                <div class="question-title">6. Що робить оператор <code>=</code> в C++?</div>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="a"> Порівнює два значення</label>
+                    <label><input type="radio" name="q6" value="b"> Присвоює значення змінній (кладе в "коробку")</label>
+                    <label><input type="radio" name="q6" value="c"> Виводить значення на екран</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: Присвоює значення.</strong> Для порівняння в C++ використовується подвійне дорівнює <code>==</code>.
+                </div>
+            </div>
+
+            <div class="question-block" id="q7">
+                <div class="question-title">7. Яким символом завершується більшість команд в C++?</div>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="a"> <code>.</code> (крапка)</label>
+                    <label><input type="radio" name="q7" value="b"> <code>:</code> (двокрапка)</label>
+                    <label><input type="radio" name="q7" value="c"> <code>;</code> (крапка з комою)</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: <code>;</code>.</strong> Це обов'язкова вимога синтаксису.
+                </div>
+            </div>
+
+            <div class="question-block" id="q8">
+                <div class="question-title">8. Як називається процес, коли ми оголошуємо змінну і одразу надаємо їй значення (наприклад, <code>int x = 5;</code>)?</div>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="a"> Компіляція</label>
+                    <label><input type="radio" name="q8" value="b"> Ініціалізація</label>
+                    <label><input type="radio" name="q8" value="c"> Оптимізація</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: Ініціалізація.</strong> Це найкращий спосіб створення змінних, щоб уникнути "сміття" в пам'яті.
+                </div>
+            </div>
+
+            <div class="question-block" id="q9">
+                <div class="question-title">9. Навіщо використовувати відступи (Tab) у коді?</div>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="a"> Для покращення читабельності коду (Good Style)</label>
+                    <label><input type="radio" name="q9" value="b"> Без них програма не запуститься</label>
+                    <label><input type="radio" name="q9" value="c"> Щоб програма працювала швидше</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: Читабельність.</strong> Компілятору байдуже на відступи, але вони критично важливі для людей.
+                </div>
+            </div>
+
+            <div class="question-block" id="q10">
+                <div class="question-title">10. Що означає скорочений запис <code>x += 1;</code>?</div>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="a"> <code>x = 1;</code></label>
+                    <label><input type="radio" name="q10" value="b"> <code>x = x + 1;</code></label>
+                    <label><input type="radio" name="q10" value="c"> <code>x = +1;</code></label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильна відповідь: <code>x = x + 1;</code>.</strong> Це операція додавання значення до вже існуючого в змінній.
+                </div>
+            </div>
+
+            <div class="question-block" id="q11">
+                <div class="question-title">11. Оберіть ТІЛЬКИ типи даних для ЦІЛИХ чисел (3 правильні відповіді):</div>
+                <div class="options">
+                    <label><input type="checkbox" name="q11" value="a"> <code>int</code></label>
+                    <label><input type="checkbox" name="q11" value="b"> <code>float</code></label>
+                    <label><input type="checkbox" name="q11" value="c"> <code>short</code></label>
+                    <label><input type="checkbox" name="q11" value="d"> <code>long long</code></label>
+                    <label><input type="checkbox" name="q11" value="e"> <code>string</code></label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильні відповіді: int, short, long long.</strong> Float використовується для дробових чисел, а String — для тексту.
+                </div>
+            </div>
+
+            <div class="question-block" id="q12">
+                <div class="question-title">12. Які три кроки роботи зі змінною ми вивчили? (3 правильні відповіді):</div>
+                <div class="options">
+                    <label><input type="checkbox" name="q12" value="a"> Оголошення (Declaration)</label>
+                    <label><input type="checkbox" name="q12" value="b"> Ініціалізація (Initialization)</label>
+                    <label><input type="checkbox" name="q12" value="c"> Присвоювання (Assignment)</label>
+                    <label><input type="checkbox" name="q12" value="d"> Ігнорування (Ignoring)</label>
+                    <label><input type="checkbox" name="q12" value="e"> Компіляція (Compilation)</label>
+                </div>
+                <div class="explanation">
+                    <strong>Правильні відповіді: Оголошення, Ініціалізація, Присвоювання.</strong> Компіляція стосується всієї програми, а не окремої змінної.
+                </div>
+            </div>
+
+            <button type="button" id="submitBtn" class="submit-btn" onclick="checkAnswers()">Перевірити відповіді</button>
+            <button type="button" id="retryBtn" class="retry-btn" onclick="location.reload()">Спробувати ще раз</button>
+        </form>
+
+        <div id="result-area">
+            Ваш результат:
+            <div class="score-box"><span id="score">0</span> / 12</div>
+            <div id="feedback-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleA11yPanel() {
+            const panel = document.getElementById('a11yPanel');
+            panel.classList.toggle('open');
+        }
+
+        function updateStyle(variable, value) {
+            let cssVarName;
+            if (variable === 'fontSize') cssVarName = '--base-font-size';
+            if (variable === 'letterSpacing') cssVarName = '--letter-spacing';
+            if (variable === 'wordSpacing') cssVarName = '--word-spacing';
+            if (cssVarName) {
+                document.documentElement.style.setProperty(cssVarName, value);
+                localStorage.setItem(variable, value);
+            }
+        }
+
+        function setFontType(type) {
+            const sansBtn = document.getElementById('btn-sans');
+            const serifBtn = document.getElementById('btn-serif');
+            let fontVal;
+            if (type === 'serif') {
+                fontVal = "'Times New Roman', Times, serif";
+                serifBtn.classList.add('active');
+                sansBtn.classList.remove('active');
+            } else {
+                fontVal = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                sansBtn.classList.add('active');
+                serifBtn.classList.remove('active');
+            }
+            document.documentElement.style.setProperty('--font-family', fontVal);
+            localStorage.setItem('fontType', type);
+        }
+
+        function resetA11y() {
+            localStorage.removeItem('fontSize');
+            localStorage.removeItem('letterSpacing');
+            localStorage.removeItem('wordSpacing');
+            localStorage.removeItem('fontType');
+
+            document.documentElement.style.setProperty('--base-font-size', '18px');
+            document.documentElement.style.setProperty('--letter-spacing', 'normal');
+            document.documentElement.style.setProperty('--word-spacing', 'normal');
+            
+            setFontType('sans');
+
+            const sizeInput = document.querySelector('input[oninput*="fontSize"]');
+            if (sizeInput) sizeInput.value = 18;
+            const letterInput = document.querySelector('input[oninput*="letterSpacing"]');
+            if (letterInput) letterInput.value = 0;
+            const wordInput = document.querySelector('input[oninput*="wordSpacing"]');
+            if (wordInput) wordInput.value = 0;
+        }
+
+        function loadA11ySettings() {
+            if (localStorage.getItem('fontSize')) {
+                const val = localStorage.getItem('fontSize');
+                document.documentElement.style.setProperty('--base-font-size', val);
+                const input = document.querySelector('input[oninput*="fontSize"]');
+                if (input) input.value = parseInt(val);
+            }
+            if (localStorage.getItem('letterSpacing')) {
+                const val = localStorage.getItem('letterSpacing');
+                document.documentElement.style.setProperty('--letter-spacing', val);
+                const input = document.querySelector('input[oninput*="letterSpacing"]');
+                if (input) input.value = parseFloat(val);
+            }
+            if (localStorage.getItem('wordSpacing')) {
+                const val = localStorage.getItem('wordSpacing');
+                document.documentElement.style.setProperty('--word-spacing', val);
+                const input = document.querySelector('input[oninput*="wordSpacing"]');
+                if (input) input.value = parseInt(val);
+            }
+            if (localStorage.getItem('fontType')) {
+                setFontType(localStorage.getItem('fontType'));
+            }
+        }
+
+        /* --- ЛОГІКА ТЕСТУ --- */
+        const TEST_ID = 'test_1_2_v1'; // Унікальний ID для уроку 1.2
+        const MAX_ATTEMPTS = 2;
+        const LOCKOUT_TIME_MS = 12 * 60 * 60 * 1000;
+
+        const answers = {
+            q1: 'b', // //
+            q2: 'c', // box
+            q3: 'c', // long long
+            q4: 'b', // 3
+            q5: 'b', // 1
+            q6: 'b', // assignment
+            q7: 'c', // ;
+            q8: 'b', // initialization
+            q9: 'a', // readability
+            q10: 'b', // x = x + 1
+            q11: ['a', 'c', 'd'], // int, short, long long
+            q12: ['a', 'b', 'c'] // Declaration, Initialization, Assignment
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadA11ySettings();
+            initTest();
+        });
+
+        function initTest() {
+            const questionBlocks = document.querySelectorAll('.question-block');
+            questionBlocks.forEach(block => {
+                const optionsContainer = block.querySelector('.options');
+                if (optionsContainer) {
+                    const labels = Array.from(optionsContainer.children);
+                    for (let i = labels.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        optionsContainer.appendChild(labels[j]);
+                    }
+                }
+            });
+            checkAttemptsOnLoad();
+        }
+
+        function checkAttemptsOnLoad() {
+            const attempts = parseInt(localStorage.getItem(TEST_ID + '_attempts') || '0');
+            const lastAttemptTime = parseInt(localStorage.getItem(TEST_ID + '_time') || '0');
+            const now = Date.now();
+            const btn = document.getElementById('submitBtn');
+            const msgDiv = document.getElementById('attempt-message');
+
+            if (attempts >= MAX_ATTEMPTS && (now - lastAttemptTime > LOCKOUT_TIME_MS)) {
+                localStorage.setItem(TEST_ID + '_attempts', '0');
+                localStorage.removeItem(TEST_ID + '_time');
+                msgDiv.innerHTML = `Спроба 1 з ${MAX_ATTEMPTS}`;
+                return;
+            }
+
+            if (attempts >= MAX_ATTEMPTS) {
+                const hoursLeft = Math.ceil((LOCKOUT_TIME_MS - (now - lastAttemptTime)) / (1000 * 60 * 60));
+                disableAllInputs();
+                btn.disabled = true;
+                btn.textContent = `Тест заблоковано на 12 годин`;
+                msgDiv.innerHTML = `Ви використали всі спроби. Наступна спроба через ${hoursLeft} год.`;
+            } else {
+                msgDiv.innerHTML = `Спроба ${attempts + 1} з ${MAX_ATTEMPTS}`;
+            }
+        }
+
+        function checkAnswers() {
+            let attempts = parseInt(localStorage.getItem(TEST_ID + '_attempts') || '0');
+            attempts++;
+            localStorage.setItem(TEST_ID + '_attempts', attempts);
+            
+            let score = 0;
+            const form = document.getElementById('quiz-form');
+            const resultArea = document.getElementById('result-area');
+            const scoreDisplay = document.getElementById('score');
+            const feedbackText = document.getElementById('feedback-text');
+            const submitBtn = document.getElementById('submitBtn');
+            const retryBtn = document.getElementById('retryBtn');
+            const msgDiv = document.getElementById('attempt-message');
+
+            // Рахуємо бали
+            for (let i = 1; i <= 10; i++) {
+                const qId = 'q' + i;
+                if (form.elements[qId].value === answers[qId]) score++;
+            }
+            
+            function checkMulti(qId, correctArr) {
+                const checkboxes = document.querySelectorAll(`input[name="${qId}"]:checked`);
+                let selectedValues = [];
+                checkboxes.forEach((cb) => selectedValues.push(cb.value));
+                selectedValues.sort(); correctArr.sort();
+                if (JSON.stringify(selectedValues) === JSON.stringify(correctArr)) score++;
+            }
+            checkMulti('q11', answers.q11);
+            checkMulti('q12', answers.q12);
+
+            scoreDisplay.textContent = score;
+            resultArea.style.display = 'block';
+            
+            const isFinalAttempt = (attempts >= MAX_ATTEMPTS);
+            const isPerfectScore = (score === 12);
+
+            if (isPerfectScore || isFinalAttempt) {
+                if (isFinalAttempt) {
+                    localStorage.setItem(TEST_ID + '_time', Date.now());
+                    msgDiv.innerHTML = "Спроби вичерпано. Правильні відповіді відкриті.";
+                }
+
+                // Візуалізація
+                for (let i = 1; i <= 10; i++) {
+                    const qId = 'q' + i;
+                    const block = document.getElementById(qId);
+                    if (form.elements[qId].value === answers[qId]) block.classList.add('correct-answer');
+                    else block.classList.add('wrong-answer');
+                }
+                
+                function highlightMulti(qId, correctArr) {
+                    const block = document.getElementById(qId);
+                    const checkboxes = document.querySelectorAll(`input[name="${qId}"]:checked`);
+                    let selectedValues = [];
+                    checkboxes.forEach((cb) => selectedValues.push(cb.value));
+                    selectedValues.sort(); correctArr.sort();
+                    if (JSON.stringify(selectedValues) === JSON.stringify(correctArr)) block.classList.add('correct-answer');
+                    else block.classList.add('wrong-answer');
+                }
+                highlightMulti('q11', answers.q11);
+                highlightMulti('q12', answers.q12);
+
+                document.querySelectorAll('.explanation').forEach(el => el.style.display = 'block');
+                
+                if (score === 12) {
+                    resultArea.style.backgroundColor = '#d4edda'; resultArea.style.color = '#155724';
+                    feedbackText.textContent = "Вітаємо! Ідеальний результат.";
+                } else {
+                    resultArea.style.backgroundColor = '#f8d7da'; resultArea.style.color = '#721c24';
+                    feedbackText.textContent = "Тест завершено. Перегляньте помилки та пояснення.";
+                }
+
+                disableAllInputs();
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Тест завершено";
+
+            } else {
+                resultArea.style.backgroundColor = '#fff3cd'; resultArea.style.color = '#856404';
+                feedbackText.textContent = "Правильні відповіді приховані, спробуйте ще раз.";
+                submitBtn.style.display = 'none';
+                retryBtn.style.display = 'block';
+                const inputs = document.querySelectorAll('input');
+                inputs.forEach(input => input.disabled = true);
+                msgDiv.innerHTML = `Ви використали 1 спробу з ${MAX_ATTEMPTS}.`;
+            }
+
+            resultArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function disableAllInputs() {
+            const inputs = document.querySelectorAll('input');
+            const labels = document.querySelectorAll('.options label');
+            inputs.forEach(input => input.disabled = true);
+            labels.forEach(label => label.classList.add('disabled-label'));
+        }
+    </script>
+</body>
+</html>
