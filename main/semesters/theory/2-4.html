@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теорія: Системи числення</title>
+    <style>
+        /* Стилі з попередніх тем */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --accent-color: #ffffff;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --btn-practice-bg: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { margin-bottom: 20px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h2, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        .highlight-box {
+            background-color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: var(--primary-color); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        .practice-btn {
+            display: block; width: fit-content; margin: 40px auto 0;
+            background-color: var(--btn-practice-bg); color: white;
+            padding: 15px 30px; border-radius: 8px; font-size: 1.1em;
+            font-weight: bold; text-decoration: none; text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.3s;
+        }
+        .practice-btn:hover { background-color: #1b5e20; transform: scale(1.02); }
+        
+        .math-steps {
+            font-family: 'Consolas', monospace;
+            background: #e0f2f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+        </div>
+
+        <header>
+            <h1>Тема 2.4. Системи числення</h1>
+        </header>
+
+        <main>
+            <section id="intro">
+                <h2>1. Навіщо це нам?</h2>
+                <p>Люди рахують десятками (бо 10 пальців). Комп'ютери — двійками (є струм / немає струму). Програмісти часто використовують шістнадцяткову систему (HEX), щоб скорочувати довгі двійкові коди (наприклад, коди кольорів <code>#FF5733</code>).</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Десяткова (DEC)</th>
+                            <th>Двійкова (BIN)</th>
+                            <th>Шістнадцяткова (HEX)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0</td><td>0000</td><td>0</td></tr>
+                        <tr><td>10</td><td>1010</td><td>A</td></tr>
+                        <tr><td>15</td><td>1111</td><td>F</td></tr>
+                        <tr><td>255</td><td>11111111</td><td>FF</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="manipulators">
+                <h2>2. Маніпулятори cout (HEX, OCT)</h2>
+                <p>У C++ перемикати системи числення при виводі дуже просто. Достатньо "кинути" в <code>cout</code> спеціальну команду.</p>
+
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int num = 255;
+    
+    cout &lt;&lt; hex &lt;&lt; num &lt;&lt; endl; // Виведе "ff"
+    cout &lt;&lt; uppercase &lt;&lt; num &lt;&lt; endl; // Виведе "FF"
+    cout &lt;&lt; dec &lt;&lt; num &lt;&lt; endl; // Повернули назад у десяткову -> 255
+    
+    return 0;
+}</code></pre>
+
+                <div class="highlight-box" style="background-color: #fff3cd; border-left-color: #ffc107;">
+                    <strong>Увага:</strong> Маніпулятори "липучі". Якщо ви один раз написали <code>cout &lt;&lt; hex</code>, всі наступні числа будуть у HEX, поки ви не напишете <code>cout &lt;&lt; dec</code>.
+                </div>
+            </section>
+
+            <section id="binary-problem">
+                <h2>3. Як вивести у Двійковій (BIN)?</h2>
+                <p>На жаль, у C++ немає стандартного <code>cout &lt;&lt; bin</code>. Але є бібліотека <code>&lt;bitset&gt;</code>.</p>
+                <p>Вона дозволяє показати число як набір бітів.</p>
+                
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;bitset&gt; // Підключаємо бібліотеку
+
+using namespace std;
+
+int main() {
+    int x = 10;
+    // <8> означає показати 8 бітів
+    cout &lt;&lt; bitset&lt;8&gt;(x) &lt;&lt; endl; // Виведе 00001010
+    return 0;
+}</code></pre>
+            </section>
+
+            <section id="algorithm">
+                <h2>4. Алгоритм переведення (Математика)</h2>
+                <p>Якщо нам не можна використовувати готові бібліотеки, ми ділимо число на основу системи (на 2 або на 16) і записуємо <strong>остачі</strong> задом наперед.</p>
+                
+                <div class="math-steps">
+                    Приклад: 13 у двійкову<br>
+                    13 / 2 = 6 (остача <strong>1</strong>)<br>
+                    6 / 2  = 3 (остача <strong>0</strong>)<br>
+                    3 / 2  = 1 (остача <strong>1</strong>)<br>
+                    1 / 2  = 0 (остача <strong>1</strong>)<br>
+                    Читаємо знизу вгору: <strong>1101</strong>
+                </div>
+            </section>
+        </main>
+        
+        <a href="../practice/2-4.html" class="practice-btn">Перейти до практичної роботи →</a>
+
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Тема 2.4
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
