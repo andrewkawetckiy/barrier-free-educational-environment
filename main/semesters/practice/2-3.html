@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Switch та Тернарний оператор</title>
+    <style>
+        /* Стилі узгоджені */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --task-bg: #e8f5e9; 
+            --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn.secondary { background-color: #607d8b; }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .level-badge {
+            position: absolute; top: -15px; right: 20px;
+            background-color: var(--primary-color); color: white;
+            padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold;
+        }
+
+        .task-header { font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px; }
+
+        .console-preview {
+            background-color: var(--console-bg); color: var(--console-text);
+            padding: 15px; border-radius: 5px; font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em; margin: 15px 0; border-left: 5px solid #555;
+        }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/2-3.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практика: Вибір та Стислість</h1>
+            <p>Виконуйте в <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>.</p>
+        </header>
+
+        <main>
+            
+            <h3>Рівень 1: Тернарний майстер</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: Мінімум з двох</span>
+                <p>Введіть два числа. Виведіть менше з них, використовуючи <strong>тернарний оператор</strong> (<code>? :</code>).</p>
+                
+                <pre><code>int a, b;
+cin >> a >> b;
+// Замініть ??? на правильний код
+int min_val = (a < b) ? ??? : ???;
+cout << "Minimum: " << min_val;</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Парне/Непарне (Коротко)</span>
+                <p>Користувач вводить число. Виведіть "Even" (парне) або "Odd" (непарне) одним рядком коду, використовуючи тернарний оператор.</p>
+                <p><em>Підказка:</em> <code>(n % 2 == 0) ? "Even" : "Odd"</code></p>
+            </section>
+
+            <h3>Рівень 2: Switch-case</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Світлофор</span>
+                <p>Створіть змінну <code>char signal;</code>. Користувач вводить літеру:
+                <ul>
+                    <li>'R' або 'r' -> вивести "Stop"</li>
+                    <li>'Y' або 'y' -> вивести "Wait"</li>
+                    <li>'G' або 'g' -> вивести "Go"</li>
+                    <li>Інше -> "Broken light"</li>
+                </ul>
+                Використовуйте <code>switch(signal)</code>. Не забудьте про <code>break</code>!</p>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 4: Міні-Калькулятор</span>
+                <p>Користувач вводить два числа і знак операції (+, -, *, /).</p>
+                <div class="console-preview">
+                    Введіть вираз: <strong>10 * 5</strong><br>
+                    Результат: 50
+                </div>
+                <p>Реалізуйте це через <code>switch (op)</code>, де <code>op</code> — це змінна типу <code>char</code>.</p>
+            </section>
+
+            <h3>Рівень 3: Групування cases</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 5: Дні в місяці</span>
+                <p>Користувач вводить номер місяця (1-12). Програма має вивести кількість днів у цьому місяці (для невисокосного року).</p>
+                <ul>
+                    <li>Січень (1), Березень (3), Травень (5)... — <strong>31 день</strong></li>
+                    <li>Квітень (4), Червень (6)... — <strong>30 днів</strong></li>
+                    <li>Лютий (2) — <strong>28 днів</strong></li>
+                </ul>
+                <p><strong>Завдання:</strong> Не пишіть 12 окремих виводів! Згрупуйте кейси. Наприклад:</p>
+                <pre><code>case 4:
+case 6:
+case 9:
+case 11:
+    cout << "30 days";
+    break;</code></pre>
+            </section>
+
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 2.3
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
