@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Системи числення</title>
+    <style>
+        /* Стилі узгоджені */
+        :root {
+            --bg-color: #fff3e0;
+            --text-color: #2c3e50;
+            --primary-color: #0056b3;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --task-bg: #e8f5e9; 
+            --task-border: #2e7d32;
+            --console-bg: #000000;
+            --console-text: #00ff00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-btn {
+            display: inline-block; text-decoration: none; background-color: var(--primary-color);
+            color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: background 0.3s;
+        }
+        .nav-btn.secondary { background-color: #607d8b; }
+        .nav-btn:hover { background-color: #003d82; text-decoration: underline; }
+
+        h1, h3 { color: var(--primary-color); }
+        h1 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
+
+        .task-box {
+            background-color: var(--task-bg);
+            border: 2px solid var(--task-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .level-badge {
+            position: absolute; top: -15px; right: 20px;
+            background-color: var(--primary-color); color: white;
+            padding: 5px 15px; border-radius: 20px; font-size: 0.8em; font-weight: bold;
+        }
+
+        .task-header { font-weight: bold; font-size: 1.2em; color: var(--task-border); display: block; margin-bottom: 10px; }
+
+        .console-preview {
+            background-color: var(--console-bg); color: var(--console-text);
+            padding: 15px; border-radius: 5px; font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em; margin: 15px 0; border-left: 5px solid #555;
+        }
+        
+        .hint {
+            background-color: #fff3cd; padding: 10px; border-radius: 5px; margin-top: 10px; font-size: 0.9em;
+        }
+
+        pre {
+            background-color: var(--code-bg); color: var(--code-text); padding: 15px;
+            border-radius: 5px; overflow-x: auto; font-family: 'Consolas', 'Monaco', monospace;
+        }
+        code { font-family: 'Consolas', 'Monaco', monospace; }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; } .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+            <a href="../semester-01.html" class="nav-btn">← Назад до тем</a>
+            <a href="../theory/2-4.html" class="nav-btn secondary">📖 Повернутися до теорії</a>
+        </div>
+
+        <header>
+            <h1>Практика: Робот-перекладач</h1>
+            <p>Вчимося розмовляти мовою процесора. <a href="https://www.onlinegdb.com/online_c++_compiler" target="_blank">OnlineGDB</a>.</p>
+        </header>
+
+        <main>
+            
+            <h3>Рівень 1: Прості конвертери</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 1: Шпигунський код (HEX)</span>
+                <p>Введіть з клавіатури звичайне число (наприклад, <code>255</code>). <br>
+                Виведіть його у шістнадцятковому форматі, великими літерами.</p>
+                
+                <div class="console-preview">
+                    Enter number: <strong>255</strong><br>
+                    Hex code: FF
+                </div>
+
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number: ";
+    cin >> n;
+    
+    // Додай сюди uppercase та hex
+    cout << "Hex code: " << ??? << n << endl;
+    return 0;
+}</code></pre>
+            </section>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #4caf50;">Easy</div>
+                <span class="task-header">Завдання 2: Біти і Байти</span>
+                <p>Введіть число. Виведіть його у двійковому вигляді, використовуючи <code>bitset</code>. Покажіть 8 біт.</p>
+                <div class="hint">Не забудьте <code>#include &lt;bitset&gt;</code>!</div>
+            </section>
+
+            <h3>Рівень 2: Прикладне застосування</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #ff9800;">Medium</div>
+                <span class="task-header">Завдання 3: Генератор кольорів RGB</span>
+                <p>У веб-дизайні кольори записують як <code>#RRGGBB</code>. <br>
+                Користувач вводить 3 числа (Red, Green, Blue) від 0 до 255. Сформуйте HEX-код кольору.</p>
+                
+                <div class="console-preview">
+                    R: <strong>255</strong><br>
+                    G: <strong>0</strong><br>
+                    B: <strong>128</strong><br>
+                    Color: #FF0080
+                </div>
+
+                <p><strong>Важливо:</strong> Число 0 має бути "00", а число 10 — "0A". <br>
+                Використайте <code>setw(2)</code> та <code>setfill('0')</code> з бібліотеки <code>iomanip</code>.</p>
+                
+                <pre><code>// Підказка для одного кольору:
+cout << hex << uppercase << setw(2) << setfill('0') << red;</code></pre>
+            </section>
+
+            <h3>Рівень 3: Алгоритміка</h3>
+
+            <section class="task-box">
+                <div class="level-badge" style="background-color: #f44336;">Hard</div>
+                <span class="task-header">Завдання 4: Ручна конвертація</span>
+                <p>Уявіть, що у вас немає бібліотеки <code>bitset</code>. <br>
+                Напишіть програму, яка бере число (наприклад, 13) і виводить його двійковий код, використовуючи цикл <code>while</code> та математику (ділення на 2 та остачі).</p>
+                
+                <p><em>Підказка:</em> Ви можете виводити остачі на екран, але вони будуть у зворотному порядку. Це нормально для початку. Спробуйте здогадатися, як вивести їх правильно (можна записати у рядок string).</p>
+
+                <pre><code>int n;
+cin >> n;
+string result = "";
+
+while (n > 0) {
+    int rem = n % 2; // Беремо остачу (0 або 1)
+    result = to_string(rem) + result; // Додаємо на початок
+    n = n / 2; // Зменшуємо число
+}
+cout << result;</code></pre>
+            </section>
+
+        </main>
+        
+        <footer>
+            <p style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; font-size: 0.9em; color: #666;">
+                Практична робота до теми 2.4
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
