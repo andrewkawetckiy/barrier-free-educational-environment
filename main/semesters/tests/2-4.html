@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест 2.4: Системи числення</title>
+    <style>
+        /* === Стилі === */
+        :root { --bg-color: #fff3e0; --text-color: #333; --primary-color: #0056b3; --correct-color: #d4edda; --correct-border: #c3e6cb; --wrong-color: #f8d7da; --wrong-border: #f5c6cb; --explanation-bg: #e2e3e5; --font-family: 'Segoe UI', sans-serif; --base-font-size: 18px; }
+        body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; font-size: var(--base-font-size); }
+        .a11y-toggle-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--primary-color); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .a11y-panel { position: fixed; top: 80px; right: 20px; width: 300px; background: white; padding: 20px; border-radius: 8px; display: none; border: 2px solid var(--primary-color); z-index: 999; }
+        .a11y-panel.open { display: block; } .a11y-control input { width: 100%; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; }
+        .nav-btn { display: inline-block; text-decoration: none; background-color: var(--primary-color); color: white; padding: 8px 15px; border-radius: 5px; margin-bottom: 20px; }
+        .question-block { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .question-title { font-weight: bold; margin-bottom: 10px; }
+        .options label { display: block; margin-bottom: 8px; cursor: pointer; padding: 5px; } .options label:hover { background-color: #f0f0f0; }
+        .explanation { display: none; margin-top: 10px; padding: 10px; background-color: var(--explanation-bg); border-left: 5px solid #6c757d; }
+        .submit-btn { display: block; width: 100%; background-color: #28a745; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; margin-top: 30px; transition: 0.3s; opacity: 1; }
+        .submit-btn:disabled { background-color: #6c757d; cursor: not-allowed; opacity: 0.7; }
+        .retry-btn { display: none; width: 100%; background-color: #ffc107; padding: 15px; border: none; border-radius: 8px; cursor: pointer; margin-top: 30px; }
+        #result-area { margin-top: 30px; padding: 20px; text-align: center; display: none; }
+        .attempts-info { text-align: center; margin-top: 10px; font-weight: bold; color: #dc3545; background: #ffebee; padding: 10px; border-radius: 5px; }
+        .correct-answer { background-color: var(--correct-color); } .wrong-answer { background-color: var(--wrong-color); }
+        code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 4px; color: #d63384; }
+    </style>
+</head>
+<body>
+
+    <button class="a11y-toggle-btn" onclick="toggleA11yPanel()">👁️</button>
+    <div class="a11y-panel" id="a11yPanel">
+        <h3>Налаштування</h3>
+        <div class="a11y-control"><label>Розмір:</label><input type="range" min="14" max="26" value="18" oninput="document.documentElement.style.setProperty('--base-font-size', this.value + 'px')"></div>
+    </div>
+
+    <div class="container">
+        <a href="../semester-01.html" class="nav-btn">← Назад до семестру</a>
+        <h1>Тест 2.4: Системи числення</h1>
+        
+        <div id="attempt-message" class="attempts-info"></div>
+        <p style="text-align:center; color:#666;">
+            12 питань. Максимум 12 балів.<br>
+            <strong>Увага!</strong> Кнопка перевірки стане активною тільки після відповіді на <strong>всі</strong> питання.
+        </p>
+
+        <form id="quiz-form">
+            
+            <div class="question-block" id="q1">
+                <div class="question-title">1. Яка основа у двійкової (binary) системи числення?</div>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="a"> 10</label>
+                    <label><input type="radio" name="q1" value="b"> 2</label>
+                    <label><input type="radio" name="q1" value="c"> 1</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 2.</strong> У ній використовуються лише дві цифри: 0 та 1.</div>
+            </div>
+
+            <div class="question-block" id="q2">
+                <div class="question-title">2. Яка основа у шістнадцяткової (hexadecimal) системи?</div>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="a"> 8</label>
+                    <label><input type="radio" name="q2" value="b"> 12</label>
+                    <label><input type="radio" name="q2" value="c"> 16</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 16.</strong> Цифри від 0 до 9 та літери від A до F.</div>
+            </div>
+
+            <div class="question-block" id="q3">
+                <div class="question-title">3. Чому дорівнює двійкове число <code>101</code> у десятковій системі?</div>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="a"> 3</label>
+                    <label><input type="radio" name="q3" value="b"> 5</label>
+                    <label><input type="radio" name="q3" value="c"> 101</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 5.</strong> (1*4) + (0*2) + (1*1) = 5.</div>
+            </div>
+
+            <div class="question-block" id="q4">
+                <div class="question-title">4. Яка літера позначає число 15 у шістнадцятковій системі?</div>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="a"> E</label>
+                    <label><input type="radio" name="q4" value="b"> F</label>
+                    <label><input type="radio" name="q4" value="c"> G</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: F.</strong> A=10, B=11, C=12, D=13, E=14, F=15.</div>
+            </div>
+
+            <div class="question-block" id="q5">
+                <div class="question-title">5. Який префікс використовується в C++ для шістнадцяткових чисел?</div>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="a"> <code>#</code></label>
+                    <label><input type="radio" name="q5" value="b"> <code>bin</code></label>
+                    <label><input type="radio" name="q5" value="c"> <code>0x</code></label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 0x.</strong> Наприклад: <code>int a = 0xFF;</code></div>
+            </div>
+
+            <div class="question-block" id="q6">
+                <div class="question-title">6. Яке з цих чисел є НЕПРАВИЛЬНИМ для вісімкової системи?</div>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="a"> 17</label>
+                    <label><input type="radio" name="q6" value="b"> 7</label>
+                    <label><input type="radio" name="q6" value="c"> 18</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 18.</strong> У вісімковій системі цифри тільки від 0 до 7. Цифри 8 не існує.</div>
+            </div>
+
+            <div class="question-block" id="q7">
+                <div class="question-title">7. Переведіть десяткове число <code>10</code> у двійкову систему:</div>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="a"> 1010</label>
+                    <label><input type="radio" name="q7" value="b"> 1001</label>
+                    <label><input type="radio" name="q7" value="c"> 1100</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 1010.</strong> 8 + 2 = 10.</div>
+            </div>
+
+            <div class="question-block" id="q8">
+                <div class="question-title">8. Чому дорівнює шістнадцяткове число <code>0x10</code> у десятковій системі?</div>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="a"> 10</label>
+                    <label><input type="radio" name="q8" value="b"> 16</label>
+                    <label><input type="radio" name="q8" value="c"> 20</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 16.</strong> Одиниця стоїть на позиції "шістнадцяток".</div>
+            </div>
+
+            <div class="question-block" id="q9">
+                <div class="question-title">9. Який префікс в C++ вказує на двійкове число (починаючи з C++14)?</div>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="a"> <code>0b</code></label>
+                    <label><input type="radio" name="q9" value="b"> <code>0d</code></label>
+                    <label><input type="radio" name="q9" value="c"> <code>binary</code></label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 0b.</strong> Наприклад: <code>0b101</code>.</div>
+            </div>
+
+            <div class="question-block" id="q10">
+                <div class="question-title">10. Чому комп'ютери використовують двійкову систему?</div>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="a"> Бо це легше для транзисторів (Є струм / Немає струму)</label>
+                    <label><input type="radio" name="q10" value="b"> Бо так люди рахували в давнину</label>
+                    <label><input type="radio" name="q10" value="c"> Щоб заплутати програмістів</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: A.</strong> Це найнадійніший спосіб зберігання даних на фізичному рівні.</div>
+            </div>
+
+            <div class="question-block" id="q11">
+                <div class="question-title">11. Оберіть ВСІ цифри, які існують у двійковій системі (2 правильні):</div>
+                <div class="options">
+                    <label><input type="checkbox" name="q11" value="a"> 0</label>
+                    <label><input type="checkbox" name="q11" value="b"> 2</label>
+                    <label><input type="checkbox" name="q11" value="c"> 1</label>
+                    <label><input type="checkbox" name="q11" value="d"> 10</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 0 та 1.</strong> Цифри 2 не існує, а 10 — це вже число з двох цифр.</div>
+            </div>
+
+            <div class="question-block" id="q12">
+                <div class="question-title">12. Які символи є допустимими цифрами в Hex (3 правильні)?</div>
+                <div class="options">
+                    <label><input type="checkbox" name="q12" value="a"> 9</label>
+                    <label><input type="checkbox" name="q12" value="b"> G</label>
+                    <label><input type="checkbox" name="q12" value="c"> F</label>
+                    <label><input type="checkbox" name="q12" value="d"> A</label>
+                </div>
+                <div class="explanation"><strong>Відповідь: 9, F, A.</strong> G не використовується (максимум F).</div>
+            </div>
+
+            <button type="button" id="submitBtn" class="submit-btn" onclick="checkAnswers()" disabled>Дайте відповідь на всі питання</button>
+            <button type="button" id="retryBtn" class="retry-btn" onclick="location.reload()">Спробувати ще раз</button>
+        </form>
+
+        <div id="result-area">Ваш результат: <span id="score" class="score-box"></span> / 12</div>
+    </div>
+
+    <script>
+        const TEST_ID = 'test_2_4_v1';
+        // q1:2, q2:16, q3:5, q4:F, q5:0x, q6:18(incorrect), q7:1010, q8:16, q9:0b, q10:Transistors
+        const answers = { q1:'b', q2:'c', q3:'b', q4:'b', q5:'c', q6:'c', q7:'a', q8:'b', q9:'a', q10:'a', q11:['a','c'], q12:['a','c','d'] };
+        const MAX_ATTEMPTS = 2; const LOCKOUT_TIME = 12*60*60*1000;
+        let isLocked = false;
+
+        function toggleA11yPanel() { document.getElementById('a11yPanel').classList.toggle('open'); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const att = parseInt(localStorage.getItem(TEST_ID+'_a')||0);
+            const time = parseInt(localStorage.getItem(TEST_ID+'_t')||0);
+            const msg = document.getElementById('attempt-message');
+            const form = document.getElementById('quiz-form');
+            
+            form.addEventListener('change', checkCompletion);
+
+            if(att >= MAX_ATTEMPTS && (Date.now()-time < LOCKOUT_TIME)) {
+               isLocked = true;
+               disableTest();
+               const hoursLeft = Math.ceil((LOCKOUT_TIME - (Date.now()-time)) / (1000*60*60));
+               msg.innerHTML = `Спроби вичерпано. Тест заблоковано.<br>Наступна спроба через ${hoursLeft} год.`;
+            } else {
+               msg.innerHTML = `Спроба ${att+1} з ${MAX_ATTEMPTS}`;
+               checkCompletion(); 
+            }
+        });
+
+        function checkCompletion() {
+            if (isLocked) return;
+            const form = document.getElementById('quiz-form');
+            const btn = document.getElementById('submitBtn');
+            let allAnswered = true;
+
+            for(let i=1; i<=10; i++) {
+                if(!form.elements['q'+i].value) { allAnswered = false; break; }
+            }
+            if(allAnswered) {
+                ['q11','q12'].forEach(id => {
+                    if(document.querySelectorAll(`input[name="${id}"]:checked`).length === 0) allAnswered = false;
+                });
+            }
+
+            if(allAnswered) {
+                btn.disabled = false; btn.innerText = "Перевірити"; btn.style.opacity = "1"; btn.style.cursor = "pointer";
+            } else {
+                btn.disabled = true; btn.innerText = "Дайте відповідь на всі питання"; btn.style.opacity = "0.7"; btn.style.cursor = "not-allowed";
+            }
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            const form = document.getElementById('quiz-form');
+            for(let i=1; i<=10; i++) { if(form.elements['q'+i].value === answers['q'+i]) score++; }
+            ['q11','q12'].forEach(id => {
+                const checked = Array.from(document.querySelectorAll(`input[name="${id}"]:checked`)).map(c=>c.value).sort();
+                if(JSON.stringify(checked) === JSON.stringify(answers[id].sort())) score++;
+            });
+
+            let att = parseInt(localStorage.getItem(TEST_ID+'_a')||0) + 1;
+            localStorage.setItem(TEST_ID+'_a', att);
+            
+            const resultArea = document.getElementById('result-area');
+            document.getElementById('score').innerText = score;
+            resultArea.style.display = 'block';
+
+            if(score === 12 || att >= MAX_ATTEMPTS) {
+                if(att >= MAX_ATTEMPTS) localStorage.setItem(TEST_ID+'_t', Date.now());
+                showAnswers();
+                isLocked = true;
+                disableTest();
+                if(att >= MAX_ATTEMPTS && score < 12) {
+                    document.getElementById('attempt-message').innerHTML = "Спроби вичерпано. Правильні відповіді показано нижче. Повторна спроба через 12 годин.";
+                }
+            } else {
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('retryBtn').style.display = 'block';
+                resultArea.innerHTML += "<br>Спробуйте ще раз.";
+                document.querySelectorAll('input').forEach(i => i.disabled=true);
+            }
+            resultArea.scrollIntoView({behavior:'smooth'});
+        }
+
+        function showAnswers() {
+            for(let i=1; i<=12; i++) {
+                document.getElementById('q'+i).querySelectorAll('.explanation').forEach(e=>e.style.display='block');
+            }
+        }
+
+        function disableTest() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; 
+            btn.innerText = "Тест завершено";
+            document.querySelectorAll('input').forEach(i => i.disabled=true);
+        }
+    </script>
+</body>
+</html>
